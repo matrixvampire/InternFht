@@ -1,0 +1,248 @@
+body {
+	font-family: Myriad,Helvetica,Tahoma,Arial,clean,sans-serif;
+	background: gray;
+	margin: 0;
+	text-align: center;	
+}
+
+#whole_page {
+	width: 50em;
+	margin: auto;
+	padding: 0;
+	text-align: left;
+	border-width: 0 1px 1px 1px;
+	border-color: black;
+	border-style: solid;
+}
+
+#header {
+	color: white;
+	background: maroon;
+	font-size: 24pt;
+	padding: 0.25em;
+	margin-bottom: 0;
+}
+
+#nav {
+	color: black;
+	font-size: 12pt;
+	font-weight: bold;
+	background: #ccc;
+	padding: 0.5em;
+}
+
+#nav a, #nav a:visited {
+	color: maroon;
+	text-decoration: none;
+}
+
+#nav a:hover {
+	border-bottom: 2px dotted maroon;
+}
+
+#content {
+	height: 100%;
+	background: white;
+	padding: 1em;
+}
+
+#content h1 {
+	font-size: 18pt;
+}
+
+#content h2 {
+  font-size: 14pt;
+}
+/* Hack to get IE to display fieldset/legend correctly */
+
+html fieldset {
+	position: relative;
+}
+html legend {
+	top: -1em;
+	left: .5em;
+}
+html fieldset {
+	position: relative;
+	margin-top: 1em;
+	padding-top: 2em;
+	padding-bottom: 2em;
+}
+
+/* Form styles */
+
+fieldset {
+	background: #ddd;
+}
+
+legend {
+	color: white;
+	background: maroon;
+	padding: .4em 1em;
+}
+
+label {
+	width: 10em;
+	float: left;
+	text-align: right;
+	margin-right: 0.2em;
+	display: block;
+}
+
+.form_row {
+	white-space: nowrap;
+	padding-bottom: .5em;
+}
+
+.submit {
+	margin-left: 15em;
+}
+
+/* Data display dables */
+
+#content table tr {
+	background-color: white;
+}
+
+#content table tr td, table tr th {
+  padding: 0.5em 1em;
+}
+
+#content table tr.heading {
+  background-color: maroon;
+  color: white;
+}
+
+#content table tr th.heading {
+  background-color: maroon;
+  color: white;
+}
+
+/* Debug Style */
+
+.debug_dump {
+	text-align: left;
+	border-top: 1px dashed black;
+	background: #ccc;
+	margin: 0;
+	padding: 0.5em;
+}
+
+/* Error reporting styles */
+
+.fieldWithErrors {
+	margin: 2px;
+	padding: 2px;
+	background-color: red;
+	display: table;
+}
+
+#errorExplanation {
+	border: 2px solid red;
+	padding: 7px;
+	padding-bottom: 12px;
+	margin-bottom: 20px;
+	background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+	text-align: left;
+	font-weight: bold;
+	padding: 5px 5px 5px 15px;
+	font-size: 12pt;
+	margin: -7pt;
+	background-color: #c00;
+	color: #fff
+}
+
+#errorExplanation p {
+	color: #333;
+	margin-bottom: 0;
+	padding: 5px;
+}
+
+#errorExplanation ul li {
+	font-size: 11pt;
+	list-style: square;
+}
+
+/* Flash Notice Style */
+
+#notice {
+    border: 1px solid green;
+    padding: 1em;
+    margin: 1em;
+    margin-bottom: 2em;
+    background-color: lightgray;
+    font: bold smaller sans-serif;
+}
+
+/* Debug style */
+
+#debug {
+	margin-top: 1em;
+	margin-left: auto;
+}
+
+#debug a, #debug a.visited {
+	text-decoration: none;
+	color: maroon;
+}
+
+fieldset.debug_info {
+	text-align: left;
+	margin: 1em;
+	background: #eee;
+}
+
+td.label {
+  text-align: right;
+  font-weight:  bold;
+  white-space: nowrap;
+}
+
+input {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.edit_link a {
+  text-decoration: none;
+  color: blue;
+}
+
+#left_column {
+  float:  left;
+  width: 300px;
+}
+
+#main_content {
+  margin-left:  320px;
+}
+
+.sidebar_box {
+  background-color: #ddd;
+  border: 1px solid #aaa; 
+  font-size: 12px;  
+  margin-bottom:  10px;
+}
+
+.sidebar_box h2 {
+   margin-top:  0px;
+   padding: 6px;
+   background-color: #ccc;
+   font-size: 13px;
+   color: maroon; 
+   font-weight:bold;
+}
+.sidebar_box p {
+   padding-left:  6px;
+   padding-right: 6px;
+}
+
+.sidebar_box .header  {
+  float: left;
+}
+
+.sidebar_box .edit_link {
+  float: right;
+}

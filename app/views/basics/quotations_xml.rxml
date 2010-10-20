@@ -1,0 +1,13 @@
+# http://puneetitengineer.wordpress.com/2008/12/08/generate-xml-with-rails/
+xml.instruct! :xml, :version=>"1.0"
+xml.quotations{
+  for onequote in @quotations
+    xml.onequote do
+      xml.quotation_id(onequote.id)
+      xml.insertion_date(onequote.created_at)
+      xml.author_name(onequote.author_name)     
+      xml.category(onequote.category)
+      xml.quote(onequote.quote)
+    end
+  end
+}

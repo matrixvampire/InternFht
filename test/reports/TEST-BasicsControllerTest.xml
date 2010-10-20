@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite assertions="1" time="0.068349" failures="1" skipped="0" tests="2" errors="0" name="BasicsControllerTest">
+  <testcase assertions="0" time="0.0378" name="test_initial_cookies">
+  </testcase>
+  <testcase assertions="1" time="0.030193" name="test_new_quotation">
+    <failure type="Test::Unit::AssertionFailedError" message="&quot;Quotation.count&quot; didn't change by 1....">
+&quot;Quotation.count&quot; didn't change by 1.
+&lt;3&gt; expected but was
+&lt;2&gt;. (Test::Unit::AssertionFailedError)
+/test/functional/basics_controller_test.rb:9:in `test_new_quotation'    </failure>
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+/home/basanta/railsapps/web10_04/ps2/app/views/basics/quotations.html.erb:79: warning: don't put space before argument parentheses
+/home/basanta/railsapps/web10_04/ps2/app/views/basics/quotations.html.erb:79: warning: don't put space before argument parentheses
+  </system-err>
+</testsuite>

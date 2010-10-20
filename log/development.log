@@ -1,0 +1,174 @@
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (16.3ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [4;36;1mSQL (61.0ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreatePeoples (20101020054240)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (123.2ms)[0m   [0mCREATE TABLE "peoples" ("id" serial primary key, "first_name" character varying(255), "middle_name" character varying(255), "last_name" character varying(255), "email_address" character varying(255), "phone_number" character varying(255), "mobile_number" character varying(255), "birth_date" character varying(255), "birth_date_ad" date, "gender" character varying(255), "home_page" character varying(255), "photo" bytea, "type" character varying(255)) [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054240')[0m
+  [4;35;1mSQL (12.5ms)[0m   [0mCOMMIT[0m
+Migrating to CreateStudents (20101020054348)
+  [4;36;1mSQL (1.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (72.6ms)[0m   [0mCREATE TABLE "students" ("id" serial primary key, "identification_code" character varying(255), "admission_date" date, "user_name" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (3.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054348')[0m
+  [4;35;1mSQL (17.6ms)[0m   [0mCOMMIT[0m
+Migrating to CreateFaculties (20101020054430)
+  [4;36;1mSQL (0.8ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (96.4ms)[0m   [0mCREATE TABLE "faculties" ("id" serial primary key, "identification_code" character varying(255), "job_title" character varying(255), "join_date" date, "user_name" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054430')[0m
+  [4;35;1mSQL (12.2ms)[0m   [0mCOMMIT[0m
+Migrating to CreateAdministrators (20101020054457)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (91.0ms)[0m   [0mCREATE TABLE "administrators" ("id" serial primary key, "identification_code" character varying(255), "registered_date" date, "user_name" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054457')[0m
+  [4;35;1mSQL (19.8ms)[0m   [0mCOMMIT[0m
+Migrating to CreateSites (20101020054544)
+  [4;36;1mSQL (2.2ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (105.6ms)[0m   [0mCREATE TABLE "sites" ("id" serial primary key, "identification_code" character varying(255), "site_name" character varying(255), "site_assoc_rating" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054544')[0m
+  [4;35;1mSQL (12.0ms)[0m   [0mCOMMIT[0m
+Migrating to CreateUsers (20101020054811)
+  [4;36;1mSQL (1.0ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (67.6ms)[0m   [0mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255), "password" character varying(255), "user_type" character varying(255), "is_valid" boolean) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054811')[0m
+  [4;35;1mSQL (18.7ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.5ms)[0m   [0;1mINSERT INTO "peoples" ("birth_date_ad", "photo", "home_page", "birth_date", "gender", "phone_number", "mobile_number", "type", "last_name", "email_address", "first_name", "middle_name") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Student', NULL, NULL, NULL, NULL) RETURNING "id"[0m
+  [4;35;1mSQL (17.0ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (35.9ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [4;36;1mSQL (104.0ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreatePeoples (20101020054240)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (94.2ms)[0m   [0mCREATE TABLE "peoples" ("id" serial primary key, "first_name" character varying(255), "middle_name" character varying(255), "last_name" character varying(255), "email_address" character varying(255), "phone_number" character varying(255), "user_name" character varying(255), "mobile_number" character varying(255), "birth_date" character varying(255), "birth_date_ad" date, "gender" character varying(255), "home_page" character varying(255), "photo" bytea) [0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054240')[0m
+  [4;35;1mSQL (10.7ms)[0m   [0mCOMMIT[0m
+Migrating to CreateStudents (20101020054348)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (59.6ms)[0m   [0mCREATE TABLE "students" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "admission_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054348')[0m
+  [4;35;1mSQL (16.0ms)[0m   [0mCOMMIT[0m
+Migrating to CreateFaculties (20101020054430)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (84.0ms)[0m   [0mCREATE TABLE "faculties" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "job_title" character varying(255), "join_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054430')[0m
+  [4;35;1mSQL (20.2ms)[0m   [0mCOMMIT[0m
+Migrating to CreateAdministrators (20101020054457)
+  [4;36;1mSQL (1.7ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (45.4ms)[0m   [0mCREATE TABLE "administrators" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "registered_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054457')[0m
+  [4;35;1mSQL (17.4ms)[0m   [0mCOMMIT[0m
+Migrating to CreateSites (20101020054544)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (91.1ms)[0m   [0mCREATE TABLE "sites" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "site_name" character varying(255), "site_assoc_rating" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054544')[0m
+  [4;35;1mSQL (20.8ms)[0m   [0mCOMMIT[0m
+Migrating to CreateUsers (20101020054811)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (74.9ms)[0m   [0mCREATE TABLE "users" ("user_name" serial primary key, "pass_word" character varying(255), "user_type" character varying(255), "is_valid" boolean) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054811')[0m
+  [4;35;1mSQL (12.0ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (27.4ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [4;36;1mSQL (171.5ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreatePeoples (20101020054240)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (87.8ms)[0m   [0mCREATE TABLE "peoples" ("id" serial primary key, "first_name" character varying(255), "middle_name" character varying(255), "last_name" character varying(255), "email_address" character varying(255), "phone_number" character varying(255), "user_id" integer, "mobile_number" character varying(255), "birth_date" character varying(255), "birth_date_ad" date, "gender" character varying(255), "home_page" character varying(255), "photo" bytea) [0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054240')[0m
+  [4;35;1mSQL (14.1ms)[0m   [0mCOMMIT[0m
+Migrating to CreateStudents (20101020054348)
+  [4;36;1mSQL (0.4ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (43.2ms)[0m   [0mCREATE TABLE "students" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "admission_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054348')[0m
+  [4;35;1mSQL (10.2ms)[0m   [0mCOMMIT[0m
+Migrating to CreateFaculties (20101020054430)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (89.1ms)[0m   [0mCREATE TABLE "faculties" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "job_title" character varying(255), "join_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054430')[0m
+  [4;35;1mSQL (17.5ms)[0m   [0mCOMMIT[0m
+Migrating to CreateAdministrators (20101020054457)
+  [4;36;1mSQL (0.4ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (44.8ms)[0m   [0mCREATE TABLE "administrators" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "registered_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054457')[0m
+  [4;35;1mSQL (12.5ms)[0m   [0mCOMMIT[0m
+Migrating to CreateSites (20101020054544)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (79.9ms)[0m   [0mCREATE TABLE "sites" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "site_name" character varying(255), "site_assoc_rating" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054544')[0m
+  [4;35;1mSQL (22.8ms)[0m   [0mCOMMIT[0m
+Migrating to CreateUsers (20101020054811)
+  [4;36;1mSQL (0.8ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (175.0ms)[0m   [0mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255), "pass_word" character varying(255), "user_type" character varying(255), "is_valid" boolean) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054811')[0m
+  [4;35;1mSQL (9.8ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (32.7ms)[0m   [0;1mINSERT INTO "students" ("identification_code", "created_at", "people_id", "updated_at", "admission_date") VALUES(NULL, '2010-10-20 06:35:00.410710', NULL, '2010-10-20 06:35:00.410710', NULL) RETURNING "id"[0m
+  [4;35;1mSQL (10.7ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (21.4ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [4;36;1mSQL (53.4ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreatePeoples (20101020054240)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (67.1ms)[0m   [0mCREATE TABLE "peoples" ("id" serial primary key, "first_name" character varying(255), "middle_name" character varying(255), "last_name" character varying(255), "email_address" character varying(255), "phone_number" character varying(255), "user_id" integer, "mobile_number" character varying(255), "birth_date" character varying(255), "birth_date_ad" date, "gender" character varying(255), "home_page" character varying(255), "photo" bytea) [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054240')[0m
+  [4;35;1mSQL (17.1ms)[0m   [0mCOMMIT[0m
+Migrating to CreateStudents (20101020054348)
+  [4;36;1mSQL (0.4ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (38.1ms)[0m   [0mCREATE TABLE "students" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "admission_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054348')[0m
+  [4;35;1mSQL (18.6ms)[0m   [0mCOMMIT[0m
+Migrating to CreateFaculties (20101020054430)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (85.9ms)[0m   [0mCREATE TABLE "faculties" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "job_title" character varying(255), "join_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054430')[0m
+  [4;35;1mSQL (16.1ms)[0m   [0mCOMMIT[0m
+Migrating to CreateAdministrators (20101020054457)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (42.5ms)[0m   [0mCREATE TABLE "administrators" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "registered_date" date, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054457')[0m
+  [4;35;1mSQL (16.8ms)[0m   [0mCOMMIT[0m
+Migrating to CreateSites (20101020054544)
+  [4;36;1mSQL (0.7ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (93.4ms)[0m   [0mCREATE TABLE "sites" ("id" serial primary key, "identification_code" character varying(255), "people_id" integer, "site_name" character varying(255), "site_assoc_rating" character varying(255), "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054544')[0m
+  [4;35;1mSQL (22.6ms)[0m   [0mCOMMIT[0m
+Migrating to CreateUsers (20101020054811)
+  [4;36;1mSQL (0.4ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (77.5ms)[0m   [0mCREATE TABLE "users" ("id" serial primary key, "user_name" character varying(255), "pass_word" character varying(255), "user_type" character varying(255), "is_valid" boolean) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20101020054811')[0m
+  [4;35;1mSQL (12.0ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.4ms)[0m   [0;1mINSERT INTO "users" ("pass_word", "user_type", "user_name", "is_valid") VALUES('doe', 'Student', 'john', 't') RETURNING "id"[0m
+  [4;35;1mSQL (6.8ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (1.2ms)[0m   [0mINSERT INTO "peoples" ("birth_date_ad", "photo", "home_page", "birth_date", "gender", "phone_number", "user_id", "mobile_number", "last_name", "email_address", "first_name", "middle_name") VALUES(NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Doe', 'john.doe@unknown.com', 'John', NULL) RETURNING "id"[0m
+  [4;36;1mSQL (6.6ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mINSERT INTO "students" ("identification_code", "created_at", "people_id", "updated_at", "admission_date") VALUES('stu34223', '2010-10-20 06:40:13.946315', 1, '2010-10-20 06:40:13.946315', NULL) RETURNING "id"[0m
+  [4;35;1mSQL (8.8ms)[0m   [0mCOMMIT[0m
+  [4;36;1mPeople Load (1.1ms)[0m   [0;1mSELECT * FROM "peoples" WHERE ("peoples"."id" = 1) [0m
+  [4;35;1mUser Load (0.9ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m

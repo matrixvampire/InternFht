@@ -1,0 +1,29 @@
+<h2>XML Url</h2>
+<div id = "url_form" style="text-align:center;">
+    <% form_tag("/basics/parsing_xml", :method => "get") do %>
+    <%= text_field_tag "xmlurl" %>
+    <%= submit_tag("Submit", :name => nil) %>
+    <% end %>
+</div>
+<hr/>
+<div style="padding-left:10px;">
+    <h4>XML Format</h4>
+    <b>&lt;quotations&gt;</b>
+    <br/>
+    <b style="padding-left:3px;">&lt;onequote&gt;</b>
+    <br/>
+    <b style="padding-left:6px;">&lt;quotation_id&gt;</b>14<b>&lt;/quotation_id&gt;</b>
+    <br/>
+    <b style="padding-left:6px;">&lt;insertion_date&gt;</b>2010-09-15 10:48:38 UTC<b>&lt;/insertion_date&gt;</b>
+    <br/>
+    <b style="padding-left:6px;">&lt;author_name&gt;</b>Ted Turner<b>&lt;/author_name&gt;</b>
+    <br/>
+    <b style="padding-left:6px;">&lt;category&gt;</b>Ted Turner<b>&lt;/category&gt;</b>
+    <br/>
+    <b style="padding-left:6px;">&lt;quote&gt;</b>
+    I feel like those Jewish people in Germany in 1942. <b>&lt;/quote&gt;</b>
+    <br/>
+    <b style="padding-left:3px;">&lt;/onequote&gt;</b>
+    <br/>
+    <b>&lt;/quotations&gt;</b>
+</div>

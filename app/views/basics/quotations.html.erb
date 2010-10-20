@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    function put_value(){
+        var select_cat = document.getElementById("selected_category");
+        var cat = document.getElementById("quotation_category");
+        cat.value = select_cat.value;
+    }
+    
+    function validateInput(){
+        if (document.getElementById('quotation_author_name').value == "") {
+            alert("Please enter author name!");
+            document.getElementById('quotation_author_name').focus();
+            return false;
+        }
+        else 
+            if (document.getElementById('quotation_category').value == "") {
+                alert("Please enter category!");
+                document.getElementById('quotation_category').focus();
+                return false;
+            }
+            else 
+                if (document.getElementById('quotation_quote').value == "") {
+                    alert("Please enter quote!");
+                    document.getElementById('quotation_quote').focus();
+                    return false;
+                }
+                else 
+                    return true;
+    }
+</script>
+<div id = "search_form" style="text-align:right;">
+    <!-- http://www.folksonomy.org/2008/12/22/basic-search-form-in-rails/ --><% form_tag("/basics/search_quote", :method => "get") do %>
+    <%= text_field_tag "hint" %>
+    <%= submit_tag("Search", :name => nil) %>
+    <% end %>
+</div>
+<hr/><h3>Quotations</h3>
+<ul>
+    <% for quotation in @quotations %>
+    <li>
+        <b><%= h quotation.author_name %></b>
+        : "<%= h quotation.quote %><!--<%= link_to ("Kill", :action => "kill_quote",:id => quotation) %>--><%= link_to ("Kill", :action => :quotations , :kill => :one, :id => quotation) %>
+    </li>
+    <% end %>
+</ul>
+<br/>
+<% if params[:sort_by] == "date" %>
+<%= link_to "Sort by category", :action => :quotations, :sort_by => :category %>
+<% else %>
+<%= link_to "Sort by date", :action => :quotations, :sort_by => :date %>
+<% end %>
+&nbsp;&nbsp;&nbsp;&nbsp;<%if cookies[:kill_list] and cookies[:kill_list] != "0" %>
+<%= link_to "Erase My Personalization", :action => :quotations, :kill => :none %>
+<% end %>
+<hr/><h3>New quotation</h3>
+<% form_for @quotation, :url => { :action => :quotations } , :html => {:onsubmit => "return validateInput()"}do |form| %>
+<%= form.error_messages %>
+<fieldset>
+    <legend>
+        Enter details
+    </legend>
+    <div class="form_row">
+        <%= form.label :author_name %>
+        <%= form.text_field :author_name, :size => 20, :maxlength => 40 %>
+    </div>
+    <div class="form_row">
+        <%= form.label :category %>
+        <%= select "selected","category", @categories.collect {|q| [q.category,q.category] },{:prompt => 'Select Category'},{:onchange => "put_value()"} %>
+        &nbsp;&nbsp;New Category<%= form.text_field :category, :size => 20, :maxlength => 40 %>
+    </div>
+    <div class="form_row">
+        <%= form.label :quote %>
+        <%= form.text_area :quote, :rows => 2, :cols => 40 %>
+    </div>
+</fieldset>
+<div class="form_row">
+    <%= form.submit 'Create' %>
+</div>
+<% end %>

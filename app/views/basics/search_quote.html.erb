@@ -1,0 +1,17 @@
+<ul>
+    <% if @quotes.empty? %>
+    - Keyword is not found -<% end %>
+    <% for q in @quotes %>
+    <li>
+        <b><%= h q.author_name %></b>
+        : "<%= h q.quote %>" <%= link_to ("Kill", :action => :search_quote , :kill => :one, :id => q) %>
+    </li>
+    <% end %>
+</ul>
+<br/>
+<%if cookies[:kill_list] and cookies[:kill_list] != "0" %>
+<%= link_to "Erase My Personalization", :action => :quotations, :kill => :none %>
+<% end %>
+<hr/>
+<br/>
+<a href="/basics/quotations">Go Back</a>

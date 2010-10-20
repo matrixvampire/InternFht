@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identification_code: MyString
+  registered_date: 2010-10-20
+  user_name: MyString
+
+two:
+  identification_code: MyString
+  registered_date: 2010-10-20
+  user_name: MyString

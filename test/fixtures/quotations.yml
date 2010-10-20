@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+valid_quotation_1:
+  author_name: Alec Bourne
+  category: Education
+  quote: It is possible to store the mind with a million facts and still be entirely uneducated.
+
+invalid_quotation_1:
+  author_name: 
+  category: Education
+  quote: Education is the best provision for old age.

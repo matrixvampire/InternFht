@@ -1,0 +1,110 @@
+** Daemonized, any open files are closed.  Look at tmp/pids/mongrel.8007.pid and log/mongrel.8007.log for info.
+** Starting Mongrel listening at 127.0.0.1:8007
+** Starting Rails with development environment...
+** Rails loaded.
+** Loading any Rails specific GemPlugins
+** Signals ready.  TERM => stop.  USR2 => restart.  INT => stop (no restart).
+** Rails signals registered.  HUP => reload (without restart).  It might not work well.
+** Mongrel 1.1.5 available at 127.0.0.1:8007
+** Writing PID file to tmp/pids/mongrel.8007.pid
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#login (for ::1 at 2010-10-21 02:00:14) [GET]
+  Parameters: {"action"=>"login", "controller"=>"user"}
+Rendering template within layouts/application
+Rendering user/login
+Completed in 38ms (View: 23, DB: 0) | 200 OK [https://localhost/user/login]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET standard_conforming_strings = on[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#index (for ::1 at 2010-10-21 02:00:27) [GET]
+  Parameters: {"action"=>"index", "controller"=>"user"}
+Rendering template within layouts/application
+Rendering user/index
+Completed in 14ms (View: 8, DB: 0) | 200 OK [http://localhost/user]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing MainController#index (for ::1 at 2010-10-21 02:00:39) [GET]
+  Parameters: {"action"=>"index", "controller"=>"main"}
+Rendering template within layouts/application
+Rendering main/index
+Completed in 13ms (View: 8, DB: 0) | 200 OK [http://localhost/main]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET standard_conforming_strings = on[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#login (for ::1 at 2010-10-21 02:00:40) [GET]
+  Parameters: {"action"=>"login", "controller"=>"user"}
+Rendering template within layouts/application
+Rendering user/login
+Completed in 15ms (View: 7, DB: 0) | 200 OK [https://localhost/user/login]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#logout (for ::1 at 2010-10-21 02:00:47) [GET]
+  Parameters: {"action"=>"logout", "controller"=>"user"}
+Redirected to http://localhost/main
+Completed in 2ms (DB: 0) | 302 Found [http://localhost/user/logout]
+** TERM signal received.
+** Daemonized, any open files are closed.  Look at tmp/pids/mongrel.8007.pid and log/mongrel.8007.log for info.
+** Starting Mongrel listening at 127.0.0.1:8007
+** Starting Rails with development environment...
+** Rails loaded.
+** Loading any Rails specific GemPlugins
+** Signals ready.  TERM => stop.  USR2 => restart.  INT => stop (no restart).
+** Rails signals registered.  HUP => reload (without restart).  It might not work well.
+** Mongrel 1.1.5 available at 127.0.0.1:8007
+** Writing PID file to tmp/pids/mongrel.8007.pid
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing ApplicationController#index (for ::1 at 2010-10-21 02:09:15) [GET]
+
+ActionController::RoutingError (No route matches "/home" with {:method=>:get}):
+  config/initializers/mongrel.rb:63:in `dispatch_cgi'
+
+
+Rendering rescues/layout (not_found)
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET standard_conforming_strings = on[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing MainController#help (for ::1 at 2010-10-21 02:09:30) [GET]
+  Parameters: {"action"=>"help", "controller"=>"main"}
+Rendering template within layouts/application
+Rendering main/help
+Completed in 24ms (View: 22, DB: 0) | 200 OK [http://localhost/main/help]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET standard_conforming_strings = on[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#login (for ::1 at 2010-10-21 02:09:34) [GET]
+  Parameters: {"action"=>"login", "controller"=>"user"}
+Rendering template within layouts/application
+Rendering user/login
+Completed in 87ms (View: 14, DB: 0) | 200 OK [https://localhost/user/login]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET standard_conforming_strings = on[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing UserController#index (for ::1 at 2010-10-21 02:09:46) [GET]
+  Parameters: {"action"=>"index", "controller"=>"user"}
+Rendering template within layouts/application
+Rendering user/index
+Completed in 14ms (View: 8, DB: 0) | 200 OK [http://localhost/user]
