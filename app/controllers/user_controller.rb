@@ -3,7 +3,7 @@ class UserController < ApplicationController
   #  ssl_required :login
   #  ssl_allowed :register
   
-  before_filter :protect, :only => [:index, :register, :edit_profile, :change_password, :show]
+  before_filter :protect, :only => [:index, :register, :editprofile, :changepassword, :show]
   
   def index
     @title = "Welcome"    
@@ -75,11 +75,11 @@ class UserController < ApplicationController
           
           address = Address.new
           address.buildingnumber = params[:buildingnumber]
-          address.streetname = params[:streetname].capitalize!
+          address.streetname = params[:streetname]
           address.city = params[:city].capitalize!
-          address.state_province = params[:stateprovince].capitalize!
+          address.state_province = params[:stateprovince]
           address.country = params[:country]
-          address.addresstype = params[:addresstype].capitalize!
+          address.addresstype = params[:addresstype]
           
           if params[:usertype] == "Student"
             student = Student.new
@@ -112,7 +112,7 @@ class UserController < ApplicationController
     end
   end    
   
-  def edit_profile
+  def editprofile
     @title = "Edit Profile"
     if logged_in?      
       if request.post? #...Edit
@@ -149,10 +149,10 @@ class UserController < ApplicationController
         ActiveRecord::Base.transaction do
             if address.save and people.save
               flash[:notice] = "Profile is edited successfully!!!"
-              redirect_to :controller => :user, :action => :edit_profile
+              redirect_to :controller => :user, :action => :editprofile
             else
               flash[:error] = "Some error occurs, process is not successful!!!"
-              redirect_to :controller => :user, :action => :edit_profile
+              redirect_to :controller => :user, :action => :editprofile
               raise ActiveRecord::Rollback
             end 
         end
@@ -175,12 +175,12 @@ class UserController < ApplicationController
     end
   end
   
-  def change_password
+  def changepassword
     if logged_in?      
       if request.post? #...Edit
         if params[:new_password] != params[:confirm_password]
           flash[:error] = "Your new password did not match!!!"
-          redirect_to :controller => :user, :action => :change_password
+          redirect_to :controller => :user, :action => :changepassword
         else  
           user = User.find(session[:user_id])
           if user && user.authenticate( params[:old_password] )
@@ -190,11 +190,11 @@ class UserController < ApplicationController
               redirect_to_forwarding_url
             else
               flash[:error] = "Some error occurs, process is not successful!!!"
-              redirect_to :controller => :user, :action => :change_password
+              redirect_to :controller => :user, :action => :changepassword
             end
           else
             flash[:error] = "Entered wrong password!!"
-            redirect_to :controller => :user, :action => :change_password
+            redirect_to :controller => :user, :action => :changepassword
           end
         end
         
