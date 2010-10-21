@@ -49,5 +49,10 @@ Rails::Initializer.run do |config|
   AUTHOR_EMAIL = 'intern@fht.psu.ac.th'
   AUTHORSHIP_YEAR = '2010'
   
+  TYPE_ADMINISTRATOR = 'Administrator'
+  TYPE_FACULTY = 'Faculty'
+  TYPE_STUDENT = 'Student'
+  TYPE_SITE = 'Site'
+  
   require 'builder'
 end
