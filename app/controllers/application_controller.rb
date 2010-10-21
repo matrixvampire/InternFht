@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
+  filter_parameter_logging :old_password
+  filter_parameter_logging :new_password
   
   # Protect a page from unauthorized access.
   def protect

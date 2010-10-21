@@ -3,7 +3,7 @@ class UserController < ApplicationController
   #  ssl_required :login
   #  ssl_allowed :register
   
-  before_filter :protect, :only => [:index, :register]
+  before_filter :protect, :only => [:index, :register, :edit_profile, :change_password, :show]
   
   def index
     @title = "Welcome"    
@@ -38,10 +38,10 @@ class UserController < ApplicationController
           flash[:notice] = "User #{user.username} logged in!"
           redirect_to_forwarding_url
         else
-          flash[:notice] = "Invalid User"
+          flash[:error] = "Invalid User"
         end
       else
-        flash[:notice] = "Invalid username/password combination"
+        flash[:error] = "Invalid username/password combination"
       end
     end
   end
@@ -91,7 +91,7 @@ class UserController < ApplicationController
               flash[:notice] = "Student Profile created successfully!!!"
               redirect_to_forwarding_url
             else
-              flash[:notice] = "Some problem. Try later."
+              flash[:error] = "Some problem. Try later."
             end
           end
           if params[:usertype] == "Faculty"
@@ -104,13 +104,105 @@ class UserController < ApplicationController
               flash[:notice] = "Faculty Profile created successfully!!!"
               redirect_to_forwarding_url
             else
-              flash[:notice] = "Some problem. Try later."
+              flash[:error] = "Some problem. Try later."
             end
           end
         end          
       end
     end
   end    
+  
+  def edit_profile
+    @title = "Edit Profile"
+    if logged_in?      
+      if request.post? #...Edit
+        people = People.find_by_user_id(session[:user_id])
+          people.firstname = params[:firstname].strip
+          people.middlename = params[:middlename].strip
+          people.lastname = params[:lastname].strip
+          people.nickname = params[:nickname].strip
+          people.emailaddress = params[:emailaddress].strip
+          people.phonenumber = params[:phonenumber].strip
+          people.mobilenumber = params[:mobilenumber].strip
+          people.gender = params[:gender].strip
+          people.birthdate = params[:birthdate].strip
+          people.faxnumber = params[:faxnumber].strip
+          people.homepage = params[:homepage].strip
+          
+        if get_type_of_user == TYPE_STUDENT
+          address = people.student.addresses.first
+        elsif get_type_of_user == TYPE_FACULTY
+          address = people.faculty.addresses.first
+        elsif get_type_of_user == TYPE_ADMINISTRATOR
+          address = people.administrator.addresses.first
+        end
+        
+          address.addresstype = params[:address_type].strip
+          address.buildingnumber = params[:buildingnumber].strip
+          address.streetname = params[:streetname].strip
+          address.city = params[:city].strip
+          address.state_province = params[:state_province].strip
+          address.zippostal_code = params[:zippostal_code].strip
+          address.country = params[:country].strip
+          
+        
+        ActiveRecord::Base.transaction do
+            if address.save and people.save
+              flash[:notice] = "Profile is edited successfully!!!"
+              redirect_to :controller => :user, :action => :edit_profile
+            else
+              flash[:error] = "Some error occurs, process is not successful!!!"
+              redirect_to :controller => :user, :action => :edit_profile
+              raise ActiveRecord::Rollback
+            end 
+        end
+  
+      else #...Search
+        @people = People.find_by_user_id(session[:user_id])
+        # Assume that people has just one address
+        if get_type_of_user == TYPE_STUDENT
+          @address = @people.student.addresses.first
+        elsif get_type_of_user == TYPE_FACULTY
+          @address = @people.faculty.addresses.first
+        elsif get_type_of_user == TYPE_ADMINISTRATOR
+          @address = @people.administrator.addresses.first
+        end
+        
+        if @address.nil?
+          @address = Address.new      
+        end
+      end
+    end
+  end
+  
+  def change_password
+    if logged_in?      
+      if request.post? #...Edit
+        if params[:new_password] != params[:confirm_password]
+          flash[:error] = "Your new password did not match!!!"
+          redirect_to :controller => :user, :action => :change_password
+        else  
+          user = User.find(session[:user_id])
+          if user && user.authenticate( params[:old_password] )
+            user.password = params[:new_password]
+            if user.save
+              flash[:notice] = "Changed password successfully"
+              redirect_to_forwarding_url
+            else
+              flash[:error] = "Some error occurs, process is not successful!!!"
+              redirect_to :controller => :user, :action => :change_password
+            end
+          else
+            flash[:error] = "Entered wrong password!!"
+            redirect_to :controller => :user, :action => :change_password
+          end
+        end
+        
+      else #...Search
+        
+      end
+    end
+  end
   
   private
   
