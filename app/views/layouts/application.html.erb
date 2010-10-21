@@ -17,11 +17,11 @@
 						<% if is_admin?%>
 							<%= nav_link "Add User", :user, :register %> |
 		                    <%= nav_link "Show", :user, :show %> |
-							<%= nav_link "Edit Profile", :user, :edit_profile %> |
+							<%= nav_link "Edit Profile", :user, :editprofile %> |
 						<% else %>
-							<%= nav_link "Edit Profile", :user, :edit_profile %> |
+							<%= nav_link "Edit Profile", :user, :editprofile %> |
 						<% end %>
-						<%= nav_link "Change Password", :user, :change_password %> |
+						<%= nav_link "Change Password", :user, :changepassword %> |
 						<%= nav_link "Logout", :user, :logout %>
                     <% else %>
 						<%= nav_link "Login", :user, :login %>
