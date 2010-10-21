@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   
-#  ssl_required :login
-#  ssl_allowed :register
+  #  ssl_required :login
+  #  ssl_allowed :register
   
   before_filter :protect, :only => [:index, :register]
   
@@ -11,16 +11,16 @@ class UserController < ApplicationController
   
   def show
     @title = "Show"
-    @peoples = nil
-    if params[:showlist] == "Student"
-      @students = Student.find(:all, :order => :created_at)
-      if !@students.nil?
-        @peoples = @students.people
-      end
-    elsif params[:showlist] == "Faculty"
+    @peoples = Array.new
+    if params[:showlist] == "Faculty"
       @faculties = Faculty.find(:all, :order => :created_at)
-      if !@faculties.nil?
-        @peoples = @faculties.people
+      @faculties.each do |f|
+        @peoples << f.people
+      end
+    else
+      @students = Student.find(:all, :order => :created_at)
+      @students.each do |s|
+        @peoples << s.people
       end
     end
   end

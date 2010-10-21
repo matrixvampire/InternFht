@@ -1,6 +1,8 @@
 <% if params[:showlist] == "Student" %>
+Student List | 
 <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
 <% else %>
+Faculty List | 
 <%= link_to "Show Student", :action => :show, :showlist => :Student %>
 <% end %>
 <hr />
