@@ -11,7 +11,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: wae_development
+  database: wae4_development
   pool: 5
   username: csim
   password:
@@ -37,7 +37,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: wae_test
+  database: wae4_test
   pool: 5
   username: csim
   password:
@@ -45,7 +45,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: wae_production
+  database: wae4_production
   pool: 5
   username: csim
   password:
