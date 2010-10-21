@@ -1,0 +1,100 @@
+<script type="text/javascript">
+	window.onload = function(){
+		// set combo values
+		document.getElementById("country").value = "<%= @address.country %>"
+		document.getElementById("gender").value = "<%= @people.gender %>"
+	}
+	
+</script>
+<h1>Edit Profile</h1>
+<% form_tag :action => :edit_profile do %>
+<fieldset>
+	<legend>
+        Edit profile details
+    </legend>
+	<!-- PEOPLE -->
+	<div class="form_row">
+        <%= label_tag :firstname, "First Name:" %>
+        <%= text_field_tag :firstname, @people.firstname, :size => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :middlename, "Middle Name:" %>
+        <%= text_field_tag :middlename, @people.middlename, :size => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :lastname, "Last Name:" %>
+        <%= text_field_tag :lastname, @people.lastname, :size => 20 %>
+    </div>
+	<div class="form_row">
+        <%= label_tag :nickname, "Nick Name:" %>
+        <%= text_field_tag :nickname, @people.nickname, :size => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :emailaddress, "Email Address:" %>
+        <%= text_field_tag :emailaddress, @people.emailaddress, :size => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :phonenumber, "Phone Number:" %>
+        <%= text_field_tag :phonenumber, @people.phonenumber, :size => 20, :maxlength => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :mobilenumber, "Mobile Number:" %>
+        <%= text_field_tag :mobilenumber, @people.mobilenumber, :size => 20, :maxlength => 20 %>
+    </div>
+	<div class="form_row">
+        <%= label_tag :gender, "Gender:" %>
+        <%= select_tag :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
+	</div>
+    <div class="form_row">
+        <%= label_tag :birthdate, "Date of Birth [BE]:" %>
+        <%= text_field_tag :birthdate, @people.birthdate, :size =>20, :maxlength => 10 %>[YYYY-MM-DD]
+    </div>
+	<div class="form_row">
+        <%= label_tag :faxnumber, "Fax:" %>
+        <%= text_field_tag :faxnumber, @people.faxnumber, :size =>20 %>
+    </div>
+	<div class="form_row">
+        <%= label_tag :homepage, "Home Page:" %>
+        <%= text_field_tag :homepage, @people.homepage, :size =>30 %>
+    </div>
+	<!--div class="form_row">
+        <%= label_tag :photo, "Photo:" %>
+        <%= text_field_tag :photo,'', :size =>30 %>
+    </div-->
+	
+	<!-- Address -->
+	<hr/>
+	
+    <div class="form_row">
+        <%= label_tag :address_type, "Address Type:" %>
+        <%= text_field_tag :address_type, @address.addresstype, :size => 20, :maxlength => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :buildingnumber, "Building Number:" %>
+        <%= text_field_tag :buildingnumber, @address.buildingnumber, :size => 20, :maxlength => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :streetname, "Street Name:" %>
+        <%= text_area_tag :streetname, @address.streetname, :rows => 4, :cols => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :city, "City:" %>
+        <%= text_field_tag :city, @address.city, :size => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :state_province, "State/Province:" %>
+        <%= text_field_tag :state_province, @address.state_province, :size => 20 %>
+    </div>
+	<div class="form_row">
+        <%= label_tag :zippostal_code, "Zip Code:" %>
+        <%= text_area_tag :zippostal_code, @address.zippostal_code, :rows => 4, :cols => 20 %>
+    </div>
+    <div class="form_row">
+        <%= label_tag :country, "Country:" %>
+        <%= select_tag :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
+	</div>
+    <div class="form_row">
+        <%= submit_tag "Save", :disable_with => "Please wait..." %>
+    </div>
+</fieldset>
+<% end %>

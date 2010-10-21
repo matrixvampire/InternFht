@@ -9,15 +9,22 @@
     <body>
         <div id="whole_page">
             <div id="header">
-                <%= APPLICATION_NAME %>
+                <%= APPLICATION_NAME %><h1><%= get_name_of_user %></h1>
             </div>
             <div id="nav">
-                <span style="float: right"><% if logged_in? -%>
-					<%= nav_link "Add User", :user, :register %> |
-                    <%= nav_link "Show", :user, :show %> |
-                    <%= nav_link "Logout", :user, :logout %>
+                <span style="float: right">
+                	<% if logged_in? -%>
+						<% if is_admin?%>
+							<%= nav_link "Add User", :user, :register %> |
+		                    <%= nav_link "Show", :user, :show %> |
+							<%= nav_link "Edit Profile", :user, :edit_profile %> |
+						<% else %>
+							<%= nav_link "Edit Profile", :user, :edit_profile %> |
+						<% end %>
+						<%= nav_link "Change Password", :user, :change_password %> |
+						<%= nav_link "Logout", :user, :logout %>
                     <% else %>
-					<%= nav_link "Login", :user, :login %>
+						<%= nav_link "Login", :user, :login %>
                     <% end -%>
                 </span>
                 <% if logged_in? -%>
@@ -32,6 +39,11 @@
                 <% if flash[:notice] %>
                 <div id="notice">
                     <%= flash[:notice] %>
+                </div>
+                <% end %>
+				<% if flash[:error] %>
+                <div id="notice">
+                    <font color="RED"><%= flash[:error] %></font>
                 </div>
                 <% end %>
                 <%= @content_for_layout %>
