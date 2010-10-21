@@ -64,6 +64,13 @@
             <td>
                 <%= h people.faculty.created_at %>
             </td>
+			<% elsif people.user.usertype == TYPE_ADMINISTRATOR %>
+            <td>
+                <%= h people.administrator.identificationcode %>
+            </td>
+            <td>
+                <%= h people.administrator.created_at %>
+            </td>
             <% end %>
 			<td>
                 <%= h people.user.usertype %>

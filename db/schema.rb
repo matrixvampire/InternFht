@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101020084015) do
+ActiveRecord::Schema.define(:version => 20101020084016) do
 
   create_table "addresses", :force => true do |t|
     t.string   "buildingnumber"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20101020084015) do
     t.string  "password_hash"
     t.string  "usertype"
     t.boolean "isvalid"
+    t.string  "validation_code"
   end
 
 end

@@ -222,6 +222,55 @@ class UserController < ApplicationController
   
   def forgetpassword
     @title = "Forget Password"
+    if request.post? #...Edit
+      user = User.find_by_username(params[:username])
+      if user == nil
+        flash[:error] = "User "+params[:username]+" does not exist!!"
+        redirect_to :controller => :user, :action => :forgetpassword
+      else
+        validation_code = Digest::SHA1.hexdigest("--#{Time.now.to_s}----")[0,15]
+        user.validation_code = validation_code
+        if user.save
+          smtp_result = Verifier.deliver_verify_email(user, validation_code)
+          flash[:notice] = "An email has been sent to user : "+params[:username]
+          redirect_to :controller => :user, :action => :forgetpassword
+        else
+          flash[:error] = "Some problem occurs, process is not successful!!!"
+          redirect_to :controller => :user, :action => :forgetpassword
+        end
+      end
+    end
+  end
+  
+  def createnewpassword
+    @title = "Create New Password"
+    if request.post? #...Edit
+      user = User.find_by_username(params[:username])
+      if user == nil
+        flash[:error] = "User "+params[:username]+" does not exist!!"
+        redirect_to :controller => :user, :action => :createnewpassword
+      else #user exists
+        if user.validation_code!=nil and (user.validation_code==params[:validation_code]) #code is match
+          if params[:new_password] != params[:confirm_password] #two new password boxes is not match 
+            flash[:error] = "Your new password did not match!!!"
+            redirect_to :controller => :user, :action => :createnewpassword
+          else  
+            user.password = params[:new_password]
+            user.validation_code = nil
+            if user.save
+              flash[:notice] = "Password has been created!!!"
+              redirect_to :controller => :user, :action => :login
+            else
+              flash[:error] = "Some error occurs, process is not successful!!!"
+              redirect_to :controller => :user, :action => :createnewpassword
+            end
+          end
+        else
+          flash[:error] = "Your validation code is wrong"
+          redirect_to :controller => :user, :action => :createnewpassword
+        end
+      end
+    end
   end
   
   private

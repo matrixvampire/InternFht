@@ -1,0 +1,11 @@
+Dear user <%= @user.username%> ,
+Thank you for signing up with internship department.
+
+Your validation key is <%= @validation_code %>.
+Please use this key to create new password by going to this link
+
+<%= "http://localhost:3000#{ url_for :controller => :user, :action => :createnewpassword}" %>
+
+Thank you,
+Intrenship department administrator
+
