@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   filter_parameter_logging :old_password
   filter_parameter_logging :new_password
+  filter_parameter_logging :confirm_password
   
   # Protect a page from unauthorized access.
   def protect
