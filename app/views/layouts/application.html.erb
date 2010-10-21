@@ -14,6 +14,7 @@
             <div id="nav">
                 <span style="float: right"><% if logged_in? -%>
 					<%= nav_link "Add User", :user, :register %> |
+                    <%= nav_link "Show", :user, :show %> |
                     <%= nav_link "Logout", :user, :logout %>
                     <% else %>
 					<%= nav_link "Login", :user, :login %>
@@ -25,7 +26,7 @@
                 <%= nav_link "Home", :main, :index %>
                 <% end -%>
                 | <%= nav_link "About", :main, :about %>
-                | <%= nav_link "Help", :main, :help %>
+                | <%= nav_link "FAQ", :main, :faq %>
             </div>
             <div id="content">
                 <% if flash[:notice] %>

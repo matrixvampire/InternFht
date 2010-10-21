@@ -9,7 +9,7 @@ class CreateAddresses < ActiveRecord::Migration
       t.string :state_province
       t.string :region
       t.string :country
-      t.string :type
+      t.string :addresstype
 
       t.timestamps
     end

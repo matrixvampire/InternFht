@@ -1,12 +1,28 @@
 class UserController < ApplicationController
   
-  ssl_required :login
-  ssl_allowed :register
+#  ssl_required :login
+#  ssl_allowed :register
   
   before_filter :protect, :only => [:index, :register]
   
   def index
-    @title = "Welcome"
+    @title = "Welcome"    
+  end
+  
+  def show
+    @title = "Show"
+    @peoples = nil
+    if params[:showlist] == "Student"
+      @students = Student.find(:all, :order => :created_at)
+      if !@students.nil?
+        @peoples = @students.people
+      end
+    elsif params[:showlist] == "Faculty"
+      @faculties = Faculty.find(:all, :order => :created_at)
+      if !@faculties.nil?
+        @peoples = @faculties.people
+      end
+    end
   end
   
   def login
@@ -41,19 +57,21 @@ class UserController < ApplicationController
           user.username = params[:username]
           user.password = params[:password]
           user.usertype = params[:usertype]
-          user.isvalid = true;
+          user.isvalid = true
           
           people = People.new
-          people.firstname = params[:firstname].capitalize!
-          people.middlename = params[:middlename].capitalize!
-          people.lastname = params[:lastname].capitalize!
-          people.nickname = params[:nickname].capitalize!
-          people.emailaddress = params[:emailaddress].downcase!
+          people.firstname = params[:firstname]
+          people.middlename = params[:middlename]
+          people.lastname = params[:lastname]
+          people.nickname = params[:nickname]
+          people.emailaddress = params[:emailaddress]
           people.phonenumber = params[:phonenumber]
           people.mobilenumber = params[:mobilenumber]
           people.birthdate = params[:birthdate]
           people.gender = params[:gender]          
           people.user = user
+          
+          logger.debug "People attributes hash: #{people.attributes.inspect}" 
           
           address = Address.new
           address.buildingnumber = params[:buildingnumber]
@@ -61,7 +79,7 @@ class UserController < ApplicationController
           address.city = params[:city].capitalize!
           address.state_province = params[:stateprovince].capitalize!
           address.country = params[:country]
-          address.type = params[:addresstype].capitalize!
+          address.addresstype = params[:addresstype].capitalize!
           
           if params[:usertype] == "Student"
             student = Student.new

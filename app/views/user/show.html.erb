@@ -1,0 +1,11 @@
+<% if params[:showlist] == "Student" %>
+<%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+<% else %>
+<%= link_to "Show Student", :action => :show, :showlist => :Student %>
+<% end %>
+<hr />
+<% if !@peoples.nil?%>
+<% for people in @peoples%>
+<b><%= h people.firstname %></b>
+<% end %>
+<% end %>

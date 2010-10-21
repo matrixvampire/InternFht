@@ -2,8 +2,8 @@
 
 one:
   building_number: MyString
-  street_name: MyString
-  area_name: MyString
+  streetname: MyString
+  areaname: MyString
   city: MyString
   zip_postal_code: MyString
   state_province: MyString
@@ -12,9 +12,9 @@ one:
   type: MyString
 
 two:
-  building_number: MyString
-  street_name: MyString
-  area_name: MyString
+  buildingnumber: MyString
+  streetname: MyString
+  areaname: MyString
   city: MyString
   zip_postal_code: MyString
   state_province: MyString

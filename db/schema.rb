@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20101020084015) do
     t.string   "state_province"
     t.string   "region"
     t.string   "country"
-    t.string   "type"
+    t.string   "addresstype"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
