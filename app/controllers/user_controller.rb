@@ -176,6 +176,7 @@ class UserController < ApplicationController
   end
   
   def changepassword
+    @title = "Change Password"
     if logged_in?      
       if request.post? #...Edit
         if params[:new_password] != params[:confirm_password]
@@ -202,6 +203,10 @@ class UserController < ApplicationController
         
       end
     end
+  end
+  
+  def forgetpassword
+    @title = "Forget Password"
   end
   
   private
