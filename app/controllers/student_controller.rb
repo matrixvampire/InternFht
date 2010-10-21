@@ -1,4 +1,7 @@
 class StudentController < ApplicationController
+  
+  before_filter :protect, :only => [:profile]
+  
   def profile  
     @title = "Student Profile"
     @user = User.find(session[:user_id])

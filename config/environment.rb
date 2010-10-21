@@ -10,7 +10,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 # you don't control web/app server and can't set it the proper way                  
 # ENV['RAILS_ENV'] ||= 'production'
 
-ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:default => '%d-%m-%Y %H:%M:%S')
+# ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:default => '%d-%m-%Y %H:%M:%S')
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
