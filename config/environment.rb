@@ -10,6 +10,8 @@ require File.join(File.dirname(__FILE__), 'boot')
 # you don't control web/app server and can't set it the proper way                  
 # ENV['RAILS_ENV'] ||= 'production'
 
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:default => '%d-%m-%Y %H:%M:%S')
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -44,7 +46,7 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
   config.logger = Logger.new(STDOUT)
   
-  APPLICATION_NAME = 'Internship Department'  
+  APPLICATION_NAME = 'Internship Office'  
   AUTHOR_NAME = 'FHT PSU'
   AUTHOR_EMAIL = 'intern@fht.psu.ac.th'
   AUTHORSHIP_YEAR = '2010'

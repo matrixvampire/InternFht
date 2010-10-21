@@ -28,7 +28,13 @@
                     <% end -%>
                 </span>
                 <% if logged_in? -%>
-                <%= nav_link "Home", :user, :index %>
+					<% if is_admin? %>
+                		<%= nav_link "Home", :user, :index %>
+					<% elsif is_student? %>
+						<%= nav_link "Home", :student, :profile %>
+					<% elsif is_faculty? %>
+						<%= nav_link "Home", :faculty, :profile %>
+					<% end %>	
                 <% else %>
                 <%= nav_link "Home", :main, :index %>
                 <% end -%>
@@ -48,6 +54,9 @@
                 <% end %>
                 <%= @content_for_layout %>
             </div>
-        </div>
+        	<div id="footer">
+        		License : <a href="http://opensource.org/licenses/gpl-3.0.html" target="_blank"> GNU General Public License, version 3 (GPLv3)</a> | &copy;Prince of Songkla University
+        	</div>
+		</div>
     </body>
 </html>

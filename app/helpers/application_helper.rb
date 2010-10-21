@@ -24,6 +24,27 @@ module ApplicationHelper
     return false
   end
   
+  def check_session?
+    if session[:user_id].nil?
+      return false
+    end
+    return true
+  end
+  
+  def is_student?    
+    if check_session? && get_type_of_user == TYPE_STUDENT
+      return true
+    end    
+    return false
+  end
+  
+  def is_faculty?
+    if check_session? && get_type_of_user ==TYPE_FACULTY
+      return true
+    end
+    return false
+  end
+  
   def get_type_of_user
     if session[:user_id] != nil
       currentUser = User.find(session[:user_id])

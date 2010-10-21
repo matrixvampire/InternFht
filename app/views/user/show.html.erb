@@ -1,13 +1,82 @@
-<% if params[:showlist] == "Student" %>
-Student List | 
-<%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+<% if params[:showlist] == "Faculty" %>
+<b>Faculty List</b>
+| <%= link_to "Show Student", :action => :show, :showlist => :Student %>
 <% else %>
-Faculty List | 
-<%= link_to "Show Student", :action => :show, :showlist => :Student %>
+<b>Student List</b>
+| <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
 <% end %>
-<hr />
-<% if !@peoples.nil?%>
-<% for people in @peoples%>
-<b><%= h people.firstname %></b>
-<% end %>
+<div id = "search_form" style="text-align:right;">
+    <% form_tag :action => :show, :method => :get do %>
+    <%= text_field_tag "search" %>
+    <%= submit_tag "Search", :disable_with => "Searching...", :name => nil %>
+    <% end %>
+</div>
+<hr/><% if !@peoples.nil? %>
+<table id="hor-minimalist-a">
+    <thead>
+        <tr>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Email
+            </th>
+            <th scope="col">
+                Username
+            </th>
+            <th scope="col">
+                Identification Code
+            </th>
+            <th scope="col">
+                Registered
+            </th>
+			<th scope="col">
+                Type
+            </th>			
+            <th scope="col">
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for people in @peoples %>
+        <tr>
+            <td>
+                <%= h people.fullname %>
+            </td>
+            <td>
+                <%= h people.emailaddress %>
+            </td>
+            <td>
+                <%= h people.user.username %>
+            </td>
+            <% if people.user.usertype == TYPE_STUDENT %>
+            <td>
+                <%= h people.student.identificationcode %>
+            </td>
+            <td>
+                <%= h people.student.created_at %>
+            </td>			
+            <% elsif people.user.usertype == TYPE_FACULTY %>
+            <td>
+                <%= h people.faculty.identificationcode %>
+            </td>
+            <td>
+                <%= h people.faculty.created_at %>
+            </td>
+            <% end %>
+			<td>
+                <%= h people.user.usertype %>
+            </td>
+            <td>
+                <% if people.user.isvalid %>
+                <%= link_to "Active", :action => :show, :valid => :false, :id => people %>
+                <% else %>
+                <%= link_to "Inactive", :action => :show, :valid => :true, :id => people %>
+                <% end %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
 <% end %>

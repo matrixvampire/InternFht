@@ -1,0 +1,11 @@
+Identification code : 
+<%= h @student.identificationcode %>
+<br/>
+Name :
+<%= h @student.people.fullname %>
+<br />
+Address :
+<br/>
+<% for address in @student.addresses %>
+<%= h address.city %>, <%= h address.country %>
+<% end %>

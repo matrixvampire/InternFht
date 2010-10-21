@@ -7,9 +7,13 @@ class CreateUsers < ActiveRecord::Migration
       t.string :usertype
       t.boolean :isvalid
     end
+    
+    add_index :users, :username, :unique => true, :name => 'username_index'
+    
   end
 
   def self.down
     drop_table :users
+    remove_index :users, 'username_index'
   end
 end

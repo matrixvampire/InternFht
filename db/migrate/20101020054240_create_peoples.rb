@@ -14,12 +14,18 @@ class CreatePeoples < ActiveRecord::Migration
       t.date :birthdate_ad
       t.string :gender
       t.string :homepage
-      t.binary :photo   
-      
+      t.binary :photo      
     end
+    
+    add_index :peoples, :user_id, :unique => true, :name => 'user_id_index'
+    add_index :peoples, :firstname, :name => 'firstname_index'
+    add_index :peoples, :lastname, :name => 'lastname_index'
+    
   end
-
   def self.down
     drop_table :peoples
+    remove_index :peoples, 'user_id_index'
+    remove_index :peoples, 'firstname_index'
+    remove_index :peoples, 'lastname_index'
   end
 end

@@ -12,7 +12,7 @@ class UserController < ApplicationController
   def show
     @title = "Show"
     @peoples = Array.new
-    if params[:showlist] == "Faculty"
+    if params[:showlist] == TYPE_FACULTY   
       @faculties = Faculty.find(:all, :order => :created_at)
       @faculties.each do |f|
         @peoples << f.people
@@ -23,6 +23,19 @@ class UserController < ApplicationController
         @peoples << s.people
       end
     end
+    if !params[:valid].nil?
+      @people = People.find(params[:id])
+      if params[:valid] == "true"
+        @people.user.isvalid = true
+      elsif params[:valid] == "false"
+        @people.user.isvalid = false        
+      end
+      @people.user.save
+    end
+    if !params[:search].nil?
+      @search = params[:search].strip.downcase
+      @peoples = People.find(:all, :conditions => ["(LOWER(firstname) LIKE ? or LOWER(lastname) LIKE ?)", "%#{@search}%", "%#{@search}%"], :order => :firstname)
+    end    
   end
   
   def login
@@ -36,7 +49,11 @@ class UserController < ApplicationController
         if user.isvalid
           user.login!(session)
           flash[:notice] = "User #{user.username} logged in!"
-          redirect_to_forwarding_url
+          if is_admin?
+            redirect_to_forwarding_url
+          else
+            redirect_to_individual_profile_url
+          end
         else
           flash[:error] = "Invalid User"
         end
@@ -60,23 +77,21 @@ class UserController < ApplicationController
           user.isvalid = true
           
           people = People.new
-          people.firstname = params[:firstname]
-          people.middlename = params[:middlename]
-          people.lastname = params[:lastname]
+          people.firstname = params[:firstname].capitalize
+          people.middlename = params[:middlename].strip.capitalize
+          people.lastname = params[:lastname].capitalize
           people.nickname = params[:nickname]
-          people.emailaddress = params[:emailaddress]
+          people.emailaddress = params[:emailaddress].downcase
           people.phonenumber = params[:phonenumber]
           people.mobilenumber = params[:mobilenumber]
           people.birthdate = params[:birthdate]
           people.gender = params[:gender]          
           people.user = user
           
-          logger.debug "People attributes hash: #{people.attributes.inspect}" 
-          
           address = Address.new
           address.buildingnumber = params[:buildingnumber]
           address.streetname = params[:streetname]
-          address.city = params[:city].capitalize!
+          address.city = params[:city]
           address.state_province = params[:stateprovince]
           address.country = params[:country]
           address.addresstype = params[:addresstype]
@@ -117,18 +132,18 @@ class UserController < ApplicationController
     if logged_in?      
       if request.post? #...Edit
         people = People.find_by_user_id(session[:user_id])
-          people.firstname = params[:firstname].strip
-          people.middlename = params[:middlename].strip
-          people.lastname = params[:lastname].strip
-          people.nickname = params[:nickname].strip
-          people.emailaddress = params[:emailaddress].strip
-          people.phonenumber = params[:phonenumber].strip
-          people.mobilenumber = params[:mobilenumber].strip
-          people.gender = params[:gender].strip
-          people.birthdate = params[:birthdate].strip
-          people.faxnumber = params[:faxnumber].strip
-          people.homepage = params[:homepage].strip
-          
+        people.firstname = params[:firstname].strip
+        people.middlename = params[:middlename].strip
+        people.lastname = params[:lastname].strip
+        people.nickname = params[:nickname].strip
+        people.emailaddress = params[:emailaddress].strip.downcase
+        people.phonenumber = params[:phonenumber].strip
+        people.mobilenumber = params[:mobilenumber].strip
+        people.gender = params[:gender].strip
+        people.birthdate = params[:birthdate].strip
+        people.faxnumber = params[:faxnumber].strip
+        people.homepage = params[:homepage].strip
+        
         if get_type_of_user == TYPE_STUDENT
           address = people.student.addresses.first
         elsif get_type_of_user == TYPE_FACULTY
@@ -137,14 +152,14 @@ class UserController < ApplicationController
           address = people.administrator.addresses.first
         end
         
-          address.addresstype = params[:address_type].strip
-          address.buildingnumber = params[:buildingnumber].strip
-          address.streetname = params[:streetname].strip
-          address.city = params[:city].strip
-          address.state_province = params[:state_province].strip
-          address.zippostal_code = params[:zippostal_code].strip
-          address.country = params[:country].strip
-          
+        address.addresstype = params[:address_type].strip
+        address.buildingnumber = params[:buildingnumber].strip
+        address.streetname = params[:streetname].strip
+        address.city = params[:city].strip
+        address.state_province = params[:state_province].strip
+        address.zippostal_code = params[:zippostal_code].strip
+        address.country = params[:country].strip
+        
         
         ActiveRecord::Base.transaction do
             if address.save and people.save
@@ -156,7 +171,7 @@ class UserController < ApplicationController
               raise ActiveRecord::Rollback
             end 
         end
-  
+        
       else #...Search
         @people = People.find_by_user_id(session[:user_id])
         # Assume that people has just one address
@@ -217,6 +232,19 @@ class UserController < ApplicationController
       redirect_to redirect_url
     else
       redirect_to :action => "index"
+    end
+  end
+  
+  def redirect_to_individual_profile_url
+    if (redirect_url = session[:protected_page])
+      session[:protected_page] = nil
+      redirect_to redirect_url
+    else
+      if get_type_of_user == TYPE_STUDENT
+        redirect_to :controller => :student,  :action => :profile
+      elsif get_type_of_user == TYPE_FACULTY
+        redirect_to :controller => :faculty, :action => :profile
+      end
     end
   end
   
