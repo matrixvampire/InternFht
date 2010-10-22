@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>System Strucuture</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<STYLE TYPE="text/css">
+body
+   {   font-size:12pt;
+		font-family: "Verdana";
+   }
+</STYLE> 
+
+
+</head>
+<body>
+<table>
+	<tr><td><h3>Software Structure</h3></td></tr>
+	<tr><td><h4>Content</h4></td></tr>
+	<tr><td>Potential content available from the website:</td></tr>
+	<tr><td>
+				<ul>
+					<li>Student and Sites descriptions</li>
+					<li>Articles and Reviews on different internship sites including comments and feedback</li>
+					<li>Evaluation on different internship sites including rating</li>
+					<li>Evaluation on students given by sites students have worked for</li>
+				</ul>
+			</td>
+	</tr>
+	<tr><td><h4>Technology</h4></td></tr>
+	<tr><td>
+				The website will use the Apache Web Server with Mongrel cluster, Ruby on Rails as the scripting languages and Postgresql as the database back-end. The website use SSL for sending user sensitive information.</td></tr>
+	<tr><td>The basic information processing requirements:
+				<ul>
+						<li>User databases, stores user-related information : identification code, name, email address, phone numbers, addresses, and others.</li>
+						<li>Content database, stores the core content of the website : articles, reviews, rating, comments, feedback, access controls, and others.</li>
+						<li>User/Content map, stores information about contents related to users, sends notification when someone comment or respond to the articles and reviews,  sends evaluation notification to different sites, moderate the contents, administrative/modification rights, and others.</li>
+				</ul>
+	</td></tr>
+	<tr><td><h4>Exercise 1: Data Model</h4></td></tr>
+	<tr><td>Define an SQL data model to represent users and user groups. Before proceeding to Exercise 2, discuss this data model with your teaching assistant.</td></tr>
+	<tr><td><br/>Questions: </td></tr>
+	<tr><td>Do you store users' passwords in the database encrypted or non-encrypted? </td></tr>
+	<tr><td>Yes. We use SHA1 HexDigest (as defined in Lab 4-UserAuth).
+				We did not implement RESTFul or AuthLogic for Authentication. Our project requirement suggest Administrator have full privilege over the registration of all user viz. Student, Faculty and Site.
+				While sending password during Login and Changing password, SSL is used to prevent eavesdropping.</td></tr>
+	<tr><td><br/>What are the advantages and disadvantages of encryption? </td></tr>
+	<tr><td>Advantages:<br/></td></tr>
+	<tr><td>
+			<ul>
+				<li>Increase security.</li>
+				<li>Prevent others to know the password even when s/he have access to database.</li>
+				<li>Protect important data when transmitted over the Internet.</li>
+			</ul></td></tr>
+	<tr><td>Disadvantages:<br/></td></tr>
+	<tr><td>
+			<ul>
+				<li>Encryption takes time. The more complex the encryption the more processing it require.</li>
+				<li>Encrypted/Hashed password are hard to recover when lost. Some different methodology is need to implement when user forget password.</li>
+				<li>Difficult to Database Administrator. When content are encrypted before storing into database, Database administrator have some trouble understanding the content of the database.</li>
+			</ul></td></tr>
+	<tr><td>What columns in your tables will enable your system to handle the query "Find me users who live within 50 kilometers of User #37"?
+	<tr><td>We have normalized the User database. We need to do table join to query.</td></tr>
+	
+	<tr><td><h4><br/>Exercise 2: Page Flow</h4></td></tr>
+	<tr><td><img src="pageflow_admin.gif"></td></tr>
+	<tr><td><img src="pageflow_user.gif"></td></tr>
+
+	<tr><td><h4><br/>Exercise 3</h4></td></tr>
+	<tr><td>Build the basic user registration and login pages. Use HTTP cookies to make the rest of the semester's work easier.<td></tr>
+	<tr><td>Rather than HTTP cookies, we have used HTTP sessions. Session is safer than cookies since it is stored in server.</td></tr>
+	<tr><td><br/>Questions: </td></tr>
+	<tr><td>Can someone sniffing packets learn your user's password? </td></tr>
+	<tr><td>No. We have implemented SSL for help prevent eavesdropping while sending user sensitive information.</td></tr>
+	<tr><td><br/>Gain access to the site under your user's credentials? </td></tr>
+	<tr><td>Website uses Username and Password for Authentication. Only verified users are allowed to access the restricted areas.<br/></td></tr>
+	<tr><td><br/>What happens to a user who forgets his or her password?</td></tr>
+	<tr><td>When user forget the password, s/he request for change in password verifying his/her username. The system will send the validation code to his/her email address which been registered to that username. After receiving the validation code, the user can now change his/her password by verifying the validation code. Each validation code have validity period .</td></tr>
+	<tr><td><h4><br/>Exercise 4</h4></td></tr>
+	<tr><td>Build the site administrator's pages for working with users. The site administrator should be able to (1) see recently registered users, (2) look up a particular user, (3) exclude a user from the site, and (4) see current and historical statistics on user registration.</td></tr>
+	<tr><td><br/>Questions: </td></tr>
+	<tr><td>How can the administrator control who is permitted to register and use the site?</td></tr>
+	<tr><td>Administrator have overall control over the register of new user and moderating the website. Only administrator can register new user. We have only make module of registering Student and Faculty.</td></tr>
+	<tr><td><br/>What email notification options does the site administrator have that relate to user registration?</td></tr>
+	<tr><td>Administration have full control over users. Administrator have right to put banned or release it on individual user. Administrator can make mass circulation to group of users or to individual user.</td></tr>
+	<tr><td><h4><br/>Exercise 5</h4></td></tr>
+	<tr><td>Look at your tables again for referential integrity constraints and query performance. How long will it take to look up a user by email address? What if this email address is capitalized differently from what you've stored in the database? Is it possible to have two users with the same email address? (Note that by Internet standards a lowercase email address or hostname is the same as an uppercase email address or hostname.)
+	</td></tr>
+	<tr><td><br/>No two individual can have same email address. Email address is required field. Each email address is verified using regular expression [Simple verification] and lower case when stored into the database.</td></tr>
+	<tr><td><br/>We tried to use validates_uniqueness_of in email address. But the functionality is creating some problem.</td></tr>
+	<tr><td><br/>Many Web applications contain content that can be viewed only by members of a specific user group. With your data model, how many table rows will the RDBMS have to examine to answer the question "Is User #541 a member of Group #90"? If the answer is "every row in a big table", i.e., a sequential scan, what kind of index could you add to speed up the query?</td></tr>
+	<tr><td><br/>When authenticating the user and its group, we only require to look at one table users. It include information about the group of the user. We have 4 groups viz. Student, Faculty, Site and Administrator. Each group have their separate tables. username is indexed.</td></tr>
+	<tr><td>&nbsp;</td></tr>
+
+</table>
+</body>
+</html>
