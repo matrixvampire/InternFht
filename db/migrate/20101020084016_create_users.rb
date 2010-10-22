@@ -9,9 +9,13 @@ class CreateUsers < ActiveRecord::Migration
       t.string :validation_code
       t.date :validity_period
     end
+    
+    add_index :users, :username, :unique => true, :name => 'username_index'
+    
   end
 
   def self.down
     drop_table :users
+    remove_index :users, 'username_index'
   end
 end

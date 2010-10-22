@@ -119,6 +119,9 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.string  "usertype"
     t.boolean "isvalid"
     t.string  "validation_code"
+    t.date    "validity_period"
   end
+
+  add_index "users", ["username"], :name => "username_index", :unique => true
 
 end
