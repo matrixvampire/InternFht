@@ -12,13 +12,18 @@ class UserController < ApplicationController
   def show
     @title = "Show"
     @peoples = Array.new
+    
+    #find all users in system
+    @faculties = Faculty.find(:all, :order => :created_at)
+    @no_faculties = @faculties.length
+    @students = Student.find(:all, :order => :created_at)
+    @no_students = @students.length
+    
     if params[:showlist] == TYPE_FACULTY   
-      @faculties = Faculty.find(:all, :order => :created_at)
       @faculties.each do |f|
         @peoples << f.people
       end
     else
-      @students = Student.find(:all, :order => :created_at)
       @students.each do |s|
         @peoples << s.people
       end
@@ -34,8 +39,8 @@ class UserController < ApplicationController
     end
     if !params[:search].nil?
       @search = params[:search].strip.downcase
-      @peoples = People.find(:all, :conditions => ["(LOWER(firstname) LIKE ? or LOWER(lastname) LIKE ?)", "%#{@search}%", "%#{@search}%"], :order => :firstname)
-    end    
+      @peoples = People.find(:all, :conditions => ["(LOWER(firstname) LIKE ? or LOWER(lastname) LIKE ?)", "%#{@search.downcase}%", "%#{@search.downcase}%"], :order => :firstname)
+    end  
   end
   
   def login
@@ -231,7 +236,7 @@ class UserController < ApplicationController
         user.validation_code = Digest::SHA1.hexdigest("--#{Time.now.to_s}----")[0,15]
         user.validity_period = Time.now + 7.days
         if user.save
-          smtp_result = Verifier.deliver_verify_email(user, user.validation_code, user.validity_period)
+          smtp_result = Verifier.deliver_verify_email(user, user.validation_code, User.find(user.id).validity_period) 
           flash[:notice] = "An email has been sent to user : "+params[:username]
           redirect_to :controller => :user, :action => :forgetpassword
         else
@@ -251,18 +256,24 @@ class UserController < ApplicationController
         redirect_to :controller => :user, :action => :createnewpassword
       else #user exists
         if user.validation_code!=nil and (user.validation_code==params[:validation_code]) #code is match
-          if params[:new_password] != params[:confirm_password] #two new password boxes is not match 
-            flash[:error] = "Your new password did not match!!!"
-            redirect_to :controller => :user, :action => :createnewpassword
-          else  
-            user.password = params[:new_password]
-            user.validation_code = nil
-            if user.save
-              flash[:notice] = "Password has been created!!!"
-              redirect_to :controller => :user, :action => :login
-            else
-              flash[:error] = "Some error occurs, process is not successful!!!"
+          if Time.now > user.validity_period
+            flash[:error] = "Your validation code in out of date, please get a new one!!!"
+            redirect_to :controller => :user, :action => :forgetpassword
+          else
+            if params[:new_password] != params[:confirm_password] #two new password boxes is not match 
+              flash[:error] = "Your new password did not match!!!"
               redirect_to :controller => :user, :action => :createnewpassword
+            else  
+              user.password = params[:new_password]
+              user.validation_code = nil
+              user.validity_period =nil
+              if user.save
+                flash[:notice] = "Password has been created!!!"
+                redirect_to :controller => :user, :action => :login
+              else
+                flash[:error] = "Some error occurs, process is not successful!!!"
+                redirect_to :controller => :user, :action => :createnewpassword
+              end
             end
           end
         else

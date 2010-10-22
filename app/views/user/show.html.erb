@@ -1,10 +1,31 @@
 <% if params[:showlist] == "Faculty" %>
-<b>Faculty List</b>
-| <%= link_to "Show Student", :action => :show, :showlist => :Student %>
+<table width="100%">
+	<tr>
+		<td>
+			<b>Faculty List</b> 
+			| <%= link_to "Show Student", :action => :show, :showlist => :Student %>
+			<font size="3px" color="gray">
+				: There are <%=@no_faculties%> faculties and <%=@no_students%> students in the system
+			</font>
+		</td>
+		<td align="right">&nbsp;<td>
+	</tr>
+</table>
 <% else %>
-<b>Student List</b>
-| <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+<table width="100%">
+	<tr>
+		<td align="left">
+			<b>Student List</b>
+			| <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %> 
+			<font size="3px" color="gray">
+				: There are <%=@no_faculties%> faculties and <%=@no_students%> students in the system
+			</font>
+		</td>
+		<td align="right">&nbsp;<td>
+	</tr>
+</table>
 <% end %>
+
 <div id = "search_form" style="text-align:right;">
     <% form_tag :action => :show, :method => :get do %>
     <%= text_field_tag "search" %>
@@ -15,6 +36,9 @@
 <table id="hor-minimalist-a">
     <thead>
         <tr>
+        	<th scope="col">
+                &nbsp;
+            </th>
             <th scope="col">
                 Name
             </th>
@@ -39,8 +63,13 @@
         </tr>
     </thead>
     <tbody>
+    	<% i= 0 %>
         <% for people in @peoples %>
+		<% i= i+1 %>
         <tr>
+        	<td>
+                <%= i %>
+            </td>
             <td>
                 <%= h people.fullname %>
             </td>
