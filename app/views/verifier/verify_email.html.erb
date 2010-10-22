@@ -2,6 +2,7 @@ Dear user <%= @user.username%> ,
 Thank you for signing up with internship department.
 
 Your validation key is <%= @validation_code %>.
+Your validation key validity period is <%= @validaty_period %>.
 Please use this key to create new password by going to this link:
 
 <%= url_for(:host => "localhost:3000", :controller => "user", :action => "createnewpassword") %> 

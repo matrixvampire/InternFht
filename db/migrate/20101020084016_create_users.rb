@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :usertype
       t.boolean :isvalid
       t.string :validation_code
+      t.date :validity_period
     end
   end
 

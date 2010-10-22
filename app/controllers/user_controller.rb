@@ -228,10 +228,10 @@ class UserController < ApplicationController
         flash[:error] = "User "+params[:username]+" does not exist!!"
         redirect_to :controller => :user, :action => :forgetpassword
       else
-        validation_code = Digest::SHA1.hexdigest("--#{Time.now.to_s}----")[0,15]
-        user.validation_code = validation_code
+        user.validation_code = Digest::SHA1.hexdigest("--#{Time.now.to_s}----")[0,15]
+        user.validity_period = Time.now + 7.days
         if user.save
-          smtp_result = Verifier.deliver_verify_email(user, validation_code)
+          smtp_result = Verifier.deliver_verify_email(user, user.validation_code, user.validity_period)
           flash[:notice] = "An email has been sent to user : "+params[:username]
           redirect_to :controller => :user, :action => :forgetpassword
         else
