@@ -79,6 +79,10 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.binary  "photo"
   end
 
+  add_index "peoples", ["firstname"], :name => "firstname_index"
+  add_index "peoples", ["lastname"], :name => "lastname_index"
+  add_index "peoples", ["user_id"], :name => "user_id_index", :unique => true
+
   create_table "quotations", :force => true do |t|
     t.string   "author_name"
     t.string   "category"
@@ -88,10 +92,10 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
   end
 
   create_table "sites", :force => true do |t|
-    t.string   "identification_code"
-    t.string   "site_name"
-    t.string   "site_type"
-    t.string   "site_assoc_rating"
+    t.string   "identificationcode"
+    t.string   "sitename"
+    t.string   "sitetype"
+    t.string   "siteassoc_rating"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
