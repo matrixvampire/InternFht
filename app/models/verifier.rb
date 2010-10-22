@@ -10,8 +10,10 @@ class Verifier < ActionMailer::Base
       email = user.people.emailaddress
     end
     
-    recipients email
+#    mail(:from => "Internship Department Admin", :to => email, :subject => "Please revisit our web site and create new password") 
+    
     from  "Internship Department Admin"
+    recipients email
     subject "Please revisit our web site and create new password"
     body :user => user, :validation_code => validation_code
   end
