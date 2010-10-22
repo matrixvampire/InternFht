@@ -53,7 +53,7 @@ class UserController < ApplicationController
       if user && user.authenticate( params[:user][:password] )
         if user.isvalid
           user.login!(session)    
-          user.no_of_loged_in = (user.no_of_loged_in!=nil ? user.no_of_loged_in : 0)+1
+          user.logged_counter = (user.logged_counter!=nil ? user.logged_counter : 0)+1
           user.save
           flash[:notice] = "User #{user.username} logged in!"
           if is_admin?
