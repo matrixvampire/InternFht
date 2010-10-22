@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.boolean "isvalid"
     t.string  "validation_code"
     t.date    "validity_period"
-    t.integer "no_of_loged_in"
+    t.integer "logged_counter"
   end
 
   add_index "users", ["username"], :name => "username_index", :unique => true

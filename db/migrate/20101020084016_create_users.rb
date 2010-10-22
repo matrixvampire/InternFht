@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :isvalid
       t.string :validation_code
       t.date :validity_period
-      t.integer :no_of_loged_in
+      t.integer :logged_counter
     end
     
     add_index :users, :username, :unique => true, :name => 'username_index'
