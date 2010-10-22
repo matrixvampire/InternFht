@@ -12,11 +12,10 @@
         <%= form.label :password, "Password:" %>
         <%= form.password_field :password, :size => 20, :maxlength => 20 %>
     </div>
-    <div class="form_row">
+    <div class="form_row">    	
         <%= form.submit "Log in" %>
-    </div>
-	<div class="form_row" align="right">
+		<br />
 		<%= link_to "Forget Password", :action => :forgetpassword %>
-	</div>
+    </div>	
 </fieldset>
 <% end %>
