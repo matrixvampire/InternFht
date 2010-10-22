@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   
-  #  ssl_required :login, :changepassword
-  #  ssl_allowed :register, :editprofile
+  ssl_required :login, :changepassword
+  ssl_allowed :register, :editprofile
   
   before_filter :protect, :only => [:index, :register, :editprofile, :changepassword, :show]
   
