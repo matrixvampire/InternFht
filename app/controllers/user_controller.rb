@@ -52,7 +52,9 @@ class UserController < ApplicationController
       user = User.find_by_username( @user.username )
       if user && user.authenticate( params[:user][:password] )
         if user.isvalid
-          user.login!(session)
+          user.login!(session)    
+          user.no_of_loged_in = (user.no_of_loged_in!=nil ? user.no_of_loged_in : 0)+1
+          user.save
           flash[:notice] = "User #{user.username} logged in!"
           if is_admin?
             redirect_to_forwarding_url

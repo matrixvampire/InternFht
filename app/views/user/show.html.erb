@@ -60,6 +60,9 @@
             <th scope="col">
                 Status
             </th>
+			<th scope="col">
+                #Login
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -70,13 +73,13 @@
         	<td>
                 <%= i %>
             </td>
-            <td>
+            <td nowrap>
                 <%= h people.fullname %>
             </td>
-            <td>
+            <td nowrap>
                 <%= h people.emailaddress %>
             </td>
-            <td>
+            <td nowrap>
                 <%= h people.user.username %>
             </td>
             <% if people.user.usertype == TYPE_STUDENT %>
@@ -110,6 +113,9 @@
                 <% else %>
                 <%= link_to "Inactive", :action => :show, :valid => :true, :id => people %>
                 <% end %>
+            </td>
+			<td>
+                <%= h people.user.no_of_loged_in %>
             </td>
         </tr>
         <% end %>
