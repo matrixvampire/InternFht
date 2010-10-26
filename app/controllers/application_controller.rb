@@ -31,4 +31,5 @@ class ApplicationController < ActionController::Base
     return false if local_request? || RAILS_ENV == 'test'
     super
   end
+  
 end

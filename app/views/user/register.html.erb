@@ -43,7 +43,7 @@
     </div>
     <div class="form_row">
         <%= label_tag :birthdate, "Date of Birth [BE]:" %>
-        <%= text_field_tag :birthdate,'0000-00-00', :size =>20, :maxlength => 10 %>[YYYY-MM-DD]
+        <%= date_field('','birthdate', :value => '0000-00-00', :size => 20)%>[YYYY-MM-DD]
     </div>
     <hr/>
     <div class="form_row">

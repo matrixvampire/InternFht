@@ -47,8 +47,12 @@
 	</div>
     <div class="form_row">
         <%= label_tag :birthdate, "Date of Birth [BE]:" %>
-        <%= text_field_tag :birthdate, @people.birthdate, :size =>20, :maxlength => 10 %>[YYYY-MM-DD]
+		<%= date_field('','birthdate', :value => @people.birthdate, :size => 20)%>[YYYY-MM-DD]
     </div>
+	<!--div class="form_row">
+		<%= select_date Date.today, :prefix => :start_date %>
+	</div-->
+	
 	<div class="form_row">
         <%= label_tag :faxnumber, "Fax:" %>
         <%= text_field_tag :faxnumber, @people.faxnumber, :size =>20 %>
@@ -57,9 +61,10 @@
         <%= label_tag :homepage, "Home Page:" %>
         <%= text_field_tag :homepage, @people.homepage, :size =>30 %>
     </div>
+	
 	<!--div class="form_row">
         <%= label_tag :photo, "Photo:" %>
-        <%= text_field_tag :photo,'', :size =>30 %>
+        <%= file_field_tag :photo, :size =>30 %>
     </div-->
 	
 	<!-- Address -->
