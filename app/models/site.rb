@@ -3,4 +3,9 @@ class Site < ActiveRecord::Base
   
   has_many  :site_associations
   has_many  :peoples, :through  => :site_associations
+  
+  accepts_nested_attributes_for :peoples
+  accepts_nested_attributes_for :site_associations
+  accepts_nested_attributes_for :addresses
+  
 end

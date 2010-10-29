@@ -71,6 +71,8 @@ class UserController < ApplicationController
   end
   
   def register
+#    Depreciated
+#    Need to be replaced according to studententry, facultyentry, siteentry
     @title = "Register"
     if logged_in?      
       if request.post?        
@@ -134,6 +136,52 @@ class UserController < ApplicationController
     end
   end    
   
+  def studententry
+    @title = "Student Registration"
+    if logged_in?      
+      if request.post?       
+        if params[:student]
+          @student = Student.new(params[:student])
+          @student.people.user.usertype = TYPE_STUDENT
+          @student.people.user.isvalid = true
+          #      Just outputting the values in console to debug
+          logger.debug "Student : #{@student.attributes.inspect}"
+          logger.debug "People : #{@student.people.attributes.inspect}"
+          logger.debug "User : #{@student.people.user.attributes.inspect}"
+          @student.addresses.each do |address|
+            logger.debug "Address : #{address.attributes.inspect}"
+          end      
+          # Call save method
+          # Check whether all the required tables been hit successfully
+          if @student.save
+            flash[:notice] = "Student Profile created successfully!!!"
+            redirect_to_forwarding_url
+          else
+            flash[:error] = "Some problem. Try later."
+          end
+        else
+          @student = Student.new
+          @student.people = People.new
+          @student.people.user = User.new
+          #      Address entries should be make dynamic
+          @student.addresses << Address.new
+          @student.addresses << Address.new
+        end    
+      end
+    end
+  end
+  
+  
+  def facultyentry
+    #    same as studententry, difference is :faculty
+  end
+  
+  def siteentry
+    #    same as studententry
+    #    dynamically creation of multiple entries for people
+    
+  end
+  
   def editprofile
     @title = "Edit Profile"
     if logged_in?      
@@ -169,14 +217,14 @@ class UserController < ApplicationController
         
         
         ActiveRecord::Base.transaction do
-            if address.save and people.save
-              flash[:notice] = "Profile is edited successfully!!!"
-              redirect_to :controller => :user, :action => :editprofile
-            else
-              flash[:error] = "Some error occurs, process is not successful!!!"
-              redirect_to :controller => :user, :action => :editprofile
-              raise ActiveRecord::Rollback
-            end 
+          if address.save and people.save
+            flash[:notice] = "Profile is edited successfully!!!"
+            redirect_to :controller => :user, :action => :editprofile
+          else
+            flash[:error] = "Some error occurs, process is not successful!!!"
+            redirect_to :controller => :user, :action => :editprofile
+            raise ActiveRecord::Rollback
+          end 
         end
         
       else #...Search
