@@ -8,6 +8,15 @@
         <%= faculty_form.label :identificationcode, "Identification Code:" %>
         <%= faculty_form.text_field :identificationcode, :size => 20 %>
     </div>
+	<div class="form_row">
+        <%= faculty_form.label :jobtitle, "Job Title:" %>
+        <%= faculty_form.text_field :jobtitle, :size => 20 %>
+    </div>
+	<div class="form_row">
+        <%= faculty_form.label :joindate, "Join Date:" %>
+        <%= faculty_form.date_select :joindate, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
+		<!--%= date_field('','birthdate', :value => @people.birthdate, :size => 20)%-->
+    </div>
     <hr/><% faculty_form.fields_for :people do |people_form| %>
     <div class="form_row">
         <%= people_form.label :firstname, "First Name:" %>
@@ -52,7 +61,7 @@
         <%=people_form.file_field :photo %>
     </div>
     <% end %>
-    <hr/><% @student.addresses.each do |address| %>
+    <hr/><% @faculty.addresses.each do |address| %>
     <% faculty_form.fields_for :addresses, address do |address_form| %>
     <div class="form_row">
         <%= address_form.label :addresstype, "Address Type:" %>
