@@ -166,14 +166,59 @@ class UserController < ApplicationController
           #      Address entries should be make dynamic
           @student.addresses << Address.new
           @student.addresses << Address.new
-        end    
+        end 
+      else
+          @student = Student.new
+          @student.people = People.new
+          @student.people.user = User.new
+          #      Address entries should be make dynamic
+          @student.addresses << Address.new
+          @student.addresses << Address.new
       end
     end
   end
   
   
   def facultyentry
-    #    same as studententry, difference is :faculty
+    @title = "Faculty Registration"
+    if logged_in?      
+      if request.post?       
+        if params[:faculty]
+          @faculty = Faculty.new(params[:faculty])
+          @faculty.people.user.usertype = TYPE_FACULTY
+          @faculty.people.user.isvalid = true
+          #      Just outputting the values in console to debug
+          logger.debug "Faculty : #{@faculty.attributes.inspect}"
+          logger.debug "People : #{@faculty.people.attributes.inspect}"
+          logger.debug "User : #{@faculty.people.user.attributes.inspect}"
+          @faculty.addresses.each do |address|
+            logger.debug "Address : #{address.attributes.inspect}"
+          end      
+          # Call save method
+          # Check whether all the required tables been hit successfully
+          if @faculty.save
+            flash[:notice] = "Faculty Profile created successfully!!!"
+            redirect_to_forwarding_url
+          else
+            flash[:error] = "Some problem. Try later."
+          end
+        else
+          @faculty = Faculty.new
+          @faculty.people = People.new
+          @faculty.people.user = User.new
+          #      Address entries should be make dynamic
+          @faculty.addresses << Address.new
+#          @faculty.addresses << Address.new
+        end 
+      else
+          @faculty = Faculty.new
+          @faculty.people = People.new
+          @faculty.people.user = User.new
+          #      Address entries should be make dynamic
+          @faculty.addresses << Address.new
+#          @faculty.addresses << Address.new
+      end
+    end
   end
   
   def siteentry
