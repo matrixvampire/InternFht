@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  content_id: 1
+  administrator_id: 1
+  releasedate: 2010-11-04
+  expirationdate: 2010-11-04
+
+two:
+  content_id: 1
+  administrator_id: 1
+  releasedate: 2010-11-04
+  expirationdate: 2010-11-04

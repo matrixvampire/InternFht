@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  evaluation_criteria_id: 1
+  question: MyString
+
+two:
+  evaluation_criteria_id: 1
+  question: MyString

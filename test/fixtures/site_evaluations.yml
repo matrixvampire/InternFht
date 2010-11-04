@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  internship_id: 1
+  evaluation_enquiry_id: 1
+  point: 1
+  comment: MyText
+  evaluationdate: 2010-11-04
+  approvalstatus: MyString
+  approveddate: 2010-11-04
+
+two:
+  internship_id: 1
+  evaluation_enquiry_id: 1
+  point: 1
+  comment: MyText
+  evaluationdate: 2010-11-04
+  approvalstatus: MyString
+  approveddate: 2010-11-04
