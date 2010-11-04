@@ -8,4 +8,7 @@ class Site < ActiveRecord::Base
   accepts_nested_attributes_for :sites_associations
   accepts_nested_attributes_for :addresses
   
+  has_many :internships
+  has_many :students, :through => :internships
+  
 end

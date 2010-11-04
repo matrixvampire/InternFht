@@ -8,6 +8,9 @@ class People < ActiveRecord::Base
   has_many  :sites_associations
   has_many  :sites, :through  => :sites_associations
   
+  has_many :commentors
+  has_one :article
+  
   #Validation
   validates_presence_of :firstname, :lastname, :emailaddress, :gender
   

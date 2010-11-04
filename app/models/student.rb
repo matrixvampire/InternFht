@@ -5,4 +5,8 @@ class Student < ActiveRecord::Base
   accepts_nested_attributes_for :people
   accepts_nested_attributes_for :addresses
   
+  has_many :internships
+  has_many :sites, :through => :internships
+  
+  has_one :discussion
 end

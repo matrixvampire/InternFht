@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_one :people
+  has_many :user_logs
   
   PASSWORD_MIN_LENGTH = 4
   PASSWORD_MAX_LENGTH = 20  
