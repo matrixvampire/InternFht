@@ -59,11 +59,11 @@ Rails::Initializer.run do |config|
   require 'builder'
   
   #Set date farmat for calendar
-  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
-#    :default => '%d %b %Y' # 05 Oct 2010
-#    :default => '%d-%B-%Y' # 05 October 2010
-#    :default => '%d/%m/%Y ' # 19/10/2010
-    :default => '%Y-%m-%d' # 2010-10-27
-  )
+#  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
+##    :default => '%d %b %Y' # 05 Oct 2010
+##    :default => '%d-%B-%Y' # 05 October 2010
+##    :default => '%d/%m/%Y ' # 19/10/2010
+#    :default => '%Y-%m-%d' # 2010-10-27
+#  )
 
 end
