@@ -1,90 +1,25 @@
+<script type="text/javascript">
+	
+	function show_page(obj) {
+		if (obj.value == 'student') {
+			var url = '/user/studententry';
+		}else if(obj.value == 'faculty'){
+			var url = '/user/facultyentry';
+		}else if(obj.value == 'site'){
+			var url = '/user/siteentry';
+		}else{
+			document.getElementById("mainPage").innerHTML = "";
+		}
+		if(obj.value != '')
+			new Ajax.Request(url, {
+				method: 'get',
+				onSuccess: function(request){
+					document.getElementById("mainPage").innerHTML = request.responseText;
+				}
+			})
+	}
+	
+</script>
 <h1>Register</h1>
-<% form_tag :action => :register do %>
-<fieldset>
-    <legend>
-        Register User
-    </legend>
-    <div class="form_row">
-        <%= label_tag :identificationcode, "Identification Code:" %>
-        <%= text_field_tag :identificationcode, '', :size => 20 %>
-    </div>
-    <hr/>
-    <div class="form_row">
-        <%= label_tag :firstname, "First Name:" %>
-        <%= text_field_tag :firstname,'', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :middlename, "Middle Name:" %>
-        <%= text_field_tag :middlename,'', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :lastname, "Last Name:" %>
-        <%= text_field_tag :lastname,'', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :nickname, "Nick Name:" %>
-        <%= text_field_tag :nickname,'', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :emailaddress, "Email Address:" %>
-        <%= text_field_tag :emailaddress,'', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :phonenumber, "Phone Number:" %>
-        <%= text_field_tag :phonenumber,'', :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :mobilenumber, "Mobile Number:" %>
-        <%= text_field_tag :mobilenumber,'', :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :gender, "Gender:" %>
-        <%= select_tag :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :birthdate, "Date of Birth [BE]:" %>
-        <%= date_field('','birthdate', :value => '0000-00-00', :size => 20)%>[YYYY-MM-DD]
-    </div>
-    <hr/>
-    <div class="form_row">
-        <%= label_tag :username, "User Name:" %>
-        <%= text_field_tag :username,'', :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :password, "Password:" %>
-        <%= password_field_tag :password,'', :size => 20, :maxlength => 20 %>[MIN=4]
-    </div>
-    <div class="form_row">
-        <%= label_tag :usertype, "Type:" %>
-        <%= radio_button_tag(:usertype, "Student", true) %>Student <%= radio_button_tag(:usertype, "Faculty") %>Faculty
-    </div>
-    <hr/>
-    <div class="form_row">
-        <%= label_tag :addresstype, "Address Type:" %>
-        <%= text_field_tag :addresstype,'', :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :buildingnumber, "Building Number:" %>
-        <%= text_field_tag :buildingnumber,'', :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :streetname, "Street Name:" %>
-        <%= text_area_tag :streetname,'', :rows => 4, :cols => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :city, "City:" %>
-        <%= text_field_tag :city, '', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :stateprovince, "State/Province:" %>
-        <%= text_field_tag :stateprovince, '', :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= label_tag :country, "Country:" %>
-        <%= select_tag :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
-    </div>
-    <div class="form_row">
-        <%= submit_tag "Save", :disable_with => "Please wait..." %>
-    </div>
-</fieldset>
-<% end %>
+Type: <%= select("post", "category","<option value='student'>Student</option>,<option value='faculty'>Faculty</option>,<option value='site'>Site</option>", {:include_blank => true},{:onchange => "show_page(this)"})%>
+<div id="mainPage"></div>

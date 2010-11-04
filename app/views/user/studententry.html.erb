@@ -1,12 +1,16 @@
-<h1>Register Student</h1>
+
 <% form_for :student, @student, :html => { :multipart => true } do |student_form| %>
 <fieldset>
     <legend>
-        Register User
+        Register Student
     </legend>
     <div class="form_row">
         <%= student_form.label :identificationcode, "Identification Code:" %>
         <%= student_form.text_field :identificationcode, :size => 20 %>
+    </div>
+	<div class="form_row">
+        <%= student_form.label :admissiondate, "Admission Date:" %>
+        <%= student_form.date_select :admissiondate, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
     </div>
     <hr/><% student_form.fields_for :people do |people_form| %>
     <div class="form_row">
@@ -21,6 +25,10 @@
         <%= people_form.label :lastname, "Last Name:" %>
         <%= people_form.text_field :lastname, :size => 20 %>
     </div>
+	<div class="form_row">
+        <%= people_form.label :nickname, "Nick Name:" %>
+        <%= people_form.text_field :nickname, :size => 20 %>
+    </div>
     <div class="form_row">
         <%= people_form.label :emailaddress, "Email Address:" %>
         <%= people_form.text_field :emailaddress, :size => 20 %>
@@ -33,9 +41,21 @@
         <%= people_form.label :mobilenumber, "Mobile Number:" %>
         <%= people_form.text_field :mobilenumber, :size => 20, :maxlength => 20 %>
     </div>
+	<div class="form_row">
+        <%= people_form.label :faxnumber, "Fax Number:" %>
+        <%= people_form.text_field :faxnumber, :size => 20, :maxlength => 20 %>
+    </div>
+	<div class="form_row">
+        <%= people_form.label :birthdate_ad, "Birth Date:" %>
+        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5  %>
+    </div>
     <div class="form_row">
         <%= people_form.label :gender, "Gender:" %>
         <%= people_form.select :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
+    </div>
+	<div class="form_row">
+        <%= people_form.label :homepage, "Home Page:" %>
+        <%= people_form.text_field :homepage, :size => 20, :maxlength => 20 %>
     </div>
     <hr/><% people_form.fields_for :user do |user_form| %>
     <div class="form_row">
@@ -69,6 +89,10 @@
     <div class="form_row">
         <%= address_form.label :city, "City:" %>
         <%= address_form.text_field :city, :size => 20 %>
+    </div>
+	<div class="form_row">
+        <%= address_form.label :zippostal_code, "Zip Code:" %>
+        <%= address_form.text_field :zippostal_code, :size => 20 %>
     </div>
     <div class="form_row">
         <%= address_form.label :country, "Country:" %>

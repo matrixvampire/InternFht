@@ -1,83 +1,126 @@
-<h1>Register Student</h1>
-<% form_for :student, @student, :html => { :multipart => true } do |student_form| %>
+<% form_for :site, @site, :html => { :multipart => true } do |site_form| %>
 <fieldset>
     <legend>
-        Register User
+        Register Site
     </legend>
     <div class="form_row">
-        <%= student_form.label :identificationcode, "Identification Code:" %>
-        <%= student_form.text_field :identificationcode, :size => 20 %>
+        <%= site_form.label :identificationcode, "Identification Code:" %>
+        <%= site_form.text_field :identificationcode, :size => 20 %>
     </div>
-    <hr/><% student_form.fields_for :people do |people_form| %>
-    <div class="form_row">
-        <%= people_form.label :firstname, "First Name:" %>
-        <%= people_form.text_field :firstname, :size => 20 %>
+	<div class="form_row">
+        <%= site_form.label :sitename, "Site Name:" %>
+        <%= site_form.text_field :sitename, :size => 50 %>
     </div>
-    <div class="form_row">
-        <%= people_form.label :middlename, "Middle Name:" %>
-        <%= people_form.text_field :middlename, :size => 20 %>
+	<div class="form_row">
+        <%= site_form.label :siteassoc_rating, "Site Type:" %>
+        <%= site_form.text_field :sitetype, :size => 20 %>
     </div>
-    <div class="form_row">
-        <%= people_form.label :lastname, "Last Name:" %>
-        <%= people_form.text_field :lastname, :size => 20 %>
+	<div class="form_row">
+        <%= site_form.label :siteassoc_rating, "Site Rating:" %>
+        <%= site_form.text_field :siteassoc_rating, :size => 20 %>
     </div>
-    <div class="form_row">
-        <%= people_form.label :emailaddress, "Email Address:" %>
-        <%= people_form.text_field :emailaddress, :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= people_form.label :phonenumber, "Phone Number:" %>
-        <%= people_form.text_field :phonenumber, :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= people_form.label :mobilenumber, "Mobile Number:" %>
-        <%= people_form.text_field :mobilenumber, :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= people_form.label :gender, "Gender:" %>
-        <%= people_form.select :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
-    </div>
-    <hr/><% people_form.fields_for :user do |user_form| %>
-    <div class="form_row">
-        <%= user_form.label :username, "User Name:" %>
-        <%= user_form.text_field :username, :size => 20, :maxlength => 20, :onchange => "var v = $('student_people_attributes_user_attributes_username'); if (v.value.startsWith('administrator')) {alert ('Username can not be administrator'); v.value = '';}" %>
-    </div>
-    <div class="form_row">
-        <%= user_form.label :password, "Password:" %>
-        <%= user_form.password_field :password, :size => 20, :maxlength => 20 %>[MIN=4]
-    </div>
-    <% end %>
     <hr/>
-    <div class="form_row">
-        <%=people_form.file_field :photo %>
-    </div>
+	<% @site.peoples.each do |people| %>
+	<!-- It should be many people, by adding dynamically -->
+		<% site_form.fields_for :peoples, people do |people_form| %>
+			<% people_form.fields_for :sites_associations do |sites_associations_form| %>
+				<div class="form_row">
+			        <%= label_tag :position, "Position:" %>
+			        <%= text_field_tag :position, '', :size =>20 %>
+			    </div>
+			<%end%>
+	    <div class="form_row">
+	        <%= people_form.label :firstname, "First Name:" %>
+	        <%= people_form.text_field :firstname, :size => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :middlename, "Middle Name:" %>
+	        <%= people_form.text_field :middlename, :size => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :lastname, "Last Name:" %>
+	        <%= people_form.text_field :lastname, :size => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= people_form.label :nickname, "Nick Name:" %>
+	        <%= people_form.text_field :nickname, :size => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :emailaddress, "Email Address:" %>
+	        <%= people_form.text_field :emailaddress, :size => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :phonenumber, "Phone Number:" %>
+	        <%= people_form.text_field :phonenumber, :size => 20, :maxlength => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :mobilenumber, "Mobile Number:" %>
+	        <%= people_form.text_field :mobilenumber, :size => 20, :maxlength => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= people_form.label :faxnumber, "Fax Number:" %>
+	        <%= people_form.text_field :faxnumber, :size => 20, :maxlength => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= people_form.label :birthdate_ad, "Birth Date:" %>
+	        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
+	    </div>
+	    <div class="form_row">
+	        <%= people_form.label :gender, "Gender:" %>
+	        <%= people_form.select :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
+	    </div>
+		<div class="form_row">
+	        <%= people_form.label :homepage, "Home Page:" %>
+	        <%= people_form.text_field :homepage, :size => 20, :maxlength => 20 %>
+	    </div>
+	    <hr/>
+		<% people_form.fields_for :user do |user_form| %>
+	    <div class="form_row">
+	        <%= user_form.label :username, "User Name:" %>
+	        <%= user_form.text_field :username, :size => 20, :maxlength => 20, :onchange => "var v = $('student_people_attributes_user_attributes_username'); if (v.value.startsWith('administrator')) {alert ('Username can not be administrator'); v.value = '';}" %>
+	    </div>
+	    <div class="form_row">
+	        <%= user_form.label :password, "Password:" %>
+	        <%= user_form.password_field :password, :size => 20, :maxlength => 20 %>[MIN=4]
+	    </div>
+	    <% end %>
+	    <hr/>
+	    <div class="form_row">
+	        <%=people_form.file_field :photo %>
+	    </div>
+   	 	<% end %>
+	<% end %>
+    <hr/>
+	<% @site.addresses.each do |address| %>
+	    <% site_form.fields_for :addresses, address do |address_form| %>
+	    <div class="form_row">
+	        <%= address_form.label :addresstype, "Address Type:" %>
+	        <%= address_form.text_field :addresstype, :size => 20, :maxlength => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= address_form.label :buildingnumber, "Building Number:" %>
+	        <%= address_form.text_field :buildingnumber, :size => 20, :maxlength => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= address_form.label :streetname, "Street Name:" %>
+	        <%= address_form.text_area :streetname, :rows => 4, :cols => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= address_form.label :city, "City:" %>
+	        <%= address_form.text_field :city, :size => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= address_form.label :zippostal_code, "Zip Code:" %>
+	        <%= address_form.text_field :zippostal_code, :size => 20 %>
+	    </div>
+	    <div class="form_row">
+	        <%= address_form.label :country, "Country:" %>
+	        <%= address_form.select :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
+	    </div>
+	    <% end %>
     <% end %>
-    <hr/><% @student.addresses.each do |address| %>
-    <% student_form.fields_for :addresses, address do |address_form| %>
     <div class="form_row">
-        <%= address_form.label :addresstype, "Address Type:" %>
-        <%= address_form.text_field :addresstype, :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= address_form.label :buildingnumber, "Building Number:" %>
-        <%= address_form.text_field :buildingnumber, :size => 20, :maxlength => 20 %>
-    </div>
-    <div class="form_row">
-        <%= address_form.label :streetname, "Street Name:" %>
-        <%= address_form.text_area :streetname, :rows => 4, :cols => 20 %>
-    </div>
-    <div class="form_row">
-        <%= address_form.label :city, "City:" %>
-        <%= address_form.text_field :city, :size => 20 %>
-    </div>
-    <div class="form_row">
-        <%= address_form.label :country, "Country:" %>
-        <%= address_form.select :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
-    </div>
-    <% end %>
-    <% end %>
-    <div class="form_row">
-        <%= student_form.submit "Save" %>
+        <%= site_form.submit "Save" %>
     </div>
 </fieldset>
 <% end %>
