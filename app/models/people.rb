@@ -5,8 +5,8 @@ class People < ActiveRecord::Base
   
   belongs_to :user
   
-  has_many  :site_associations
-  has_many  :sites, :through  => :site_associations
+  has_many  :sites_associations
+  has_many  :sites, :through  => :sites_associations
   
   #Validation
   validates_presence_of :firstname, :lastname, :emailaddress, :gender
@@ -16,6 +16,7 @@ class People < ActiveRecord::Base
   validates_format_of :emailaddress, :with => %r{^(?:[_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-zA-Z0-9\-\.]+)*(\.[a-z]{2,4})$}i
   
   accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :sites_associations
   
   def fullname
     self.firstname + " " + self.middlename + " " + self.lastname 
