@@ -71,75 +71,17 @@ class UserController < ApplicationController
   end
   
   def register
-#    Depreciated
-#    Need to be replaced according to studententry, facultyentry, siteentry
+    #    Depreciated
+    #    Need to be replaced according to studententry, facultyentry, siteentry
     @title = "Register"
     if logged_in?      
-      if request.post?        
-        if params[:usertype] == "Student" || params[:usertype] == "Faculty"
-          # Assigning Value
-          # Not much appropriate, Need new alternative
-          user = User.new
-          user.username = params[:username]
-          user.password = params[:password]
-          user.usertype = params[:usertype]
-          user.isvalid = true
-          
-          people = People.new
-          people.firstname = params[:firstname].capitalize
-          people.middlename = params[:middlename].strip.capitalize
-          people.lastname = params[:lastname].capitalize
-          people.nickname = params[:nickname]
-          people.emailaddress = params[:emailaddress].downcase
-          people.phonenumber = params[:phonenumber]
-          people.mobilenumber = params[:mobilenumber]
-          people.birthdate = params[:birthdate]
-          people.gender = params[:gender]          
-          people.user = user
-          
-          address = Address.new
-          address.buildingnumber = params[:buildingnumber]
-          address.streetname = params[:streetname]
-          address.city = params[:city]
-          address.state_province = params[:stateprovince]
-          address.country = params[:country]
-          address.addresstype = params[:addresstype]
-          
-          if params[:usertype] == "Student"
-            student = Student.new
-            student.identificationcode = params[:identificationcode]
-            student.people = people
-            student.addresses << address
-            
-            if student.save
-              flash[:notice] = "Student Profile created successfully!!!"
-              redirect_to_forwarding_url
-            else
-              flash[:error] = "Some problem. Try later."
-            end
-          end
-          if params[:usertype] == "Faculty"
-            faculty = Faculty.new
-            faculty.identificationcode = params[:identificationcode]
-            faculty.people = people
-            faculty.addresses << address
-            
-            if faculty.save
-              flash[:notice] = "Faculty Profile created successfully!!!"
-              redirect_to_forwarding_url
-            else
-              flash[:error] = "Some problem. Try later."
-            end
-          end
-        end          
-      end
+      
     end
   end    
   
   def studententry
-    @title = "Student Registration"
     if logged_in?      
-      if request.post?       
+      if request.post?     
         if params[:student]
           @student = Student.new(params[:student])
           @student.people.user.usertype = TYPE_STUDENT
@@ -155,7 +97,6 @@ class UserController < ApplicationController
           # Check whether all the required tables been hit successfully
           if @student.save
             flash[:notice] = "Student Profile created successfully!!!"
-            redirect_to_forwarding_url
           else
             flash[:error] = "Some problem. Try later."
           end
@@ -165,24 +106,24 @@ class UserController < ApplicationController
           @student.people.user = User.new
           #      Address entries should be make dynamic
           @student.addresses << Address.new
-          @student.addresses << Address.new
         end 
-      else
-          @student = Student.new
-          @student.people = People.new
-          @student.people.user = User.new
-          #      Address entries should be make dynamic
-          @student.addresses << Address.new
-          @student.addresses << Address.new
+        redirect_to :controller => :user, :action => :register
+      else #GET 
+        
+        @student = Student.new
+        @student.people = People.new
+        @student.people.user = User.new
+        #      Address entries should be make dynamic
+        @student.addresses << Address.new
+        render :layout => false
       end
     end
   end
   
   
   def facultyentry
-    @title = "Faculty Registration"
     if logged_in?      
-      if request.post?       
+      if request.post?      
         if params[:faculty]
           @faculty = Faculty.new(params[:faculty])
           @faculty.people.user.usertype = TYPE_FACULTY
@@ -198,7 +139,6 @@ class UserController < ApplicationController
           # Check whether all the required tables been hit successfully
           if @faculty.save
             flash[:notice] = "Faculty Profile created successfully!!!"
-            redirect_to_forwarding_url
           else
             flash[:error] = "Some problem. Try later."
           end
@@ -208,15 +148,17 @@ class UserController < ApplicationController
           @faculty.people.user = User.new
           #      Address entries should be make dynamic
           @faculty.addresses << Address.new
-#          @faculty.addresses << Address.new
-        end 
+          #          @faculty.addresses << Address.new
+        end
+        redirect_to :controller => :user, :action => :register
       else
-          @faculty = Faculty.new
-          @faculty.people = People.new
-          @faculty.people.user = User.new
-          #      Address entries should be make dynamic
-          @faculty.addresses << Address.new
-#          @faculty.addresses << Address.new
+        @faculty = Faculty.new
+        @faculty.people = People.new
+        @faculty.people.user = User.new
+        #      Address entries should be make dynamic
+        @faculty.addresses << Address.new
+        #          @faculty.addresses << Address.new
+        render :layout => false
       end
     end
   end
@@ -224,7 +166,61 @@ class UserController < ApplicationController
   def siteentry
     #    same as studententry
     #    dynamically creation of multiple entries for people
-    
+    if logged_in?      
+      if request.post?     
+        if params[:site]
+            @site = Site.new(params[:site])
+            #      Just outputting the values in console to debug
+            logger.debug "Faculty : #{@site.attributes.inspect}"
+#            position = params[:people][:position]
+            
+            @site.peoples.each do |people|
+              people.user.usertype = TYPE_SITE
+              people.user.isvalid = true
+              logger.debug people
+              @position = params[:position]
+#              @site.sites_associations.build(:people => people, :position => @position)
+              logger.debug @site.sites_associations
+            end
+            @site.addresses.each do |address|
+              logger.debug "Address : #{address.attributes.inspect}"
+            end      
+            # Call save method
+            # Check whether all the required tables been hit successfully
+            if @site.save
+              flash[:notice] = "Site Profile created successfully!!!"
+            else
+              flash[:error] = "Some problem. Try later."
+            end
+          else
+            @site = Site.new
+            @site.peoples << People.new 
+            @site.peoples.first.user = User.new
+            @site.addresses << Address.new
+        end 
+        redirect_to :controller => :user, :action => :register
+      else #GET 
+        
+        @site = Site.new
+        #      People entries should be make dynamic   
+#        @people = People.new 
+        @site.peoples << People.new 
+        @site.peoples.first.user = User.new
+        @site.sites_associations.build(:people => @site.peoples.first)
+        
+        @site.peoples << People.new 
+        @site.peoples.first.user = User.new
+        @site.sites_associations.build(:people => @site.peoples.first)
+       
+        #        position = params[:position]
+        #        @site.sites_associations.build(:people => params[:people], :position => position)
+#        @site.sites_associations.build(:people => @people)
+#        @site.sites_associations.
+        #      Address entries should be make dynamic
+        @site.addresses << Address.new
+        render :layout => false
+      end
+    end
   end
   
   def editprofile
