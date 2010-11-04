@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101020084016) do
+ActiveRecord::Schema.define(:version => 20101104174403) do
 
   create_table "addresses", :force => true do |t|
     t.string   "buildingnumber"
@@ -53,11 +53,91 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.datetime "updated_at"
   end
 
+  create_table "article_comments", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "article_id"
+    t.integer  "commentor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "articles", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "people_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "broadcasts", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "administrator_id"
+    t.date     "releasedate"
+    t.date     "expirationdate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "commentors", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "homepage"
+    t.integer  "people_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contents", :force => true do |t|
+    t.string   "contenttype"
+    t.string   "title"
+    t.text     "body"
+    t.string   "contentstatus"
+    t.datetime "creationdate"
+    t.datetime "approveddate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contents_tags", :id => false, :force => true do |t|
+    t.integer "content_id"
+    t.integer "tag_id"
+  end
+
+  create_table "discussions", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "evaluation_criterias", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "evaluation_enquiries", :force => true do |t|
+    t.integer  "evaluation_criteria_id"
+    t.string   "question"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "faculties", :force => true do |t|
     t.string   "identificationcode"
     t.integer  "people_id"
     t.string   "jobtitle"
     t.date     "joindate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "internships", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "site_id"
+    t.string   "sector"
+    t.date     "startdate"
+    t.date     "enddate"
+    t.boolean  "isreview"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -91,6 +171,41 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.datetime "updated_at"
   end
 
+  create_table "replies", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "discussion_id"
+    t.integer  "commentor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "site_evaluations", :force => true do |t|
+    t.integer  "internship_id"
+    t.integer  "evaluation_enquiry_id"
+    t.integer  "point"
+    t.text     "comment"
+    t.date     "evaluationdate"
+    t.string   "approvalstatus"
+    t.date     "approveddate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "site_review_comments", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "site_review_id"
+    t.integer  "commentor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "site_reviews", :force => true do |t|
+    t.integer  "content_id"
+    t.integer  "internship_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sites", :force => true do |t|
     t.string   "identificationcode"
     t.string   "sitename"
@@ -108,10 +223,35 @@ ActiveRecord::Schema.define(:version => 20101020084016) do
     t.datetime "updated_at"
   end
 
+  create_table "student_evaluations", :force => true do |t|
+    t.integer  "internship_id"
+    t.integer  "evaluation_enquiry_id"
+    t.integer  "point"
+    t.text     "comment"
+    t.date     "evaluationdate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "students", :force => true do |t|
     t.string   "identificationcode"
     t.integer  "people_id"
     t.date     "admissiondate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "tag_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_logs", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "logintime"
+    t.datetime "logouttime"
+    t.string   "ipaddres"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
