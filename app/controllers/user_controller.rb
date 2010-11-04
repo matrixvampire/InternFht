@@ -197,7 +197,7 @@ class UserController < ApplicationController
             @people.user = User.new
             @site.sites_associations.build(:people => @people)
               
-            #      Address entries should be make dynamic
+            #      Address entries shouldmail. be make dynamic
             @site.addresses << Address.new
         end 
         redirect_to :controller => :user, :action => :register
