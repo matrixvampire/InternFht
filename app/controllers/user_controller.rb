@@ -171,15 +171,13 @@ class UserController < ApplicationController
         if params[:site]
             @site = Site.new(params[:site])
             #      Just outputting the values in console to debug
-            logger.debug "Faculty : #{@site.attributes.inspect}"
-#            position = params[:people][:position]
+            logger.debug "Site : #{@site.attributes.inspect}"
             
             @site.peoples.each do |people|
               people.user.usertype = TYPE_SITE
               people.user.isvalid = true
+              
               logger.debug people
-              @position = params[:position]
-#              @site.sites_associations.build(:people => people, :position => @position)
               logger.debug @site.sites_associations
             end
             @site.addresses.each do |address|
@@ -193,29 +191,24 @@ class UserController < ApplicationController
               flash[:error] = "Some problem. Try later."
             end
           else
+            #      People entries should be make dynamic 
             @site = Site.new
-            @site.peoples << People.new 
-            @site.peoples.first.user = User.new
+            @people = People.new
+            @people.user = User.new
+            @site.sites_associations.build(:people => @people)
+              
+            #      Address entries should be make dynamic
             @site.addresses << Address.new
         end 
         redirect_to :controller => :user, :action => :register
       else #GET 
-        
+      
+        #      People entries should be make dynamic 
         @site = Site.new
-        #      People entries should be make dynamic   
-#        @people = People.new 
-        @site.peoples << People.new 
-        @site.peoples.first.user = User.new
-        @site.sites_associations.build(:people => @site.peoples.first)
-        
-        @site.peoples << People.new 
-        @site.peoples.first.user = User.new
-        @site.sites_associations.build(:people => @site.peoples.first)
-       
-        #        position = params[:position]
-        #        @site.sites_associations.build(:people => params[:people], :position => position)
-#        @site.sites_associations.build(:people => @people)
-#        @site.sites_associations.
+        @people = People.new
+        @people.user = User.new
+        @site.sites_associations.build(:people => @people)
+          
         #      Address entries should be make dynamic
         @site.addresses << Address.new
         render :layout => false
