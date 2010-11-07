@@ -20,10 +20,20 @@ class BasicsController < ApplicationController
     end
   end
   
+  # http://www.google.com/recaptcha
+  # http://code.google.com/apis/recaptcha/docs/display.html
+  # http://code.google.com/apis/recaptcha/docs/verify.html
+
+  # recaptcha - ReCaptcha helpers for Rails apps 
+  # https://github.com/ambethia/recaptcha
+
+  # Using reCaptcha in a Rails Application 
+  # http://www.dreamincode.net/code/snippet1901.htm
+  
   def quotations    
     if params[:quotation]
       @quotation = Quotation.new( params[:quotation] )     
-      if @quotation.save
+      if @quotation.valid? && verify_recaptcha(@quotation) && @quotation.save
         flash[:notice] = 'Quotation was successfully created.'
         @quotation = Quotation.new
       end

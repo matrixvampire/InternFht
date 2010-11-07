@@ -71,6 +71,9 @@
         <%= form.label :quote %>
         <%= form.text_area :quote, :rows => 2, :cols => 40 %>
     </div>
+    <div class="form_row">
+        <%=recaptcha_tags :ajax => true, :display => {:theme => 'white'}  %>
+    </div>
 </fieldset>
 <div class="form_row">
     <%= form.submit 'Create' %>

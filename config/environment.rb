@@ -12,6 +12,14 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 # ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:default => '%d-%m-%Y %H:%M:%S')
 
+# Domain Name: localhost
+ENV['RECAPTCHA_PUBLIC_KEY']  = '6LdUcr4SAAAAAM4BhOR1-Te44lICGI61c_So73g6'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdUcr4SAAAAANvIqNTCNcG1YYva2SMS-g5EO3fh'
+
+# Domain Name:  web4.cs.ait.ac.th
+# ENV['RECAPTCHA_PUBLIC_KEY']  = '6LdLcr4SAAAAAHnb1HN9foxbOMMnnBBA6Y_7N-wM'
+# ENV['RECAPTCHA_PRIVATE_KEY'] = '6LdLcr4SAAAAADhuX3oeEnVTj9RgZaXL6IwGMKRJ'
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -25,7 +33,8 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  
+  # config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
+
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -59,11 +68,11 @@ Rails::Initializer.run do |config|
   require 'builder'
   
   #Set date farmat for calendar
-#  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
-##    :default => '%d %b %Y' # 05 Oct 2010
-##    :default => '%d-%B-%Y' # 05 October 2010
-##    :default => '%d/%m/%Y ' # 19/10/2010
-#    :default => '%Y-%m-%d' # 2010-10-27
-#  )
-
+  #  ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
+  ##    :default => '%d %b %Y' # 05 Oct 2010
+  ##    :default => '%d-%B-%Y' # 05 October 2010
+  ##    :default => '%d/%m/%Y ' # 19/10/2010
+  #    :default => '%Y-%m-%d' # 2010-10-27
+  #  )
+  
 end
