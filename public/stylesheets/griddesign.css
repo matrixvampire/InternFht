@@ -2053,3 +2053,25 @@ fieldset a {
 input.default {
     color: #bbb;
 }
+
+.list_content {
+    background-color: #CCCCCC;
+    border: 1px groove gray;
+    color: black;
+    font-size: 14px;
+    margin: 12px 0;
+    overflow: auto;
+    padding: 4px 8px 5px;
+    width: 50%;
+    height: 250px;
+	text-align: left;
+}
+
+.comments {
+    background-color: #F3F3F3;
+    border: 1px solid #AAAAAA;
+    width: 50%;
+    font-size: 12px;
+	text-align: left;
+	
+}

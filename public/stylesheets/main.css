@@ -14,7 +14,7 @@ body {
     border-width: 0 1px 1px 1px;
     border-color: black;
     border-style: solid;
-	min-height:500px;
+    min-height: 500px;
 }
 
 #header {
@@ -22,8 +22,8 @@ body {
     background: #8A995C;
     font-size: 24pt;
     margin-bottom: 0;
-    padding: 0 0.25em 0.005em;    
-	text-align:	center;
+    padding: 0 0.25em 0.005em;
+    text-align: center;
 }
 
 #header h1 {
@@ -53,7 +53,7 @@ body {
     height: 100%;
     background: white;
     padding: 1em;
-	min-height:550px;
+    min-height: 550px;
 }
 
 #content h1 {
@@ -286,4 +286,23 @@ input {
 
 #hor-minimalist-a tbody tr:hover td {
     color: #009;
+}
+
+.list_content {
+    background-color: #CCCCCC;
+    border: 1px groove gray;
+    color: black;
+    font-size: 14px;
+    margin: 12px 0;
+    overflow: auto;
+    padding: 4px 8px 5px;
+    width: 50%;
+    height: 250px;
+}
+
+.comments {
+    background-color: #F3F3F3;
+    border: 1px solid #AAAAAA;
+    width: 50%;
+    font-size: 12px;
 }
