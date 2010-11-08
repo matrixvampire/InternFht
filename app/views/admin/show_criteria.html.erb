@@ -1,0 +1,38 @@
+<div id="content-top">   
+    <b>Criteria List</b>
+    | <%= link_to "Show Enquiry", :action => :show_enquiry %>
+    <span>: There are <%=@criterias_count %> criterias</span>
+</div>
+<div id="content-middle">
+    <% if !@criterias.nil? %>
+    <table id="hor-minimalist-a">
+        <thead>
+            <tr>
+                <th scope="col">
+                    &nbsp;
+                </th>
+                <th scope="col">
+                    Title
+                </th>                
+            </tr>
+        </thead>
+        <tbody>
+            <% i= 0 %>
+            <% for criteria in @criterias %>
+            <% i= i+1 %>
+            <tr>
+                <td>
+                    <%= i %>
+                </td>
+                <td nowrap>
+                    <%= h criteria.title %>
+                </td>                
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</div>
+<div id="content-bottom">
+    <%= nav_link "Add Criteria", :admin, :add_criteria %>
+</div>

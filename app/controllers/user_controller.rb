@@ -73,12 +73,7 @@ class UserController < ApplicationController
   end
   
   def register
-    #    Depreciated
-    #    Need to be replaced according to studententry, facultyentry, siteentry
     @title = "Register"
-    if logged_in?      
-      
-    end
   end    
   
   def studententry

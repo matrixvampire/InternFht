@@ -1,0 +1,44 @@
+<div id="content-top">   
+    <b>Enquiry List</b>
+    | <%= link_to "Show Criteria", :action => :show_criteria %>
+    <span>: There are <%=@enquiries_count %> enquiries</span>
+</div>
+<div id="content-middle">
+    <% if !@enquiries.nil? %>
+    <table id="hor-minimalist-a">
+        <thead>
+            <tr>
+                <th scope="col">
+                    &nbsp;
+                </th>
+                <th scope="col">
+                    Criteria
+                </th> 
+				<th scope="col">
+                    Question
+                </th>                
+            </tr>
+        </thead>
+        <tbody>
+            <% i= 0 %>
+            <% for enquiry in @enquiries %>
+            <% i= i+1 %>
+            <tr>
+                <td>
+                    <%= i %>
+                </td>
+                <td nowrap>
+                    <%= h enquiry.evaluation_criteria.title %>
+                </td> 
+				<td nowrap>
+                    <%= h enquiry.question %>
+                </td>                
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</div>
+<div id="content-bottom">
+    <%= nav_link "Add Enquiry", :admin, :add_enquiry %>
+</div>

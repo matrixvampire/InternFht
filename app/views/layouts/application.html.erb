@@ -31,9 +31,12 @@
                         <% if is_admin? %>
                         <li>
                             <%= nav_link "Users", :user, :show %>
+                        </li> 
+						<li>
+                            <%= nav_link "Evaluation", :admin, :show %>
                         </li>                  
 						<li>
-                            <%= nav_link "News", :admin, :news %>
+                            <%= nav_link "News", :broadcast, :show %>
                         </li>      
                         <% end %>
 						<% if is_student? %>

@@ -1,0 +1,14 @@
+<% form_for :criteria, @criteria do |criteria_form| %>
+<fieldset>
+    <legend>
+        Evaluation Criteria
+    </legend>
+    <div>
+        <%= criteria_form.label :title, "Criteria" %>
+        <%= criteria_form.text_field :title %>
+    </div>
+    <div>
+        <%= criteria_form.submit "Save" %>
+    </div>
+</fieldset>
+<% end %>

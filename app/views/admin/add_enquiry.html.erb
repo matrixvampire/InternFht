@@ -1,0 +1,18 @@
+<% form_for :enquiry, @enquiry do |enquiry_form| %>
+<fieldset>
+    <legend>
+        Evaluation Enquiry
+    </legend>
+    <div>
+        <%= enquiry_form.label :evaluation_criteria_id, "Criteria" %>
+        <%= enquiry_form.select :evaluation_criteria_id, @criterias.collect{|c| [c.title, c.id] }, :prompt => 'Select' %>
+    </div>
+	<div>
+        <%= enquiry_form.label :question, "Question" %>
+        <%= enquiry_form.text_field :question, :size => 40%>
+    </div>
+    <div>
+        <%= enquiry_form.submit "Save" %>
+    </div>
+</fieldset>
+<% end %>
