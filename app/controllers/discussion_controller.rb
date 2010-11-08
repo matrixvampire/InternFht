@@ -15,10 +15,9 @@ class DiscussionController < ApplicationController
         @discussion.content.contenttype = CONTENT_TYPE_DISCUSSION 
         @discussion.content.creationdate = Time.now
         @discussion.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
-        @discussion.content.content_versions.first.modifieddate = Time.now
+        @discussion.content.content_versions.first.versiondate = Time.now
         @discussion.content.content_versions.first.contentstatusdate = Time.now
-        @discussion.student = get_user_student
-        
+        @discussion.student = get_user_student        
         
         ActiveRecord::Base.transaction do
           if @discussion.save
@@ -58,7 +57,7 @@ class DiscussionController < ApplicationController
         @reply.content.contenttype = CONTENT_TYPE_REPLY
         @reply.content.creationdate = Time.now
         @reply.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
-        @reply.content.content_versions.first.modifieddate = Time.now
+        @reply.content.content_versions.first.versiondate = Time.now
         @reply.content.content_versions.first.contentstatusdate = Time.now
         @reply.discussion = Discussion.find(params[:reply][:discussion_id])
         
@@ -77,7 +76,7 @@ class DiscussionController < ApplicationController
             raise ActiveRecord::Rollback
           end
         end
-        redirect_to :controller => :discussion, :action => :comment
+        redirect_to :action => :comment
       else #do_get 
         @discussion = Discussion.find(params[:id])
         logger.debug @discussion
@@ -134,7 +133,7 @@ class DiscussionController < ApplicationController
             flash[:error] = "Some problem. Try later."
           end
         end
-        redirect_to :controller => :discussion, :action => :showmine
+        redirect_to :action => :showmine
       else # do_get
         content = Content.find(params[:id])  
         @content_version =  ContentVersion.find(content.latest_version_id)
@@ -157,6 +156,6 @@ class DiscussionController < ApplicationController
     content_version.contentstatus = CONTENT_STATUS_EXPIRED
     content_version.contentstatusdate = Time.now
     content_version.save
-    redirect_to :controller => :discussion, :action => :showmine
+    redirect_to :action => :showmine
   end
 end
