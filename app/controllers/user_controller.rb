@@ -23,10 +23,12 @@ class UserController < ApplicationController
       @faculties.each do |f|
         @peoples << f.people
       end
+      @subtitle = TYPE_FACULTY + " List"
     else
       @students.each do |s|
         @peoples << s.people
       end
+      @subtitle = TYPE_STUDENT + " List"
     end
     if !params[:valid].nil?
       @people = People.find(params[:id])

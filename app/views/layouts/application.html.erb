@@ -5,13 +5,24 @@
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="all" />
         <link rel="stylesheet" href="../stylesheets/griddesign.css" type="text/css" />
-        <%= stylesheet_link_tag 'griddesign', :cache => true %>
-        <%= stylesheet_link_tag 'calendar' %>
-        <%= javascript_include_tag :defaults %>
-        <%= javascript_include_tag 'calendar' %>
+        <%= stylesheet_link_tag 'griddesign', :cache => true %>        
+        <%= javascript_include_tag :defaults %>        
     </head>
     <body>
         <div id="container">
+        	<div id="top-header">
+                <div style="float:left;">
+                    <%= Time.now().strftime("%B %d, %Y") %>
+                </div>
+                <div style="float:right;">
+                    <%= get_name_of_user %> 
+					<% if logged_in? %>
+					&nbsp; <span style="color: rgb(170, 170, 170);">|</span> &nbsp; <%= nav_link "Sign Out",:user, :logout %>
+					<% else %>
+					 <%= nav_link "Sign In",:user, :login %>
+					<% end %>
+                </div>
+            </div>
             <div id="header">
                 <h1><%= link_to image_tag("logo.png", :height => 43, :alt => "Home"), :controller => :main, :action => :index %></h1>
                 <div id="nav">
@@ -19,15 +30,45 @@
                         <% if logged_in? %>
                         <% if is_admin? %>
                         <li>
-                            <%= nav_link "Add User", :user, :register %>
-                        </li>
-                        <li>
-                            <%= nav_link "Show", :user, :show %>
-                        </li>
-                        <li>
-                            <%= nav_link "Sign Out",:user, :logout %>
-                        </li>
+                            <%= nav_link "Users", :user, :show %>
+                        </li>                  
+						<li>
+                            <%= nav_link "News", :admin, :news %>
+                        </li>      
                         <% end %>
+						<% if is_student? %>
+						<li>
+                            <%= nav_link "Reviews", :student, :myreviews %>
+                        </li>
+						<li>
+                            <%= nav_link "Articles", :student, :myarticles %>
+                        </li>
+						<li>
+                            <%= nav_link "Discussions", :student, :mydiscussions %>
+                        </li>
+						<li>
+                            <%= nav_link "Evaluations", :student, :myevaluations %>
+                        </li>						
+						<% end %>
+						<% if is_site? %>
+						<li>
+                            <%= nav_link "Student Evaluations", :site, :studentevaluations %>
+                        </li>
+						<li>
+                            <%= nav_link "My Evaluations", :site, :myevaluations %>
+                        </li>	
+						<% end %>
+						<% if is_faculty? %>
+						<li>
+                            <%= nav_link "Student Evaluations", :faculty, :studentevaluations %>
+                        </li>
+						<li>
+                            <%= nav_link "Site Evaluations", :faculty, :siteevaluations %>
+                        </li>	
+						<% end %>						
+						<li>
+                            <%= nav_link "Change Password", :user, :changepassword %>
+                        </li>
                         <% else %>
                         <li>
                             <%= nav_link "Reviews",:review, :view %>
@@ -37,10 +78,7 @@
                         </li>
                         <li>
                             <%= nav_link "Discussions",:discussion, :view %>
-                        </li>
-                        <li>
-                            <%= nav_link "Sign In",:user, :login %>
-                        </li>
+                        </li>                        
                         <% end %>
                     </ul>
                 </div>

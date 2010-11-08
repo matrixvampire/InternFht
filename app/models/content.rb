@@ -1,7 +1,7 @@
 class Content < ActiveRecord::Base
   has_and_belongs_to_many :tags
   
-  has_many :content_versions, :order => "content_version_id DESC", :foreign_key => "latest_version_id"
+  has_many :content_versions, :order => "content_version_id DESC"
   
   has_one :broadcast, :dependent => :nullify
   has_one :discussion, :dependent => :nullify

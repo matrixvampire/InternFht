@@ -1,10 +1,5 @@
 class EvalutationController < ApplicationController
   
-  def index
-    @title = "Evaluation"
-    @subtitle = "#{APPLICATION_NAME}"
-  end
-  
   def criteria_list
     @title = "Criteria"
     @subtitle = "for evaluation"

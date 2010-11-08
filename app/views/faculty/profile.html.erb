@@ -1,12 +1,20 @@
-Identification code : 
-<%= h @faculty.identificationcode %>
-<br/>
-Name :
-<%= h @faculty.people.fullname %>
-<br />
-Address :
-<br/>
-<% for address in @faculty.addresses %>
-<%= h address.city %>, <%= h address.country %>
-<% end %>
-
+<div id="main-profile">
+    <ul>
+        <li>
+            <%= nav_link "Edit Profile", :user, :editprofile %>
+        </li>
+        <li>
+            Identification code : <%= h @faculty.identificationcode %>
+        </li>
+        <li>
+            Name :<%= h @faculty.people.fullname %>
+        </li>
+        <li>
+            Address :
+            <br/>
+            <% for address in @faculty.addresses %>
+            <%= h address.city %>, <%= h address.country %>
+            <% end %>
+        </li>
+    </ul>
+</div>

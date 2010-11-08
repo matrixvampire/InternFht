@@ -45,6 +45,13 @@ module ApplicationHelper
     return false
   end
   
+  def is_site?
+    if check_session? && get_type_of_user ==TYPE_SITE
+      return true
+    end
+    return false
+  end
+  
   def get_type_of_user
     if session[:user_id] != nil
       currentUser = User.find(session[:user_id])
@@ -56,7 +63,7 @@ module ApplicationHelper
   def get_name_of_user
     if session[:user_id] != nil
       currentUserDetail = People.find(session[:user_id])
-      return currentUserDetail.firstname+" "+currentUserDetail.middlename+" "+currentUserDetail.lastname
+      return currentUserDetail.fullname
     end
   end
   
