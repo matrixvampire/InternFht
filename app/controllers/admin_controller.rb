@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-
+  
   def show_criteria
     @title = "Criteria"
     @criterias = EvaluationCriteria.find(:all, :order => :title)
@@ -53,6 +53,33 @@ class AdminController < ApplicationController
         else
           @criteria = EvaluationCriteria.new
         end
+      end
+    end
+  end
+  
+  def edit_enquiry
+    @title = "Edit"
+    @subtitle = "Criteria"
+    @criterias = EvaluationCriteria.find(:all, :order => :title)
+    if logged_in?
+      if is_admin?        
+        if params[:id]
+          @enquiry = EvaluationEnquiry.find(params[:id])
+        end
+      end
+    end
+  end
+  
+  def update_enquiry
+    if logged_in?
+      if is_admin?        
+        @enquiry = EvaluationEnquiry.new(params[:enquiry])
+        if @enquiry.save
+          flash[:notice] = "Evaluation Enquiry updated successfully!!!"          
+        else
+          flash[:error] = "Some problem. Try it later"          
+        end
+        redirect_to :action => :show_enquiry
       end
     end
   end

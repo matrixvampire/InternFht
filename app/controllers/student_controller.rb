@@ -9,7 +9,7 @@ class StudentController < ApplicationController
     @student = @people.student
   end
 
-  def mydiscussions
+  def discussions
     redirect_to :controller => :discussion, :action => :show
   end
 end

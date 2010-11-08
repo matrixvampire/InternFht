@@ -1,20 +1,29 @@
-<% if is_student?%>
-	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% if is_student? %>
+<div id="content-top">
+    <%= nav_link "New Discussion", :discussion, :create %>
+    | <%= nav_link "Show Mine", :discussion, :showmine %>
+</div>
 <% end %>
-<hr/>
 
-<p><i>Click the title to edit your previous discussion</i></p>
-<% if !@discussions.nil? %>
-        <% @discussions.each do |discussion| %>
-		<% content_detail = ContentVersion.find(discussion.content.latest_version_id) %>
-			<% if content_detail.contentstatus == CONTENT_STATUS_APPROVED%>
-				<ul>
-					<li>
-						<%= link_to content_detail.title, :action => :edit, :id => content_detail.content_id%>&nbsp;&nbsp;&nbsp;&nbsp;
-						<%= h discussion.content.creationdate %>
-						<%= link_to "Delete", :action => :delete, :id => content_detail.content_id%>
-					</li>
-				</ul>
-			<% end %>
-        <% end %>
-<% end %>
+<div id="content-middle">
+    <% if !@discussions.nil? %>
+    <% @discussions.each do |discussion| %>
+    <% content_detail = ContentVersion.find(discussion.content.latest_version_id) %>
+    <% if content_detail.contentstatus == CONTENT_STATUS_APPROVED %>
+    <div class="box2">
+        <h3 class="title"><%= h content_detail.title %></h3>
+        <p class="author">
+            <%= h discussion.student.people.fullname %>,&nbsp;<%= h discussion.content.creationdate.strftime("%B %d, %Y") %>
+        </p>
+        <p class="abstract">
+            <%= content_detail.body %>
+        </p>
+        <p class="link">
+            <%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
+            &nbsp;|&nbsp;<%= link_to "delete", :action => :delete, :id => content_detail.content_id %>
+        </p>
+    </div>
+    <% end %>
+    <% end %>
+    <% end %>
+</div>

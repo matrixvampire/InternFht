@@ -16,7 +16,10 @@
                 </th> 
 				<th scope="col">
                     Question
-                </th>                
+                </th>  
+				<th scope="col">
+                    &nbsp;
+                </th>              
             </tr>
         </thead>
         <tbody>
@@ -30,8 +33,11 @@
                 <td nowrap>
                     <%= h enquiry.evaluation_criteria.title %>
                 </td> 
-				<td nowrap>
+				<td>
                     <%= h enquiry.question %>
+                </td> 
+				<td nowrap>
+                    <%= link_to "Edit", :action => :edit_enquiry, :id => enquiry %>
                 </td>                
             </tr>
             <% end %>

@@ -326,12 +326,12 @@ p a:hover {
 
 #content-top-2 {
     width: 960px;
-	padding: 5px;		
+    padding: 5px;
 }
 
 #content-middle {
     width: 960px;
-	padding:5px;
+    padding: 5px;
 }
 
 #hor-minimalist-a {
@@ -449,6 +449,7 @@ p a:hover {
     height: 200px;
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
 }
 
 .box3 {
@@ -466,6 +467,7 @@ p a:hover {
 p.abstract {
     min-height: 75px;
 }
+
 * html .box p, * html .box3 p {
     margin: 0px 0 15px 10px;
 }
@@ -2064,7 +2066,7 @@ input.default {
     padding: 4px 8px 5px;
     width: 50%;
     height: 250px;
-	text-align: left;
+    text-align: left;
 }
 
 .comments {
@@ -2072,6 +2074,5 @@ input.default {
     border: 1px solid #AAAAAA;
     width: 50%;
     font-size: 12px;
-	text-align: left;
-	
+    text-align: left;
 }

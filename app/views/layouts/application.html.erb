@@ -33,7 +33,7 @@
                             <%= nav_link "Users", :user, :show %>
                         </li> 
 						<li>
-                            <%= nav_link "Evaluation", :admin, :show %>
+                            <%= nav_link "Evaluation", :admin, :show_enquiry %>
                         </li>                  
 						<li>
                             <%= nav_link "News", :broadcast, :show %>
@@ -41,16 +41,16 @@
                         <% end %>
 						<% if is_student? %>
 						<li>
-                            <%= nav_link "Reviews", :student, :myreviews %>
+                            <%= nav_link "Reviews", :student, :reviews %>
                         </li>
 						<li>
-                            <%= nav_link "Articles", :student, :myarticles %>
+                            <%= nav_link "Articles", :student, :articles %>
                         </li>
 						<li>
-                            <%= nav_link "Discussions", :student, :mydiscussions %>
+                            <%= nav_link "Discussions", :student, :discussions %>
                         </li>
 						<li>
-                            <%= nav_link "Evaluations", :student, :myevaluations %>
+                            <%= nav_link "Evaluations", :student, :evaluations %>
                         </li>						
 						<% end %>
 						<% if is_site? %>

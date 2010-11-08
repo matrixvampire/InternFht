@@ -1,14 +1,17 @@
 class DiscussionController < ApplicationController
   
   before_filter :protect, :only => [:create, :show, :comment, :edit]
-    
-#  show all discussion...
+  
+  #  show all discussion...
   def show
-      @discussions = Discussion.find(:all, :order => 'created_at desc')
+    @title = "Discussion"
+    @discussions = Discussion.find(:all, :order => 'created_at desc')
   end
-
-#  create new discussion
+  
+  #  create new discussion
   def create
+    @title = "Discussion"
+    @subtitle = "add"
     if logged_in?      
       if request.post?
         @discussion = Discussion.new(params[:discussion])
@@ -48,8 +51,9 @@ class DiscussionController < ApplicationController
     end
   end
   
-#  give comment
+  #  give comment
   def comment
+    @title = "Comment"
     if logged_in?      
       if request.post?
         @reply = Reply.new(params[:reply])
@@ -87,20 +91,22 @@ class DiscussionController < ApplicationController
         @reply.content.content_versions << ContentVersion.new
         @reply.discussion = @discussion
         #      Tag should be make dynamic
-#        @reply.content.tags << Tag.new
+        #        @reply.content.tags << Tag.new
       end
     end
   end
   
-#  To show a list of discussion of particular student
+  #  To show a list of discussion of particular student
   def showmine
+    @title = "Discussion"
     student_id = get_user_student.id
     @discussions = Discussion.find(:all, :conditions => ["student_id = ?", student_id], :order => 'created_at desc')
   end
   
   
-#  to edit his own discussion
+  #  to edit his own discussion
   def edit
+    @title = "Discussion"
     if logged_in?      
       if request.post?
         if params[:content_version][:content_version_id].nil? #new version 
@@ -143,15 +149,15 @@ class DiscussionController < ApplicationController
     end
   end
   
-#  For AJAX request to get previous version
+  #  For AJAX request to get previous version
   def get_previous_version
     content_version = ContentVersion.find(params[:id])
     render :text => content_version.title+","+content_version.body+","+params[:id]
   end
   
-#  For set to be expired discussion
+  #  For set to be expired discussion
   def delete
-    content = Content.find(params[:id]) 
+    content = Content.find(params[:id])
     content_version =  ContentVersion.find(content.latest_version_id)
     content_version.contentstatus = CONTENT_STATUS_EXPIRED
     content_version.contentstatusdate = Time.now

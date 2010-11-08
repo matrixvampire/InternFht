@@ -3,12 +3,13 @@
         document.getElementById("discussion_content_attributes_tags_attributes_0_tag_name").value = obj.value;
     }
 </script>
-
 <% if is_student?%>
-	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<div id="content-top">   
+    <%= nav_link "New Discussion", :discussion, :create %> 
+	| 
+	<%= nav_link "Show Mine", :discussion, :showmine %>
+</div>
 <% end %>
-<hr/>
-
 <% form_for :discussion, @discussion, :html => { :multipart => true } do |discussion_form| %>
 <fieldset>
     <legend>

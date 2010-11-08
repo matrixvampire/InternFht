@@ -1,16 +1,16 @@
 <script type="text/javascript">
     
 </script>
-<% if is_student?%>
-	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% if is_student? %>
+<div id="content-top">
+    <%= nav_link "New Discussion", :discussion, :create %>
+    | <%= nav_link "Show Mine", :discussion, :showmine %>
+</div>
 <% end %>
-<hr/>
-
+<div id="content-middle">
 <% content_detail = ContentVersion.find(@discussion.content.latest_version_id) %>
 <b><u><%= content_detail.title%></u></b>
-<div class="list_content" >	
-	<pre><%=h content_detail.body%></pre>
-</div>
+<%=h content_detail.body%>
 <p>
 	<i>
 	tags: 
@@ -61,3 +61,4 @@
         <%= reply_form.submit "Submit", :disable_with => "Submitting..."%>
     </div>
 <% end %>
+</div>
