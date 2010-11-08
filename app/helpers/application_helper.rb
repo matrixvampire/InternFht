@@ -45,6 +45,18 @@ module ApplicationHelper
     return false
   end
   
+
+  def get_commentor
+    if session[:user_id] != nil
+      currentUserDetail = People.find(session[:user_id])
+      commentor = Commentor.new
+      commentor.people = currentUserDetail
+      return commentor
+    end
+    return nil
+  end
+  
+
   def is_site?
     if check_session? && get_type_of_user ==TYPE_SITE
       return true
@@ -64,6 +76,14 @@ module ApplicationHelper
     if session[:user_id] != nil
       currentUserDetail = People.find(session[:user_id])
       return currentUserDetail.fullname
+    end
+  end
+  
+  def get_user_student
+    if session[:user_id] != nil
+      currentUser = User.find(session[:user_id])
+      student = currentUser.people.student
+      return student
     end
   end
   

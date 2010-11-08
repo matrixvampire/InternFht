@@ -1,0 +1,17 @@
+<% if is_student?%>
+	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% end %>
+<hr/>
+
+<p><i>Click the title to edit your previous discussion</i></p>
+<% if !@discussions.nil? %>
+        <% @discussions.each do |discussion| %>
+		<% content_detail = ContentVersion.find(discussion.content.latest_version_id) %>
+		<ul>
+			<li>
+				<%= link_to content_detail.title, :action => :edit, :id => content_detail.content_id%>&nbsp;&nbsp;&nbsp;&nbsp;
+				<%= h discussion.content.creationdate %>
+			</li>
+		</ul>
+        <% end %>
+<% end %>

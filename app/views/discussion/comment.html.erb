@@ -1,0 +1,63 @@
+<script type="text/javascript">
+    
+</script>
+<% if is_student?%>
+	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% end %>
+<hr/>
+
+<% content_detail = ContentVersion.find(@discussion.content.latest_version_id) %>
+<b><u><%= content_detail.title%></u></b>
+<div class="list_content" >	
+	<pre><%=h content_detail.body%></pre>
+</div>
+<p>
+	<i>
+	tags: 
+	<% @discussion.content.tags.each do |tag|%>
+		<%=tag.tag_name%>&nbsp;
+	<%end%>
+	</i>
+</p>
+
+<div class="comments" align="center" >
+	<% i=0 %>
+	<% @replys.each do |reply|%>
+	<% content_detail_reply = ContentVersion.find(reply.content.latest_version_id) %>
+	<% i = i+1%>
+		<p>
+			<%=i%>.
+			<b><%= h reply.commentor.people.firstname%>&nbsp;<%= h reply.commentor.people.lastname%></b>
+			<i><%= h reply.content.creationdate%></i>
+		</p>
+		<pre><%= h content_detail_reply.body%></pre>
+		<hr/>
+	<% end %>
+</div>
+
+
+<% form_for :reply, @reply, :html => { :multipart => true } do |reply_form| %>
+	<%= reply_form.hidden_field :discussion_id, :value => @discussion.id %>
+	
+	<% reply_form.fields_for :content do |content_form| %>
+		<% @reply.content.content_versions.each do |content_version| %>
+				<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
+		<div class="form_row">
+	        <%= content_version_from.label :body, "Reply:" %>
+	        <%= content_version_from.text_area :body, :rows => 20, :cols => 50 %>
+	    </div>
+		<% end %>
+	<% end %>
+		<% @reply.content.tags.each do |tag| %>
+			<% content_form.fields_for :tags, tag do |tag_form| %>
+				<div class="form_row">
+			        <%= tag_form.label :tag_name, "Tag:" %>
+			        <%= tag_form.text_field :tag_name, :size => 20 %>
+			    </div>
+			<% end %>
+		<% end %>
+	<% end %>
+	<div class="form_row" >
+        <%= reply_form.submit "Submit", :disable_with => "Submitting..."%>
+    </div>
+<% end %>

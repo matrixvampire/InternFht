@@ -1,0 +1,55 @@
+<script type="text/javascript">
+    function put_value(obj){
+        if(obj.value != ""){
+			new Ajax.Request('/discussion/get_previous_version/'+obj.value, {
+				method: 'get',
+				onSuccess: function(request){
+					var text = request.responseText.split(',');
+					document.getElementById('content_version_title').value = text[0];
+					document.getElementById('content_version_body').value = text[1];
+					//Hidden filed
+					document.getElementById('content_version_content_version_id').disabled = false;
+					document.getElementById('content_version_content_version_id').value = text[2];
+					document.getElementById('content_version_title').readOnly = true;
+					document.getElementById('content_version_body').readOnly = true;
+				}
+			})
+		}else{
+			document.getElementById('content_version_title').value = '';
+			document.getElementById('content_version_body').value = '';
+			//Hidden filed
+			document.getElementById('content_version_content_version_id').value = '';
+			document.getElementById('content_version_content_version_id').disabled = true;
+			document.getElementById('content_version_title').readOnly = false;
+			document.getElementById('content_version_body').readOnly = false;
+		}
+		
+    }
+</script>
+
+<% if is_student?%>
+	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% end %>
+<hr/>
+
+<% form_for :content_version, @content_version, :html => { :multipart => true } do |content_version_form| %>
+	<fieldset>
+		<legend>Edit Discussion</legend>
+			<%= content_version_form.hidden_field :content_id, :value => @content_version.content_id %>
+			<%= content_version_form.hidden_field :content_version_id, :value => "", :disabled => true %>
+			<div class="form_row">
+		        <%= content_version_form.label :title, "Title:" %>
+		        <%= content_version_form.text_field :title, :size => 50 %>
+				<% if @all_versions!=[]%>
+					<%= select "selected","version", @all_versions.collect {|v| [v.created_at,v.id] },{:prompt => '--Choose from previous versions--'},{:onchange => "put_value(this)"} %>
+		    	<% end %>
+			</div>
+			<div class="form_row">
+		        <%= content_version_form.label :body, "Body:" %>
+		        <%= content_version_form.text_area :body, :rows => 20, :cols => 50 %>
+		    </div>
+			<div class="form_row" >
+		        <%= content_version_form.submit "Submit", :disable_with => "Submitting..."%>
+		    </div>
+	</fieldset>
+<% end %>
