@@ -56,7 +56,7 @@
 			<% else %>
 				<b><%= h reply.commentor.name%>&nbsp;<%= h reply.commentor.email%></b>
 			<% end %>
-			<i><%= h reply.content.creationdate%></i>
+			<i><%= h reply.content.creationdate.strftime("%B %d, %Y")%></i>
 		</p>
 		<pre><%= h content_detail_reply.body%></pre>
 		<hr/>

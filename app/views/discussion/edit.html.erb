@@ -41,10 +41,12 @@
     }
 </script>
 
-<% if is_student?%>
-	<div align="right"><%= nav_link "New Discussion", :discussion, :create %> | <%= nav_link "My Folder", :discussion, :showmine %></div>
+<% if is_student? %>
+<div id="content-top">
+    <%= nav_link "New Discussion", :discussion, :create %>
+    | <%= nav_link "Show Mine", :discussion, :showmine %>
+</div>
 <% end %>
-<hr/>
 
 <% form_for :content_version, @content_version, :html => { :multipart => true, :onsubmit => "return validateInput()"  } do |content_version_form| %>
 	<fieldset>
