@@ -204,3 +204,17 @@ td.contact {
     background: url('../images/menuhover.gif') no-repeat;
     color: #dc4d1b;
 }
+
+#project-link {
+    width: 200px;
+    font-size: 20px;    
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+    border: 5px solid #dfd;
+    -moz-border-radius: 12px;
+}
+
+#project-link a {
+	text-decoration: none;
+}

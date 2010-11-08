@@ -1973,7 +1973,16 @@ input {
     -khtml-border-radius: 0.4em;
 }
 
-input:hover, input:focus {
+textarea {
+    padding: 0.15em;    
+    border: 1px solid #ddd;
+    background: #fafafa;
+    font: bold 1em arial, sans-serif;
+    -moz-border-radius: 0.4em;
+    -khtml-border-radius: 0.4em;
+}
+
+input:hover, input:focus, textarea:hover, textarea:hover {
     border-color: #c5c5c5;
     background: #f6f6f6;
 }

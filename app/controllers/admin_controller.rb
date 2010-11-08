@@ -59,7 +59,7 @@ class AdminController < ApplicationController
   
   def edit_enquiry
     @title = "Edit"
-    @subtitle = "Criteria"
+    @subtitle = "Enquiry"
     @criterias = EvaluationCriteria.find(:all, :order => :title)
     if logged_in?
       if is_admin?        
@@ -72,9 +72,8 @@ class AdminController < ApplicationController
   
   def update_enquiry
     if logged_in?
-      if is_admin?        
-        @enquiry = EvaluationEnquiry.new(params[:enquiry])
-        if @enquiry.save
+      if is_admin?
+        if EvaluationEnquiry.update(params[:id], params[:enquiry])
           flash[:notice] = "Evaluation Enquiry updated successfully!!!"          
         else
           flash[:error] = "Some problem. Try it later"          
@@ -84,4 +83,28 @@ class AdminController < ApplicationController
     end
   end
   
+  def edit_criteria
+    @title = "Edit"
+    @subtitle = "Criteria"    
+    if logged_in?
+      if is_admin?        
+        if params[:id]
+          @criteria = EvaluationCriteria.find(params[:id])
+        end
+      end
+    end
+  end
+  
+  def update_criteria
+    if logged_in?
+      if is_admin?
+        if EvaluationCriteria.update(params[:id], params[:criteria])
+          flash[:notice] = "Evaluation Criteria updated successfully!!!"          
+        else
+          flash[:error] = "Some problem. Try it later"          
+        end
+        redirect_to :action => :show_criteria
+      end
+    end
+  end    
 end

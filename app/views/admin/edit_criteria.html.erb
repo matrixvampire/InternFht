@@ -1,4 +1,4 @@
-<% form_for :criteria, @criteria do |criteria_form| %>
+<% form_for :criteria, @criteria, :url => {:action => :update_criteria, :id => @criteria.id} do |criteria_form| %>
 <fieldset>
     <legend>
         Evaluation Criteria
@@ -8,7 +8,7 @@
         <%= criteria_form.text_area :title, :rows => 1, :cols => 50 %>
     </div>
     <div>
-        <%= criteria_form.submit "Save" %>
+        <%= criteria_form.submit "Update" %>
     </div>
 </fieldset>
 <% end %>

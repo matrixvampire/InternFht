@@ -13,7 +13,10 @@
                 </th>
                 <th scope="col">
                     Title
-                </th>                
+                </th>  
+				<th scope="col">
+                    &nbsp;
+                </th>              
             </tr>
         </thead>
         <tbody>
@@ -26,6 +29,9 @@
                 </td>
                 <td nowrap>
                     <%= h criteria.title %>
+                </td>
+				<td nowrap>
+                    <%= link_to "Edit", :action => :edit_criteria, :id => criteria %>
                 </td>                
             </tr>
             <% end %>
