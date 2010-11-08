@@ -2,16 +2,10 @@
 
 one:
   contenttype: MyString
-  title: MyString
-  body: MyText
-  contentstatus: MyString
-  creationdate: 2010-11-04 22:04:35
-  approveddate: 2010-11-04 22:04:35
+  creationdate: 2010-11-08 13:48:03
+  latest_version_id: 1
 
 two:
   contenttype: MyString
-  title: MyString
-  body: MyText
-  contentstatus: MyString
-  creationdate: 2010-11-04 22:04:35
-  approveddate: 2010-11-04 22:04:35
+  creationdate: 2010-11-08 13:48:03
+  latest_version_id: 1
