@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104174403) do
+ActiveRecord::Schema.define(:version => 20101108064943) do
 
   create_table "addresses", :force => true do |t|
     t.string   "buildingnumber"
@@ -86,13 +86,22 @@ ActiveRecord::Schema.define(:version => 20101104174403) do
     t.datetime "updated_at"
   end
 
-  create_table "contents", :force => true do |t|
-    t.string   "contenttype"
+  create_table "content_versions", :force => true do |t|
+    t.integer  "content_id"
     t.string   "title"
+    t.text     "summary"
     t.text     "body"
     t.string   "contentstatus"
+    t.datetime "modifieddate"
+    t.datetime "contentstatusdate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contents", :force => true do |t|
+    t.string   "contenttype"
     t.datetime "creationdate"
-    t.datetime "approveddate"
+    t.integer  "latest_version_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

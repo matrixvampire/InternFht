@@ -65,6 +65,19 @@ Rails::Initializer.run do |config|
   TYPE_STUDENT = 'Student'
   TYPE_SITE = 'Site'
   
+  CONTENT_TYPE_DISCUSSION = 'Discussion'
+  CONTENT_TYPE_REPLY = 'Reply'
+  CONTENT_TYPE_ARTICLE = 'Article'
+  CONTENT_TYPE_SITE_REVIEW = 'Site Review'
+  CONTENT_TYPE_NEW = 'New'
+  CONTENT_TYPE_ARTICLE_COMMENT = 'Article Comment'
+  CONTENT_TYPE_SITE_REVIEW_COMMENT = 'Site Review Comment'
+  
+  CONTENT_STATUS_SUBMITED = 'Submited'
+  CONTENT_STATUS_APPROVED = 'Approved'
+  CONTENT_STATUS_REJECTED = 'Rejected'
+  CONTENT_STATUS_EXPIRED = 'Expired'
+  
   require 'builder'
   
   #Set date farmat for calendar
