@@ -48,18 +48,25 @@
 	<% i=0 %>
 	<% @replys.each do |reply|%>
 	<% content_detail_reply = ContentVersion.find(reply.content.latest_version_id) %>
-	<% i = i+1%>
-		<p>
-			<%=i%>.
-			<% if !reply.commentor.people_id.nil? %>
-				<b><%= h reply.commentor.people.firstname%>&nbsp;<%= h reply.commentor.people.lastname%></b>
-			<% else %>
-				<b><%= h reply.commentor.name%>&nbsp;<%= h reply.commentor.email%></b>
+		<% if content_detail_reply.contentstatus == CONTENT_STATUS_APPROVED %>
+		<% i = i+1%>
+			<p>
+				<%=i%>.
+				<% if !reply.commentor.people_id.nil? %>
+					<b><%= h reply.commentor.people.firstname%>&nbsp;<%= h reply.commentor.people.lastname%></b>
+				<% else %>
+					<b><%= h reply.commentor.name%>&nbsp;<%= h reply.commentor.email%></b>
+				<% end %>
+				<i><%= h reply.content.creationdate.strftime("%B %d, %Y")%></i>
+			</p>
+			<pre><%= h content_detail_reply.body%></pre>
+			<% if is_admin?%>
+				<p class="link" >
+					<%= link_to "delete", :action => :delete, :id => reply.content.id, :frompage => "comment" %>
+				</p>
 			<% end %>
-			<i><%= h reply.content.creationdate.strftime("%B %d, %Y")%></i>
-		</p>
-		<pre><%= h content_detail_reply.body%></pre>
-		<hr/>
+			<hr/>
+		<% end %>
 	<% end %>
 </div>
 

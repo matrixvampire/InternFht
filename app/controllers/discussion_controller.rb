@@ -199,6 +199,12 @@ class DiscussionController < ApplicationController
     content_version.contentstatus = CONTENT_STATUS_EXPIRED
     content_version.contentstatusdate = Time.now
     content_version.save
-    redirect_to :action => :showmine
+    if is_admin? 
+#      redirect_to :action => params[:frompage] have to send id also incase of frompage = comment
+      redirect_to :action => :show
+    else
+      redirect_to :action => :showmine
+    end
+    
   end
 end
