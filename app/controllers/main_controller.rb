@@ -1,17 +1,30 @@
 class MainController < ApplicationController
   def index
-    @title = "#{APPLICATION_NAME}"
+    @title = "Home"
+    @subtitle = "#{APPLICATION_NAME}"
     if logged_in?
       redirect_to :controller => :user, :action => :index
     end
   end
   
   def about
-    @title = "About #{APPLICATION_NAME}"
+    @title = "About"
+    @subtitle = "#{APPLICATION_NAME}"
   end
   
-  def help
-    @title = "Help #{APPLICATION_NAME}"
+  def faq
+    @title = "FAQ"
+    @subtitle = "#{APPLICATION_NAME}"
+  end
+  
+  def contact
+    @title = "Contact"
+    @subtitle = "#{APPLICATION_NAME}"
+  end
+  
+  def sitemap
+    @title = "Site Map"
+    @subtitle = "#{APPLICATION_NAME}"
   end
   
 end

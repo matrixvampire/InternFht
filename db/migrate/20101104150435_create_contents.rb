@@ -1,12 +1,9 @@
 class CreateContents < ActiveRecord::Migration
   def self.up
     create_table :contents do |t|
-      t.string :contenttype
-      t.string :title
-      t.text :body
-      t.string :contentstatus
+      t.string :contenttype      
       t.datetime :creationdate
-      t.datetime :approveddate
+      t.integer :latest_version_id
 
       t.timestamps
     end

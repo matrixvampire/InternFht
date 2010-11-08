@@ -1,12 +1,12 @@
 class Content < ActiveRecord::Base
-    has_and_belongs_to_many :tags
-    
-    has_many :broadcasts
-    has_many :administrators, :through => :broadcasts
-    
-    has_one :discussion
-    has_one :article
-    has_one :article_comment
-    has_one :site_review
-    has_one :site_review_comment
+  has_and_belongs_to_many :tags
+  
+  has_many :content_versions, :order => "content_version_id DESC", :foreign_key => "latest_version_id"
+  
+  has_one :broadcast, :dependent => :nullify
+  has_one :discussion, :dependent => :nullify
+  has_one :article, :dependent => :nullify
+  has_one :article_comment, :dependent => :nullify
+  has_one :site_review, :dependent => :nullify
+  has_one :site_review_comment, :dependent => :nullify
 end

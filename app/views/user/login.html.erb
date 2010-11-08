@@ -1,21 +1,21 @@
-<h1>Log in</h1>
-<% form_for :user do |form| %>
-<fieldset>
+<fieldset class="login">
     <legend>
-        Log in details
+        Login Details
     </legend>
-    <div class="form_row">
+    <% form_for :user do |form| %>
+    <div>
         <%= form.label :username, "Username:" %>
         <%= form.text_field :username, :size => 20, :maxlength => 20 %>
     </div>
-    <div class="form_row">
+    <div>
         <%= form.label :password, "Password:" %>
         <%= form.password_field :password, :size => 20, :maxlength => 20 %>
     </div>
-    <div class="form_row">    	
-        <%= form.submit "Log in" %>
-		<br />
-		<%= link_to "Forget Password", :action => :forgetpassword %>
-    </div>	
+    <div>
+        <%= form.submit "Sign in" %>
+    </div>
+    <div>
+        <%= link_to "Forget Password", :action => :forgetpassword %>
+    </div>
+    <% end %>
 </fieldset>
-<% end %>

@@ -44,7 +44,7 @@ class UserController < ApplicationController
   end
   
   def login
-    @title = "Log in"
+    @title = "Sign In"
     if request.get?
       @user = User.new
     elsif param_posted?(:user)
