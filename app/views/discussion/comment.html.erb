@@ -1,6 +1,30 @@
 <script type="text/javascript">
-    
+    function validateInput(){
+        if(document.getElementById('reply_content_attributes_content_versions_attributes_0_body').value == ""){
+			alert("Please enter reply body!");
+            document.getElementById('reply_content_attributes_content_versions_attributes_0_body').focus();
+            return false;
+		}else if (document.getElementById('reply_commentor_attributes_name').value == "") {
+            alert("Please enter name!");
+            document.getElementById('reply_commentor_attributes_name').focus();
+            return false;
+        }
+        else if(document.getElementById('reply_commentor_attributes_email').value == ""){
+			alert("Please enter email!");
+            document.getElementById('reply_commentor_attributes_email').focus();
+            return false;
+		}else if (validate_email(document.getElementById('reply_commentor_attributes_email').value)==false){
+			document.getElementById('reply_commentor_attributes_email').select();
+			return false;
+		}else{
+			return true;
+		}            
+    }
+	
+
+	
 </script>
+
 <% if is_student? %>
 <div id="content-top">
     <%= nav_link "New Discussion", :discussion, :create %>
@@ -27,7 +51,11 @@
 	<% i = i+1%>
 		<p>
 			<%=i%>.
-			<b><%= h reply.commentor.people.firstname%>&nbsp;<%= h reply.commentor.people.lastname%></b>
+			<% if !reply.commentor.people_id.nil? %>
+				<b><%= h reply.commentor.people.firstname%>&nbsp;<%= h reply.commentor.people.lastname%></b>
+			<% else %>
+				<b><%= h reply.commentor.name%>&nbsp;<%= h reply.commentor.email%></b>
+			<% end %>
 			<i><%= h reply.content.creationdate%></i>
 		</p>
 		<pre><%= h content_detail_reply.body%></pre>
@@ -36,18 +64,31 @@
 </div>
 
 
-<% form_for :reply, @reply, :html => { :multipart => true } do |reply_form| %>
+<% form_for :reply, @reply, :html => { :multipart => true, :onsubmit => "return validateInput()" } do |reply_form| %>
 	<%= reply_form.hidden_field :discussion_id, :value => @discussion.id %>
-	
+	<% reply_form.fields_for :commentor do |commentor_from| %>
+		<div class="form_row">
+	        <%= commentor_from.label :name, "Name:" %>
+	        <%= commentor_from.text_field :name, :size => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= commentor_from.label :email, "Email:" %>
+	        <%= commentor_from.text_field :email, :size => 20 %>
+	    </div>
+		<div class="form_row">
+	        <%= commentor_from.label :homepage, "Home Page:" %>
+	        <%= commentor_from.text_field :homepage, :size => 20 %>
+	    </div>
+	<% end %>
 	<% reply_form.fields_for :content do |content_form| %>
 		<% @reply.content.content_versions.each do |content_version| %>
 				<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
-		<div class="form_row">
-	        <%= content_version_from.label :body, "Reply:" %>
-	        <%= content_version_from.text_area :body, :rows => 20, :cols => 50 %>
-	    </div>
+					<div class="form_row">
+				        <%= content_version_from.label :body, "Reply:" %>
+				        <%= content_version_from.text_area :body, :rows => 20, :cols => 50 %>
+				    </div>
+				<% end %>
 		<% end %>
-	<% end %>
 		<% @reply.content.tags.each do |tag| %>
 			<% content_form.fields_for :tags, tag do |tag_form| %>
 				<div class="form_row">

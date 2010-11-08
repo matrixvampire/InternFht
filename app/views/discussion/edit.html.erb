@@ -25,6 +25,20 @@
 		}
 		
     }
+	
+	function validateInput(){
+        if(document.getElementById('content_version_title').value == ""){
+			alert("Please enter title!");
+            document.getElementById('content_version_title').focus();
+            return false;
+		}else if (document.getElementById('content_version_body').value == "") {
+            alert("Please enter body!");
+            document.getElementById('content_version_body').focus();
+            return false;
+        }else{
+			return true;
+		}            
+    }
 </script>
 
 <% if is_student?%>
@@ -32,7 +46,7 @@
 <% end %>
 <hr/>
 
-<% form_for :content_version, @content_version, :html => { :multipart => true } do |content_version_form| %>
+<% form_for :content_version, @content_version, :html => { :multipart => true, :onsubmit => "return validateInput()"  } do |content_version_form| %>
 	<fieldset>
 		<legend>Edit Discussion</legend>
 			<%= content_version_form.hidden_field :content_id, :value => @content_version.content_id %>

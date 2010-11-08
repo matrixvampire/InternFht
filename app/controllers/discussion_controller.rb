@@ -1,6 +1,6 @@
 class DiscussionController < ApplicationController
   
-  before_filter :protect, :only => [:create, :show, :comment, :edit]
+  before_filter :protect, :only => [:create, :edit]
   
   #  show all discussion...
   def show
@@ -93,6 +93,43 @@ class DiscussionController < ApplicationController
         #      Tag should be make dynamic
         #        @reply.content.tags << Tag.new
       end
+    else #for viewer
+      if request.post?
+        @reply = Reply.new(params[:reply])
+        @reply.content.contenttype = CONTENT_TYPE_REPLY
+        @reply.content.creationdate = Time.now
+        @reply.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
+        @reply.content.content_versions.first.versiondate = Time.now
+        @reply.content.content_versions.first.contentstatusdate = Time.now
+        @reply.discussion = Discussion.find(params[:reply][:discussion_id])
+        
+        ActiveRecord::Base.transaction do
+          if @reply.save
+            c = Content.find(:last)
+            c.latest_version_id = ContentVersion.find(:last).id
+            if c.save # update latest version
+              flash[:notice] = "Comment added successfully!!!"
+            else
+              flash[:error] = "Some problem. Try later."
+              raise ActiveRecord::Rollback
+            end
+          else
+            flash[:error] = "Some problem. Try later."
+            raise ActiveRecord::Rollback
+          end
+        end
+        redirect_to :action => :comment
+      else
+        @discussion = Discussion.find(params[:id])
+        logger.debug @discussion
+        @replys = @discussion.replies
+        
+        @reply = Reply.new
+        @reply.content = Content.new
+        @reply.content.content_versions << ContentVersion.new
+        @reply.discussion = @discussion
+        @reply.commentor = Commentor.new
+      end
     end
   end
   
@@ -112,7 +149,7 @@ class DiscussionController < ApplicationController
         if params[:content_version][:content_version_id].nil? #new version 
           @content_version = ContentVersion.new(params[:content_version])
           @content_version.contentstatus = CONTENT_STATUS_APPROVED
-          @content_version.modifieddate = Time.now
+          @content_version.versiondate = Time.now
           @content_version.contentstatusdate = Time.now
           ActiveRecord::Base.transaction do
             if @content_version.save

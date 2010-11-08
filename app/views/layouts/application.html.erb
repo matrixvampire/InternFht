@@ -38,6 +38,9 @@
 						<li>
                             <%= nav_link "News", :broadcast, :show %>
                         </li>      
+						<li>
+                            <%= nav_link "Discussions", :discussion, :show %>
+                        </li>
                         <% end %>
 						<% if is_student? %>
 						<li>
@@ -68,6 +71,9 @@
 						<li>
                             <%= nav_link "Site Evaluations", :faculty, :siteevaluations %>
                         </li>	
+						<li>
+                            <%= nav_link "Discussions", :discussion, :show %>
+                        </li>
 						<% end %>						
 						<li>
                             <%= nav_link "Change Password", :user, :changepassword %>

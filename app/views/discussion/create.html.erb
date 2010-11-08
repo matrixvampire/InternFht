@@ -2,6 +2,25 @@
     function put_value(obj){
         document.getElementById("discussion_content_attributes_tags_attributes_0_tag_name").value = obj.value;
     }
+	
+	function validateInput(){
+        if (document.getElementById('discussion_content_attributes_content_versions_attributes_0_title').value == "") {
+            alert("Please enter title!");
+            document.getElementById('discussion_content_attributes_content_versions_attributes_0_title').focus();
+            return false;
+        }
+        else if(document.getElementById('discussion_content_attributes_content_versions_attributes_0_body').value == ""){
+			alert("Please enter body!");
+            document.getElementById('discussion_content_attributes_content_versions_attributes_0_body').focus();
+            return false;
+		}else if(document.getElementById('discussion_content_attributes_tags_attributes_0_tag_name').value == ""){
+			alert("Please enter tag!");
+            document.getElementById('discussion_content_attributes_tags_attributes_0_tag_name').focus();
+            return false;
+		}else{
+			return true;
+		}            
+    }
 </script>
 <% if is_student?%>
 <div id="content-top">   
@@ -10,7 +29,7 @@
 	<%= nav_link "Show Mine", :discussion, :showmine %>
 </div>
 <% end %>
-<% form_for :discussion, @discussion, :html => { :multipart => true } do |discussion_form| %>
+<% form_for :discussion, @discussion, :html => { :multipart => true, :onsubmit => "return validateInput()" } do |discussion_form| %>
 <fieldset>
     <legend>
         New Discussion
