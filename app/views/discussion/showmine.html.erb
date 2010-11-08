@@ -7,11 +7,14 @@
 <% if !@discussions.nil? %>
         <% @discussions.each do |discussion| %>
 		<% content_detail = ContentVersion.find(discussion.content.latest_version_id) %>
-		<ul>
-			<li>
-				<%= link_to content_detail.title, :action => :edit, :id => content_detail.content_id%>&nbsp;&nbsp;&nbsp;&nbsp;
-				<%= h discussion.content.creationdate %>
-			</li>
-		</ul>
+			<% if content_detail.contentstatus == CONTENT_STATUS_APPROVED%>
+				<ul>
+					<li>
+						<%= link_to content_detail.title, :action => :edit, :id => content_detail.content_id%>&nbsp;&nbsp;&nbsp;&nbsp;
+						<%= h discussion.content.creationdate %>
+						<%= link_to "Delete", :action => :delete, :id => content_detail.content_id%>
+					</li>
+				</ul>
+			<% end %>
         <% end %>
 <% end %>

@@ -1,6 +1,6 @@
 class DiscussionController < ApplicationController
   
-  before_filter :protect, :only => [:create, :show, :comment]
+  before_filter :protect, :only => [:create, :show, :comment, :edit]
     
 #  show all discussion...
   def show
@@ -148,5 +148,15 @@ class DiscussionController < ApplicationController
   def get_previous_version
     content_version = ContentVersion.find(params[:id])
     render :text => content_version.title+","+content_version.body+","+params[:id]
+  end
+  
+#  For set to be expired discussion
+  def delete
+    content = Content.find(params[:id]) 
+    content_version =  ContentVersion.find(content.latest_version_id)
+    content_version.contentstatus = CONTENT_STATUS_EXPIRED
+    content_version.contentstatusdate = Time.now
+    content_version.save
+    redirect_to :controller => :discussion, :action => :showmine
   end
 end
