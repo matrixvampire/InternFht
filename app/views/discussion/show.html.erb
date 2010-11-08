@@ -19,7 +19,9 @@
         </p>
         <p class="link">
             <%= link_to "comments", :action => :comment, :id => discussion.id %> 
+			<% if is_admin?%>
 			| <%= link_to "delete", :action => :delete, :id => discussion.content.id, :frompage => "show"%>
+			<% end %>
         </p>
     </div>    
     <% end %>
