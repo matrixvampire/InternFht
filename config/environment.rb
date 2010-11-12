@@ -74,9 +74,12 @@ Rails::Initializer.run do |config|
   CONTENT_TYPE_SITE_REVIEW_COMMENT = 'Site Review Comment'
   
   CONTENT_STATUS_SUBMITED = 'Submited'
+  CONTENT_STATUS_AMENDED = 'Amended'
   CONTENT_STATUS_APPROVED = 'Approved'
   CONTENT_STATUS_REJECTED = 'Rejected'
   CONTENT_STATUS_EXPIRED = 'Expired'
+  
+  REQUIRED_DURATION_FOR_REVIEW = 90
   
   require 'builder'
   
