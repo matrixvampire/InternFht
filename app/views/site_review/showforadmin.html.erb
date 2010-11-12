@@ -1,0 +1,36 @@
+
+<script type="text/javascript">
+	function submitSearch(obj){
+		obj.parentNode.submit();
+	}
+	
+</script>	
+<div id="content-top">
+    <% form_tag :action => :showforadmin do %>
+        Search for status : <%= select_tag "type", "<option>--SELECT--</option>,<option value='"+CONTENT_STATUS_SUBMITED+"'>"+CONTENT_STATUS_SUBMITED+"</option>,<option value='"+CONTENT_STATUS_AMENDED+"'>"+CONTENT_STATUS_AMENDED+"</option>,<option value='"+CONTENT_STATUS_APPROVED+"'>"+CONTENT_STATUS_APPROVED+"</option>", :onchange => "submitSearch(this)" %>
+    <% end %>
+</div>
+
+<div id="content-middle">
+    <% if !@content_details.nil? %>
+    <% @content_details.each do |content_detail| %>
+    <div class="box2">
+        <h3 class="title"><%= h content_detail.title %></h3>
+        <p class="author">
+            <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+        </p>
+        <p class="abstract">
+            <%= content_detail.body%>
+        </p>
+		<p>
+			Status : <%= content_detail.contentstatus%>
+		</p>
+        <p class="link">
+            <%= link_to "need amendment", :action => :givereason, :id => content_detail.content.id %> 
+			| <%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => content_detail.content.id %> 
+			| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => content_detail.content.id %> 
+        </p>
+    </div>    
+    <% end %>
+	<% end %>
+</div>

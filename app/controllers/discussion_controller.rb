@@ -53,7 +53,8 @@ class DiscussionController < ApplicationController
   
   #  give comment
   def comment
-    @title = "Comment"
+    @title = "Discussion"
+    @subtitle = "comment"
     if logged_in?      
       if request.post?
         @reply = Reply.new(params[:reply])
@@ -136,7 +137,9 @@ class DiscussionController < ApplicationController
   #  To show a list of discussion of particular student
   def showmine
     @title = "Discussion"
+    @subtitle = "show mine"
     student_id = get_user_student.id
+#    @discussions = get_user_student.discussions It is not order by
     @discussions = Discussion.find(:all, :conditions => ["student_id = ?", student_id], :order => 'created_at desc')
   end
   
@@ -144,6 +147,7 @@ class DiscussionController < ApplicationController
   #  to edit his own discussion
   def edit
     @title = "Discussion"
+    @subtitle = "edit"
     if logged_in?      
       if request.post?
         if params[:content_version][:content_version_id].nil? #new version 
@@ -192,7 +196,7 @@ class DiscussionController < ApplicationController
     render :text => content_version.title+","+content_version.body+","+params[:id]
   end
   
-  #  For set to be expired discussion
+  #  For set to be an expired discussion
   def delete
     content = Content.find(params[:id])
     content_version =  ContentVersion.find(content.latest_version_id)

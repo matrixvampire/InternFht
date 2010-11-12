@@ -1,0 +1,83 @@
+
+<script type="text/javascript">
+    function get_site(obj){
+		document.getElementById("site_review_internship_id").value = obj.value;
+		if(obj.value != "")
+			document.getElementById("site_form").style.display = "inline";
+		else
+			document.getElementById("site_form").style.display = "none";
+    }
+	
+	function put_value(obj){
+        document.getElementById("site_review_content_attributes_tags_attributes_0_tag_name").value = obj.value;
+    }
+	
+	function validateInput(){
+        if (document.getElementById('site_review_content_attributes_content_versions_attributes_0_title').value == "") {
+            alert("Please enter title!");
+            document.getElementById('site_review_content_attributes_content_versions_attributes_0_title').focus();
+            return false;
+        }
+        else if(document.getElementById('site_review_content_attributes_content_versions_attributes_0_body').value == ""){
+			alert("Please enter body!");
+            document.getElementById('site_review_content_attributes_content_versions_attributes_0_body').focus();
+            return false;
+		}else if(document.getElementById('site_review_content_attributes_tags_attributes_0_tag_name').value == ""){
+			alert("Please enter tag!");
+            document.getElementById('site_review_content_attributes_tags_attributes_0_tag_name').focus();
+            return false;
+		}else{
+			return true;
+		}            
+    }
+</script>
+
+<% if !@internships.nil? and @internships.length > 0 %>
+	<div id="content-top">
+	    <%= nav_link "New Site Review", :site_review, :create %>
+	    | <%= nav_link "Show Mine", :site_review, :showmine %>
+		<br/>
+	</div>
+<% end %>
+<div id="select_site">
+	<%= select "selected","site_review", @internships.collect {|i| [i.site.sitename+" ("+i.startdate.strftime("%B %d, %Y")+")",i.id] },{:prompt => 'select site'},{:onchange => "get_site(this)"} %>
+</div>
+	
+<div id="site_form" style="display:none;">
+	<% form_for :site_review, @site_review, :html => { :multipart => true, :onsubmit => "return validateInput()" } do |site_review_form| %>
+	<fieldset>
+	    <legend>
+	        New Site Review
+	    </legend>
+		<div class="form_row">
+	        <%= site_review_form.hidden_field :internship_id %>
+	    </div>
+		<% site_review_form.fields_for :content do |content_form| %>
+			<% @site_review.content.content_versions.each do |content_version| %>
+				<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
+				<div class="form_row">
+			        <%= content_version_from.label :title, "Title:" %>
+			        <%= content_version_from.text_field :title, :size => 50 %>
+			    </div>
+				<div class="form_row">
+			        <%= content_version_from.label :body, "Body:" %>
+			        <%= content_version_from.text_area :body, :rows => 20, :cols => 80 %>
+			    </div>
+				<% end %>
+			<% end %>
+			<% @site_review.content.tags.each do |tag| %>
+				<% content_form.fields_for :tags, tag do |tag_form| %>
+					<div class="form_row">
+				        <%= tag_form.label :tag_name, "Tag:" %>
+				        <%= tag_form.text_field :tag_name, :size => 20 %>
+						<%= select "selected","tag", @tags.collect {|t| [t.tag_name,t.tag_name] },{:prompt => '--SELECT--'},{:onchange => "put_value(this)"} %>
+				    </div>
+				<% end %>
+			<% end %>
+		<% end %>
+		<div class="form_row">
+	        <%= site_review_form.submit "Save", :disable_with => "Saving..."%>
+	    </div>
+	</fieldset>
+	<% end %>
+</div>

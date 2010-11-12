@@ -41,6 +41,9 @@
 						<li>
                             <%= nav_link "Discussions", :discussion, :show %>
                         </li>
+						<li>
+                            <%= nav_link "Reviews", :site_review, :showforadmin %>
+                        </li>
                         <% end %>
 						<% if is_student? %>
 						<li>
@@ -80,7 +83,7 @@
                         </li>
                         <% else %>
                         <li>
-                            <%= nav_link "Reviews",:review, :show %>
+                            <%= nav_link "Reviews",:site_review, :show %>
                         </li>
                         <li>
                             <%= nav_link "Articles",:article, :show %>

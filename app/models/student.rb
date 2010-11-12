@@ -1,4 +1,4 @@
-class Student < ActiveRecord::Base
+ class Student < ActiveRecord::Base
   belongs_to :people
   has_and_belongs_to_many :addresses
   
@@ -8,5 +8,5 @@ class Student < ActiveRecord::Base
   has_many :internships
   has_many :sites, :through => :internships
   
-  has_one :discussion
+  has_many :discussions
 end

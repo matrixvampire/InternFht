@@ -1,0 +1,33 @@
+<% if !@internships.nil? and @internships.length > 0 %>
+<div id="content-top">
+    <%= nav_link "New Site Review", :site_review, :create %>
+    | <%= nav_link "Show Mine", :site_review, :showmine %>
+	<p>You can make a review to only site you had worked for more than 90 days</p>
+</div>
+<% elsif is_student?%>
+<div id="content-top">
+    <%= nav_link "Show Mine", :site_review, :showmine %>
+	<p align="center"><i>You can make a review to only site you had worked for more than 90 days</i></p>
+</div>
+<% end %>
+<div id="content-middle">
+    <% if !@content_details.nil? %>
+    <% @content_details.each do |content_detail| %>
+    <div class="box2">
+        <h3 class="title"><%= h content_detail.title %></h3>
+        <p class="author">
+            <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+        </p>
+        <p class="abstract">
+            <%= content_detail.body%>
+        </p>
+        <p class="link">
+            <%= link_to "comments", :action => :comment, :id => content_detail.content.site_review.id %> 
+			<% if is_admin?%>
+			| <%= link_to "delete", :action => :delete, :id => content_detail.content.id, :frompage => "show"%>
+			<% end %>
+        </p>
+    </div>    
+    <% end %>
+	<% end %>
+</div>

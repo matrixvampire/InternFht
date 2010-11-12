@@ -12,4 +12,9 @@ class StudentController < ApplicationController
   def discussions
     redirect_to :controller => :discussion, :action => :show
   end
+  
+  def reviews
+    redirect_to :controller => :site_review, :action => :show
+  end
+  
 end

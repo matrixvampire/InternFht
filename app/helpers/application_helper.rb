@@ -87,4 +87,24 @@ module ApplicationHelper
     end
   end
   
+  def get_not_review_yet   
+    if check_session? && get_type_of_user == TYPE_STUDENT
+#      internship = Internship.find(:all ,:conditions => ["student_id=? and (startdate - enddate)>= ? and isreview = false", session[:user_id], REQUIRED_DURATION_FOR_REVIEW])  
+      currentUserDetail = People.find(session[:user_id])
+      currentStudent = currentUserDetail.student
+      internships = currentStudent.internships
+      tempStudent = Student.new
+      if(!internships.nil?)
+        internships.each do |internship|
+          logger.debug internship.enddate - internship.startdate
+          if(internship.enddate - internship.startdate) >= REQUIRED_DURATION_FOR_REVIEW and internship.isreview == false
+            tempStudent.internships << internship
+          end
+        end
+      end
+        return tempStudent.internships
+    end    
+    return nil
+  end
+  
 end

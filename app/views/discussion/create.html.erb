@@ -52,7 +52,7 @@
 				<div class="form_row">
 			        <%= tag_form.label :tag_name, "Tag:" %>
 			        <%= tag_form.text_field :tag_name, :size => 20 %>
-					<%= select "selected","tag", @tags.collect {|t| [t.tag_name,t.tag_name] },{:prompt => '...'},{:onchange => "put_value(this)"} %>
+					<%= select "selected","tag", @tags.collect {|t| [t.tag_name,t.tag_name] },{:prompt => '--SELECT--'},{:onchange => "put_value(this)"} %>
 			    </div>
 			<% end %>
 		<% end %>
