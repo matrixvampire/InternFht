@@ -1,26 +1,27 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title><%= @title %></title>
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="all" />
         <link rel="stylesheet" href="../stylesheets/griddesign.css" type="text/css" />
-        <%= stylesheet_link_tag 'griddesign', :cache => true %>        
-        <%= javascript_include_tag :defaults %>        
+        <%= stylesheet_link_tag 'griddesign', :cache => true %>
+        <%= javascript_include_tag :defaults %>
     </head>
     <body>
         <div id="container">
-        	<div id="top-header">
+            <div id="top-header">
                 <div style="float:left;">
                     <%= Time.now().strftime("%B %d, %Y") %>
                 </div>
                 <div style="float:right;">
-                    <%= get_name_of_user %> 
-					<% if logged_in? %>
-					&nbsp; <span style="color: rgb(170, 170, 170);">|</span> &nbsp; <%= nav_link "Sign Out",:user, :logout %>
-					<% else %>
-					 <%= nav_link "Sign In",:user, :login %>
-					<% end %>
+                    <%= get_name_of_user %>
+                    <% if logged_in? %>
+                    &nbsp; <span style="color: rgb(170, 170, 170);">|</span>
+                    &nbsp; <%= nav_link "Sign Out",:user, :logout %>
+                    <% else %>
+                    <%= nav_link "Sign In",:user, :login %>
+                    <% end %>
                 </div>
             </div>
             <div id="header">
@@ -31,54 +32,54 @@
                         <% if is_admin? %>
                         <li>
                             <%= nav_link "Users", :user, :show %>
-                        </li> 
-						<li>
+                        </li>
+                        <li>
                             <%= nav_link "Evaluation", :admin, :show_enquiry %>
-                        </li>                  
-						<li>
+                        </li>
+                        <li>
+                            <%= nav_link "Internship", :internship, :index %>
+                        </li>
+                        <li>
                             <%= nav_link "News", :broadcast, :show %>
-                        </li>      
-						<li>
-                            <%= nav_link "Discussions", :discussion, :show %>
                         </li>
 						<li>
                             <%= nav_link "Reviews", :site_review, :showforadmin %>
                         </li>
                         <% end %>
-						<% if is_student? %>
-						<li>
+                        <% if is_student? %>
+                        <li>
                             <%= nav_link "Reviews", :student, :reviews %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Articles", :student, :articles %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Discussions", :student, :discussions %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Evaluations", :student, :evaluations %>
-                        </li>						
-						<% end %>
-						<% if is_site? %>
-						<li>
+                        </li>
+                        <% end %>
+                        <% if is_site? %>
+                        <li>
                             <%= nav_link "Student Evaluations", :site, :studentevaluations %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "My Evaluations", :site, :myevaluations %>
-                        </li>	
-						<% end %>
-						<% if is_faculty? %>
-						<li>
+                        </li>
+                        <% end %>
+                        <% if is_faculty? %>
+                        <li>
                             <%= nav_link "Student Evaluations", :faculty, :studentevaluations %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Site Evaluations", :faculty, :siteevaluations %>
-                        </li>	
-						<li>
+                        </li>
+                        <li>
                             <%= nav_link "Discussions", :discussion, :show %>
                         </li>
-						<% end %>						
-						<li>
+                        <% end %>
+                        <li>
                             <%= nav_link "Change Password", :user, :changepassword %>
                         </li>
                         <% else %>
@@ -90,7 +91,7 @@
                         </li>
                         <li>
                             <%= nav_link "Discussions",:discussion, :show %>
-                        </li>                        
+                        </li>
                         <% end %>
                     </ul>
                 </div>
@@ -107,8 +108,8 @@
                 <% if flash[:error] %>
                 <span style="color:#FF0000;"><%= flash[:error] %>
                 </span>
-				<% end %>
-                <%= @content_for_layout %>				
+                <% end %>
+                <%= @content_for_layout %>
             </div>
             <div id="footer">
                 <p class="copyright">

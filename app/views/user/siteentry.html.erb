@@ -64,7 +64,7 @@
 			    </div>
 				<div>
 			        <%= people_form.label :birthdate_ad, "Birth Date:" %>
-			        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
+			        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year %>
 			    </div>
 			    <div>
 			        <%= people_form.label :gender, "Gender:" %>
@@ -86,10 +86,7 @@
 				    </div>
 					<span style="color:red; font-style:italic;">Minimum Length of password is 4</span>
 			    <% end %>
-			    <hr/>
-			    <div>
-			        <%=people_form.file_field :photo %>
-			    </div>
+			    <hr/>			    
 		<%end%>
 		<%end%>
 	<%end%>

@@ -13,7 +13,7 @@
     </div>
 	<div>
         <%= faculty_form.label :joindate, "Join Date:" %>
-        <%= faculty_form.date_select :joindate, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
+        <%= faculty_form.date_select :joindate, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year %>
 		<!--%= date_field('','birthdate', :value => @people.birthdate, :size => 20)%-->
     </div>
     <hr/><% faculty_form.fields_for :people do |people_form| %>
@@ -51,7 +51,7 @@
     </div>
 	<div>
         <%= people_form.label :birthdate_ad, "Birth Date:" %>
-        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year + 5 %>
+        <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year %>
     </div>
     <div>
         <%= people_form.label :gender, "Gender:" %>
@@ -73,9 +73,6 @@
 	<span style="color:red; font-style:italic;">Minimum Length of password is 4</span>
     <% end %>
     <hr/>
-    <div>
-        <%=people_form.file_field :photo %>
-    </div>
     <% end %>
     <hr/><% @faculty.addresses.each do |address| %>
     <% faculty_form.fields_for :addresses, address do |address_form| %>

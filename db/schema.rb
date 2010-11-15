@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20101108064803) do
   create_table "evaluation_enquiries", :force => true do |t|
     t.integer  "evaluation_criteria_id"
     t.string   "question"
+    t.string   "relatedto"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

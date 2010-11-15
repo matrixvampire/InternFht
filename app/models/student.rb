@@ -9,4 +9,5 @@
   has_many :sites, :through => :internships
   
   has_many :discussions
+  
 end

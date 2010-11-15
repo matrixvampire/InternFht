@@ -18,6 +18,9 @@
                     Question
                 </th>  
 				<th scope="col">
+                    Related To
+                </th>  
+				<th scope="col">
                     &nbsp;
                 </th>              
             </tr>
@@ -35,6 +38,9 @@
                 </td> 
 				<td>
                     <%= h enquiry.question %>
+                </td> 
+				<td>
+                    <%= h enquiry.relatedto %>
                 </td> 
 				<td nowrap>
                     <%= link_to "Edit", :action => :edit_enquiry, :id => enquiry %>

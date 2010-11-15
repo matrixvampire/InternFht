@@ -1,8 +1,15 @@
-<title>View Source</title>
-<b>Controller</b>
-<br/>
-<pre style="text-align: left;"><%=h @sourceController %></pre>
-<hr/><b>Model</b>
-<pre style="text-align: left;"><%=h @sourceModel %></pre>
-<hr/><b>Html.erb</b>
-<pre style="text-align: left;"><%=h @sourceHtmlErb %></pre>
+<div id="content-middle">
+    <b>Controller</b>
+    <br/>
+    <% for controller in @controller_list %>
+    <%= link_to controller, :name => controller, :type => "controller" %>
+    <br/>
+    <% end %>
+    <b>Model</b>
+	<% for model in @model_list %>
+    <%= link_to model, :name => model, :type => "model" %>
+    <br/>
+    <% end %>
+    <b>Views</b>
+    <hr/><pre style="text-align: left;"><%=h @sourcecontent %></pre>
+</div>

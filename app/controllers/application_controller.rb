@@ -3,7 +3,7 @@
 
 class ApplicationController < ActionController::Base
   # ssl_requirement flip to https when appropriate
-  include SslRequirement
+#  include SslRequirement
   # Mix in the methods from the ApplicationHelper module
   include ApplicationHelper
   
