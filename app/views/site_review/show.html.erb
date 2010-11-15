@@ -22,10 +22,7 @@
             <%= content_detail.body%>
         </p>
         <p class="link">
-            <%= link_to "comments", :action => :comment, :id => content_detail.content.site_review.id %> 
-			<% if is_admin?%>
-			| <%= link_to "delete", :action => :delete, :id => content_detail.content.id, :frompage => "show"%>
-			<% end %>
+            <%= link_to "comment", :action => :comment, :id => content_detail.content.site_review.id %> 
         </p>
     </div>    
     <% end %>

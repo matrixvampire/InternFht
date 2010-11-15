@@ -1,9 +1,10 @@
 class DiscussionController < ApplicationController
   
-  before_filter :protect, :only => [:create, :edit]
+  before_filter :protect, :only => [:create, :edit, :showmine, :edit, :delete, :delete_comment]
   
   #  show all discussion...
   def show
+    flash[:notice] = ""
     @title = "Discussion"
     @discussions = Discussion.find(:all, :order => 'created_at desc')
   end
@@ -66,6 +67,8 @@ class DiscussionController < ApplicationController
         @reply.content.content_versions.first.contentstatusdate = Time.now
         @reply.discussion = Discussion.find(params[:reply][:discussion_id])
         
+        smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.people.firstname, @reply.discussion, @reply.content.content_versions.first.body)
+        
         ActiveRecord::Base.transaction do
           if @reply.save
             c = Content.find(:last)
@@ -94,7 +97,7 @@ class DiscussionController < ApplicationController
         #      Tag should be make dynamic
         #        @reply.content.tags << Tag.new
       end
-    else #for viewer
+    else #for viewer // do the same except commentor part
       if request.post?
         @reply = Reply.new(params[:reply])
         @reply.content.contenttype = CONTENT_TYPE_REPLY
@@ -103,6 +106,8 @@ class DiscussionController < ApplicationController
         @reply.content.content_versions.first.versiondate = Time.now
         @reply.content.content_versions.first.contentstatusdate = Time.now
         @reply.discussion = Discussion.find(params[:reply][:discussion_id])
+        
+        smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.name, @reply.discussion, @reply.content.content_versions.first.body)
         
         ActiveRecord::Base.transaction do
           if @reply.save
@@ -193,7 +198,7 @@ class DiscussionController < ApplicationController
   #  For AJAX request to get previous version
   def get_previous_version
     content_version = ContentVersion.find(params[:id])
-    render :text => content_version.title+","+content_version.body+","+params[:id]
+    render :text => content_version.title+"||"+content_version.body+"||"+params[:id]
   end
   
   #  For set to be an expired discussion
@@ -202,13 +207,38 @@ class DiscussionController < ApplicationController
     content_version =  ContentVersion.find(content.latest_version_id)
     content_version.contentstatus = CONTENT_STATUS_EXPIRED
     content_version.contentstatusdate = Time.now
-    content_version.save
+    
     if is_admin? 
-#      redirect_to :action => params[:frompage] have to send id also incase of frompage = comment
+      smtp_result = Verifier.deliver_set_new_status(content.discussion.student.people, content_version, CONTENT_STATUS_EXPIRED) 
+      if content_version.save
+        flash[:notice] = "An email has been sent to an user!!"
+      else
+        flash[:error] = "Some problem. Try later."
+      end
       redirect_to :action => :show
     else
+      if content_version.save
+        flash[:notice] = "Discussion deleted successfully!!!"
+      else
+        flash[:error] = "Some problem. Try later."
+      end
       redirect_to :action => :showmine
     end
     
+  end
+  
+  def delete_comment
+      content = Content.find(params[:id])
+      content_detail = ContentVersion.find(content.latest_version_id)
+      
+      content_detail.contentstatus = CONTENT_STATUS_EXPIRED
+      content_detail.contentstatusdate = Time.now
+      
+      if content_detail.save
+        flash[:notice] = "Reply deleted succesfully!!!"
+      else
+        flash[:error] = "Some problem. Try later."
+      end
+      redirect_to :action => :show
   end
 end

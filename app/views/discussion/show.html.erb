@@ -18,9 +18,9 @@
             <%= content_detail.body%>
         </p>
         <p class="link">
-            <%= link_to "comments", :action => :comment, :id => discussion.id %> 
+            <%= link_to "comment", :action => :comment, :id => discussion.id %> 
 			<% if is_admin?%>
-			| <%= link_to "delete", :action => :delete, :id => discussion.content.id, :frompage => "show"%>
+			| <%= link_to "delete", :action => :delete, :id => content_detail.content_id%>
 			<% end %>
         </p>
     </div>    

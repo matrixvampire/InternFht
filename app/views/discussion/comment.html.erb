@@ -43,6 +43,10 @@
 	<%end%>
 	</i>
 </p>
+<p>
+	posted by: <%= @discussion.student.people.fullname%>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+</p>
+
 
 <div class="comments" align="center" >
 	<% i=0 %>
@@ -62,7 +66,7 @@
 			<pre><%= h content_detail_reply.body%></pre>
 			<% if is_admin?%>
 				<p class="link" >
-					<%= link_to "delete", :action => :delete, :id => reply.content.id, :frompage => "comment" %>
+					<%= link_to "delete", :action => :delete_comment, :id => content_detail_reply.content_id%>
 				</p>
 			<% end %>
 			<hr/>

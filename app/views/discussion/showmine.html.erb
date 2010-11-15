@@ -19,8 +19,9 @@
             <%= content_detail.body %>
         </p>
         <p class="link">
-            <%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
-            &nbsp;|&nbsp;<%= link_to "delete", :action => :delete, :id => content_detail.content_id %>
+        	<%= link_to "comment", :action => :comment, :id => discussion.id %> 
+            | <%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
+            | <%= link_to "delete", :action => :delete, :id => content_detail.content_id %>
         </p>
     </div>
     <% end %>

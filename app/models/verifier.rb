@@ -26,13 +26,36 @@ class Verifier < ActionMailer::Base
     body :content_detail => content_detail, :reason => reason, :people => people
   end
   
-  def set_new_status(content, content_detail, status)
-    people = content.site_review.internship.student.people
+  def set_new_status(people, content_detail, status)
     email = people.emailaddress
     
     from "Internship Department Admin"
     recipients email
-    subject "Your review has been "+status
+    subject "Your content has been "+status
     body :content_detail => content_detail, :people => people, :status => status
+  end
+  
+  def comment_review(commentor_name, review, comment_text)
+    owner = review.internship.student.people
+    email = owner.emailaddress
+    content = review.content
+    content_detail = ContentVersion.find(content.latest_version_id)
+    
+    from "Internship Department Admin"
+    recipients email
+    subject commentor_name+" has commented on your review title : "+content_detail.title
+    body :commentor_name => commentor_name, :owner => owner, :content_detail => content_detail, :comment_text => comment_text
+  end
+  
+  def comment_dicussion(commentor_name, discussion, comment_text)
+    owner = discussion.student.people
+    email = owner.emailaddress
+    content = discussion.content
+    content_detail = ContentVersion.find(content.latest_version_id)
+    
+    from "Internship Department Admin"
+    recipients email
+    subject commentor_name+" has commented on your review title : "+content_detail.title
+    body :commentor_name => commentor_name, :owner => owner, :content_detail => content_detail, :comment_text => comment_text
   end
 end

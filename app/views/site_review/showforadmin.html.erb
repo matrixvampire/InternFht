@@ -1,13 +1,19 @@
 
 <script type="text/javascript">
 	function submitSearch(obj){
-		obj.parentNode.submit();
+		if(obj.value!=""){
+			obj.parentNode.submit();
+		}
+	}
+	
+	window.onload = function(){
+		document.getElementById("type").value = "<%= @type%>";
 	}
 	
 </script>	
 <div id="content-top">
     <% form_tag :action => :showforadmin do %>
-        Search for status : <%= select_tag "type", "<option>--SELECT--</option>,<option value='"+CONTENT_STATUS_SUBMITED+"'>"+CONTENT_STATUS_SUBMITED+"</option>,<option value='"+CONTENT_STATUS_AMENDED+"'>"+CONTENT_STATUS_AMENDED+"</option>,<option value='"+CONTENT_STATUS_APPROVED+"'>"+CONTENT_STATUS_APPROVED+"</option>", :onchange => "submitSearch(this)" %>
+        Search for status : <%= select_tag "type", "<option value=''>--SELECT--</option>,<option value='"+CONTENT_STATUS_SUBMITED+"'>"+CONTENT_STATUS_SUBMITED+"</option>,<option value='"+CONTENT_STATUS_AMENDED+"'>"+CONTENT_STATUS_AMENDED+"</option>,<option value='"+CONTENT_STATUS_APPROVED+"'>"+CONTENT_STATUS_APPROVED+"</option>", :onchange => "submitSearch(this)" %>
     <% end %>
 </div>
 
@@ -26,9 +32,17 @@
 			Status : <%= content_detail.contentstatus%>
 		</p>
         <p class="link">
-            <%= link_to "need amendment", :action => :givereason, :id => content_detail.content.id %> 
-			| <%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => content_detail.content.id %> 
-			| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => content_detail.content.id %> 
+        	<% if @type == CONTENT_STATUS_SUBMITED%>
+	            <%= link_to "need amendment", :action => :givereason, :id => content_detail.content.id %> 
+				| <%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => content_detail.content_id %> 
+				| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => content_detail.content_id %> 
+			<% elsif @type == CONTENT_STATUS_AMENDED%>
+				<%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => content_detail.content_id %> 
+				| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => content_detail.content_id %> 
+			<% elsif @type == CONTENT_STATUS_APPROVED%>
+				<%= link_to "comment", :action => :comment, :id => content_detail.content.site_review.id %>
+				| <%= link_to "delete", :action => :setstatus, :status => CONTENT_STATUS_EXPIRED, :id => content_detail.content_id %>
+			<% end %>
         </p>
     </div>    
     <% end %>

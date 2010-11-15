@@ -1,8 +1,10 @@
 class SiteReviewController < ApplicationController
-  before_filter :protect, :only => [:create, :showforadmin, :givereason, :setstatus, :showmine]
+  before_filter :protect, :only => [:create, :showforadmin, :givereason, :setstatus, :showmine, :edit, :delete_comment]
   
   #  show all discussion...
   def show
+    @internships = get_not_review_yet
+    flash[:notice] = "There is no any review "
     @title = "Site Review"
     site_reviews = SiteReview.find(:all, :order => 'created_at desc')
     @content_details = Array.new
@@ -11,6 +13,7 @@ class SiteReviewController < ApplicationController
         content_detail = ContentVersion.find(review.content.latest_version_id)
         if content_detail.contentstatus == CONTENT_STATUS_APPROVED
           @content_details << content_detail
+          flash[:notice] = ""
         end
       end
     end
@@ -23,6 +26,10 @@ class SiteReviewController < ApplicationController
       if !(is_admin?)
         redirect_to :action => :show
       end
+      if !params[:type].nil?
+        flash[:notice] = "There is no review status : "+params[:type]
+      end
+      @type = params[:type];
       if request.post?
         if !params[:type].nil?
           site_reviews = SiteReview.find(:all, :order => 'created_at desc')
@@ -32,6 +39,7 @@ class SiteReviewController < ApplicationController
               content_detail = ContentVersion.find(review.content.latest_version_id)
               if content_detail.contentstatus == params[:type]
                 @content_details << content_detail
+                flash[:notice] = "";
               end
             end
           end
@@ -94,7 +102,7 @@ class SiteReviewController < ApplicationController
       if request.post?
         content = Content.find(params[:content_id])
         content_detail = ContentVersion.find(content.latest_version_id)
-        smtp_result = Verifier.need_amend(content, content_detail, params[:reason]) 
+        smtp_result = Verifier.deliver_need_amend(content, content_detail, params[:reason]) 
         
         content_detail.contentstatus = CONTENT_STATUS_AMENDED
         if content_detail.save
@@ -113,18 +121,32 @@ class SiteReviewController < ApplicationController
   def setstatus
       content = Content.find(params[:id])
       content_detail = ContentVersion.find(content.latest_version_id)
-      smtp_result = Verifier.set_new_status(content, content_detail, params[:status]) 
       
       content_detail.contentstatus = params[:status]
-      if content_detail.save
-        flash[:notice] = "An email has been sent to an user!!"
-      else
-        flash[:error] = "Some problem. Try later."
+      content_detail.contentstatusdate = Time.now
+      
+      if is_admin?
+        smtp_result = Verifier.deliver_set_new_status(content.site_review.internship.student.people, content_detail, params[:status]) 
+        if content_detail.save
+          flash[:notice] = "An email has been sent to an user!!"
+        else
+          flash[:error] = "Some problem. Try later."
+        end
+        redirect_to :action => :showforadmin
+      else 
+        if content_detail.save
+          flash[:notice] = "Site review deleted successfully!!!"
+        else
+          flash[:error] = "Some problem. Try later."
+        end
+        redirect_to :action => :showmine
       end
-      redirect_to :action => :showforadmin
+      
   end
   
   def showmine
+    @internships = get_not_review_yet
+    flash[:notice] = "There is no your review "
     @title = "Site Review"
     @subtitle = "show mine"
     student_id = get_user_student.id
@@ -136,8 +158,164 @@ class SiteReviewController < ApplicationController
         status = content_detail.contentstatus
         if status == CONTENT_STATUS_APPROVED or status == CONTENT_STATUS_SUBMITED or status == CONTENT_STATUS_AMENDED
           @content_details << content_detail
+          flash[:notice] = ""
         end
       end
     end
   end
+  
+  def edit
+    @title = "Site Review"
+    @subtitle = "edit"
+    if logged_in? 
+      @internships = get_not_review_yet
+      if request.post?
+        if params[:content_version][:content_version_id].nil? #new version 
+          @content_version = ContentVersion.new(params[:content_version])
+          @content_version.contentstatus = CONTENT_STATUS_SUBMITED
+          @content_version.versiondate = Time.now
+          @content_version.contentstatusdate = Time.now
+          ActiveRecord::Base.transaction do
+            if @content_version.save
+              c = Content.find(params[:content_version][:content_id])
+              c.latest_version_id = ContentVersion.find(:last).id
+              if c.save # update latest version
+                flash[:notice] = "Site review edited successfully!!!"
+              else
+                flash[:error] = "Some problem. Try later."
+                raise ActiveRecord::Rollback
+              end
+            else
+              flash[:error] = "Some problem. Try later."
+              raise ActiveRecord::Rollback
+            end
+          end
+          
+        else #use previous version 
+          c = Content.find(params[:content_version][:content_id])
+          c.latest_version_id = params[:content_version][:content_version_id]
+          logger.debug params[:content_version][:content_version_id]
+          if c.save # update latest version
+            flash[:notice] = "Site review edited successfully!!!"
+          else
+            flash[:error] = "Some problem. Try later."
+          end
+        end
+        redirect_to :action => :showmine
+      else # do_get
+        content = Content.find(params[:id])  
+        @content_version =  ContentVersion.find(content.latest_version_id)
+        @all_versions = ContentVersion.find(:all, :conditions => ["content_id = ? and id <> ? ", content.id, content.latest_version_id], :order => 'created_at desc')
+        logger.debug @all_versions
+      end
+    end
+  end
+  
+  #  For AJAX request to get previous version
+  def get_previous_version
+    content_version = ContentVersion.find(params[:id])
+    render :text => content_version.title+"||"+content_version.body+"||"+params[:id]
+  end
+  
+  def comment
+    @title = "Site Review"
+    @subtitle = "comment"
+    if logged_in?     
+      @internships = get_not_review_yet
+      if request.post?
+        @comment = SiteReviewComment.new(params[:comment])
+        @comment.commentor = get_commentor
+        @comment.content.contenttype = CONTENT_TYPE_SITE_REVIEW_COMMENT
+        @comment.content.creationdate = Time.now
+        @comment.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
+        @comment.content.content_versions.first.versiondate = Time.now
+        @comment.content.content_versions.first.contentstatusdate = Time.now
+        @comment.site_review = SiteReview.find(params[:comment][:site_review_id])
+        
+        smtp_result = Verifier.deliver_comment_review(@comment.commentor.people.firstname, @comment.site_review, @comment.content.content_versions.first.body)
+        
+        ActiveRecord::Base.transaction do
+          if @comment.save
+            c = Content.find(:last)
+            c.latest_version_id = ContentVersion.find(:last).id
+            if c.save # update latest version
+              flash[:notice] = "Comment added successfully!!!"
+            else
+              flash[:error] = "Some problem. Try later."
+              raise ActiveRecord::Rollback
+            end
+          else
+            flash[:error] = "Some problem. Try later."
+            raise ActiveRecord::Rollback
+          end
+        end
+        redirect_to :action => :comment
+      else #DO_GET
+        @review = SiteReview.find(params[:id])
+        logger.debug @review
+        @comments = @review.site_review_comments
+        
+        @comment = SiteReviewComment.new
+        @comment.content = Content.new
+        @comment.content.content_versions << ContentVersion.new
+        @comment.site_review = @review
+      end
+    
+    else #for viewer : do the same without commentor part
+      if request.post?
+        @comment = SiteReviewComment.new(params[:comment])
+        @comment.content.contenttype = CONTENT_TYPE_SITE_REVIEW_COMMENT
+        @comment.content.creationdate = Time.now
+        @comment.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
+        @comment.content.content_versions.first.versiondate = Time.now
+        @comment.content.content_versions.first.contentstatusdate = Time.now
+        @comment.site_review = SiteReview.find(params[:comment][:site_review_id])
+        
+        smtp_result = Verifier.deliver_comment_review(@comment.commentor.name, @comment.site_review, @comment.content.content_versions.first.body)
+        
+        ActiveRecord::Base.transaction do
+          if @comment.save
+            c = Content.find(:last)
+            c.latest_version_id = ContentVersion.find(:last).id
+            if c.save # update latest version
+              flash[:notice] = "Comment added successfully!!!"
+            else
+              flash[:error] = "Some problem. Try later."
+              raise ActiveRecord::Rollback
+            end
+          else
+            flash[:error] = "Some problem. Try later."
+            raise ActiveRecord::Rollback
+          end
+        end
+        redirect_to :action => :comment
+      else #DO_GET
+        @review = SiteReview.find(params[:id])
+        logger.debug @review
+        @comments = @review.site_review_comments
+        
+        @comment = SiteReviewComment.new
+        @comment.content = Content.new
+        @comment.content.content_versions << ContentVersion.new
+        @comment.site_review = @review
+        @comment.commentor = Commentor.new
+      end
+    end
+  end
+  
+  def delete_comment
+      content = Content.find(params[:id])
+      content_detail = ContentVersion.find(content.latest_version_id)
+      
+      content_detail.contentstatus = CONTENT_STATUS_EXPIRED
+      content_detail.contentstatusdate = Time.now
+      
+      if content_detail.save
+        flash[:notice] = "Comment deleted succesfully!!!"
+      else
+        flash[:error] = "Some problem. Try later."
+      end
+      redirect_to :action => :showforadmin
+  end
+    
 end

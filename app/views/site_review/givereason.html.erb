@@ -19,7 +19,7 @@
 			<% end %>
 	<% end %>
 	<hr/>
-	<% form_tag :action => :showforadmin do %>
+	<% form_tag :action => :givereason do %>
 		<%= hidden_field_tag 'content_id', @content_detail.content.id%>
         Reason :<br/> 
 		<%= text_area_tag 'reason' , nil, :rows => 15, :cols => 50 %><br/> 
