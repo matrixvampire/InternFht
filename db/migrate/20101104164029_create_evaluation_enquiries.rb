@@ -3,7 +3,7 @@ class CreateEvaluationEnquiries < ActiveRecord::Migration
     create_table :evaluation_enquiries do |t|
       t.integer :evaluation_criteria_id
       t.string :question
-      t.string :relatedto
+
       t.timestamps
     end
   end

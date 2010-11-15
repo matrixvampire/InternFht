@@ -1,0 +1,30 @@
+<% form_for :internship, @internship,:url => { :action => :update, :id => @internship.id } do |internship_form| %>
+<fieldset>
+    <legend>
+        Internship Entry
+    </legend>
+    <div>
+        <%= internship_form.label :student_id, "Student" %>
+        <%= internship_form.select :student_id, @studentlist.collect{|s| [s.fullname, s.id]}, :prompt => 'Select Student' %>
+    </div>
+	<div>
+        <%= internship_form.label :site_id, "Student" %>
+        <%= internship_form.select :site_id, @sitelist.collect{|s| [s.sitename, s.id]}, :prompt => 'Select Site' %>
+    </div>
+	<div>
+        <%= internship_form.label :startdate, "Start Date" %>
+        <%= internship_form.date_select :startdate, :size => 20, :start_year => Time.now.year - 5, :end_year => Time.now.year + 5 %>
+    </div>
+	<div>
+        <%= internship_form.label :enddate, "End Date" %>
+        <%= internship_form.date_select :startdate, :size => 20, :start_year => Time.now.year - 5, :end_year => Time.now.year + 5 %>
+    </div>
+	<div>
+        <%= internship_form.label :sector, "Sector" %>
+        <%= internship_form.text_field :sector, :size => 20 %>
+    </div>
+    <div>
+        <%= internship_form.submit "Update" %>
+    </div>
+</fieldset>
+<% end %>

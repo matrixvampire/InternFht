@@ -1,0 +1,69 @@
+<div id="content-middle">
+    <% if !@internshiplist.nil? %>
+    <table id="hor-minimalist-a">
+        <thead>
+            <tr>
+                <th scope="col">
+                    &nbsp;
+                </th>
+                <th scope="col">
+                    Student Name
+                </th>
+                <th scope="col">
+                    Site Name
+                </th>
+                <th scope="col">
+                    Sector
+                </th>
+                <th scope="col">
+                    Start Date 
+                </th>
+                <th scope="col">
+                    End Date
+                </th>
+                <th scope="col">
+                    &nbsp;
+                </th>
+                <th scope="col">
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% i= 0 %>
+            <% for intern in @internshiplist %>
+            <% i= i+1 %>
+            <tr>
+                <td>
+                    <%= i %>
+                </td>
+                <td>
+                    <%= h intern.student.people.fullname %>
+                </td>
+                <td>
+                    <%= h intern.site.sitename %>
+                </td>
+                <td>
+                    <%= h intern.sector %>
+                </td>
+                <td>
+                    <%= h intern.startdate.strftime("%d-%m-%Y") %>
+                </td>
+                <td>
+                    <%= h intern.enddate.strftime("%d-%m-%Y") %>
+                </td>
+                <td>
+                    <%= link_to "Edit", :action => :edit, :id => intern %>
+                </td>
+                <td>
+                    <%= link_to "Active", :action => :active, :id => intern %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</div>
+<div id="content-bottom">
+    <%= nav_link "Add Internship", :internship, :create %>
+</div>
