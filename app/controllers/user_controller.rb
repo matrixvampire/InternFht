@@ -171,12 +171,14 @@ class UserController < ApplicationController
             logger.debug "Site : #{@site.attributes.inspect}"
             
             @site.peoples.each do |people|
-              people.user.usertype = TYPE_SITE
+              #CAN NOT DO LIKE THIS...SO USE HIDEN FILED FROM VIEW
+              people.user.usertype = TYPE_SITE 
               people.user.isvalid = true
               
               logger.debug people
               logger.debug @site.sites_associations
             end
+
             @site.addresses.each do |address|
               logger.debug "Address : #{address.attributes.inspect}"
             end      
@@ -226,7 +228,7 @@ class UserController < ApplicationController
         people.phonenumber = params[:phonenumber].strip
         people.mobilenumber = params[:mobilenumber].strip
         people.gender = params[:gender].strip
-        people.birthdate = params[:birthdate].strip
+        people.birthdate_ad = params[:date][:year]+"-"+params[:date][:month]+"-"+params[:date][:day]
         people.faxnumber = params[:faxnumber].strip
         people.homepage = params[:homepage].strip
         
@@ -236,13 +238,15 @@ class UserController < ApplicationController
           address = people.faculty.addresses.first
         elsif get_type_of_user == TYPE_ADMINISTRATOR
           address = people.administrator.addresses.first
+        elsif get_type_of_user == TYPE_SITE
+          address = people.sites.first.addresses.first
         end
         
         address.addresstype = params[:address_type].strip
         address.buildingnumber = params[:buildingnumber].strip
         address.streetname = params[:streetname].strip
         address.city = params[:city].strip
-        address.state_province = params[:state_province].strip
+#        address.state_province = params[:state_province].strip
         address.zippostal_code = params[:zippostal_code].strip
         address.country = params[:country].strip
         
@@ -267,6 +271,8 @@ class UserController < ApplicationController
           @address = @people.faculty.addresses.first
         elsif get_type_of_user == TYPE_ADMINISTRATOR
           @address = @people.administrator.addresses.first
+        elsif get_type_of_user == TYPE_SITE
+          @address = @people.sites.first.addresses.first
         end
         
         if @address.nil?
@@ -385,6 +391,8 @@ class UserController < ApplicationController
         redirect_to :controller => :student,  :action => :profile
       elsif get_type_of_user == TYPE_FACULTY
         redirect_to :controller => :faculty, :action => :profile
+      elsif get_type_of_user == TYPE_SITE
+        redirect_to :controller => :site, :action => :profile
       end
     end
   end

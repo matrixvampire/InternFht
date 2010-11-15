@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   
   attr_accessor :password
   
-  attr_accessible :username, :password, :usertype
+  attr_accessible :username, :password, :usertype, :isvalid
   
   def password=(pass)
     self.password_salt, self.password_hash = nil, nil

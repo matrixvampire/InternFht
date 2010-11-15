@@ -1,8 +1,9 @@
 <script type="text/javascript">
 	window.onload = function(){
-		// set combo values
-		document.getElementById("country").value = "<%= @address.country %>"
-		document.getElementById("gender").value = "<%= @people.gender %>"
+		// set combo values 
+		document.getElementById("country").value = "<%= @address.country %>";
+		document.getElementById("gender").value = "<%= @people.gender %>";
+		document.getElementById("birthdate_ad_start_year1980end_year2000size20_1i").value = "<%=@people.birthdate_ad%>".split("-")[0];
 	}
 	
 </script>
@@ -46,8 +47,8 @@
         <%= select_tag :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
 	</div>
     <div>
-        <%= label_tag :birthdate, "Date of Birth [BE]:" %>
-		<%= date_field('','birthdate', :value => @people.birthdate, :size => 20)%>[YYYY-MM-DD]
+        <%= label_tag :birthdate_ad, "Date of Birth :" %>
+		<%= select_date(@people.birthdate_ad, :start_year => Time.now.year - 70, :end_year => Time.now.year)%>
     </div>
 	<!--div>
 		<%= select_date Date.today, :prefix => :start_date %>
@@ -86,10 +87,10 @@
         <%= label_tag :city, "City:" %>
         <%= text_field_tag :city, @address.city, :size => 20 %>
     </div>
-    <div>
+    <!--div>
         <%= label_tag :state_province, "State/Province:" %>
         <%= text_field_tag :state_province, @address.state_province, :size => 20 %>
-    </div>
+    </div-->
 	<div>
         <%= label_tag :zippostal_code, "Zip Code:" %>
         <%= text_area_tag :zippostal_code, @address.zippostal_code, :rows => 4, :cols => 20 %>

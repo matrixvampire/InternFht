@@ -1,2 +1,17 @@
-This is Profile Page of Site.
-
+<div id="main-profile">
+    <ul>
+        <li>
+            <%= nav_link "Edit Profile", :user, :editprofile %>
+        </li>
+        <li>
+            Name :<%= h @people.fullname %>
+        </li>
+		<li>
+        Address :
+        <br/>
+        <% for address in @people.sites.first.addresses %>
+        <%= h address.city %>, <%= h address.country %>
+        <% end %>
+		</li>
+    </ul>
+</div>

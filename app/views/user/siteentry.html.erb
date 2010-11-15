@@ -84,9 +84,14 @@
 				        <%= user_form.label :password, "Password:" %>
 				        <%= user_form.password_field :password, :size => 20, :maxlength => 20 %>
 				    </div>
+					<div>
+				        <%= user_form.hidden_field :usertype, :value => TYPE_SITE %>
+				    </div>
+					<div>
+				        <%= user_form.text_field :isvalid, :value => true %>
+				    </div>
 					<span style="color:red; font-style:italic;">Minimum Length of password is 4</span>
 			    <% end %>
-			    <hr/>			    
 		<%end%>
 		<%end%>
 	<%end%>
