@@ -449,7 +449,7 @@ p a:hover {
     height: 200px;
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
-	border-left: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 .box3 {
@@ -467,7 +467,6 @@ p a:hover {
 p.abstract {
     min-height: 75px;
 }
-
 * html .box p, * html .box3 p {
     margin: 0px 0 15px 10px;
 }
@@ -1973,13 +1972,26 @@ input {
     -khtml-border-radius: 0.4em;
 }
 
+input[type =
+"text"], input[type = "password"] {
+    padding: 0.15em;
+    width: auto;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    font: bold 0.95em arial, sans-serif;
+    -moz-border-radius: 0.4em;
+    -khtml-border-radius: 0.4em;
+    text-align: left;
+}
+
 textarea {
-    padding: 0.15em;    
+    padding: 0.15em;
     border: 1px solid #ddd;
     background: #fafafa;
     font: bold 1em arial, sans-serif;
     -moz-border-radius: 0.4em;
     -khtml-border-radius: 0.4em;
+    text-align: left;
 }
 
 input:hover, input:focus, textarea:hover, textarea:hover {
@@ -2080,8 +2092,29 @@ input.default {
 
 .comments {
     background-color: #F3F3F3;
-    border: 1px solid #AAAAAA;
-    width: 50%;
+    width: auto;
     font-size: 12px;
     text-align: left;
+    margin-top: 1ex;
+    margin-left: 20ex;
+    margin-right: 20ex;
+    padding: 1ex;
+    -moz-box-shadow: inset 0 0 10px #C2C2C3;
+    -webkit-box-shadow: inset 0 0 10px #C2C2C3;
+    box-shadow: inset 0 0 10px #C2C2C3;
+}
+
+.post_content {
+    background-color: #C2C2C3;
+    width: auto;
+    font-size: 12px;
+    text-align: left;
+    margin-bottom: 2ex;
+    margin-left: 20ex;
+    margin-right: 20ex;
+    padding: 1ex;
+    -moz-box-shadow: 3px 3px 4px #333333;
+    -webkit-box-shadow: 3px 3px 4px #333333;
+    box-shadow: 3px 3px 4px #333333;
+	
 }
