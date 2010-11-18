@@ -1,0 +1,10 @@
+<div id="content-middle">
+	<div class="post_content">
+        <b><u><%= h @content_version.title %></u></b>&nbsp;
+		<%= @broadcast.administrator.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y") %></i>
+        <pre><%= @content_version.body%></pre>
+		<p>
+			<div style="text-align: right;"><i>contact:</i> <%= @broadcast.administrator.people.emailaddress%></div>
+		</p>
+	</div>
+</div>

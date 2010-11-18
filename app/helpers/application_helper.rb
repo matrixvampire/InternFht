@@ -87,6 +87,14 @@ module ApplicationHelper
     end
   end
   
+  def get_user_administrator
+    if session[:user_id] != nil
+      currentUser = User.find(session[:user_id])
+      admin = currentUser.people.administrator
+      return admin
+    end
+  end
+  
   def get_not_review_yet   
     if check_session? && get_type_of_user == TYPE_STUDENT
 #      internship = Internship.find(:all ,:conditions => ["student_id=? and (startdate - enddate)>= ? and isreview = false", session[:user_id], REQUIRED_DURATION_FOR_REVIEW])  

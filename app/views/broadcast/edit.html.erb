@@ -1,7 +1,12 @@
 <script type="text/javascript">
+	window.onload = function(){
+		// set combo values 
+		document.getElementById("expirationdate_start_year2000end_year2020size20_1i").value = "<%=@broadcast.expirationdate%>".split("-")[0];
+	}
+	
     function put_value(obj){
         if(obj.value != ""){
-			new Ajax.Request('/site_review/get_previous_version/'+obj.value, {
+			new Ajax.Request('/broadcast/get_previous_version/'+obj.value, {
 				method: 'get',
 				onSuccess: function(request){
 					var text = request.responseText.split('||');
@@ -39,39 +44,30 @@
 			return true;
 		}            
     }
+	
 </script>
-
-<% if !@internships.nil? and @internships.length > 0 %>
-<div id="content-top">
-    <%= nav_link "New Site Review", :site_review, :create %>
-    | <%= nav_link "Show Mine", :site_review, :showmine %>
-	<p align="center"><i>You can make a review to only site you had worked for more than 90 days</i></p>
-</div>
-<% elsif is_student?%>
-<div id="content-top">
-    <%= nav_link "Show Mine", :site_review, :showmine %>
-	<p align="center"><i>You can make a review to only site you had worked for more than 90 days</i></p>
-</div>
-<% end %>
-
 
 <% form_for :content_version, @content_version, :html => { :multipart => true, :onsubmit => "return validateInput()"  } do |content_version_form| %>
 	<fieldset>
 		<legend>Edit Discussion</legend>
 			<%= content_version_form.hidden_field :content_id, :value => @content_version.content_id %>
 			<%= content_version_form.hidden_field :content_version_id, :value => "", :disabled => true %>
-			<div class="form_row" style="text-align:center;">
+			<div class="form_row">
 				<% if @all_versions!=[]%>
 					<%= select "selected","version", @all_versions.collect {|v| [v.created_at,v.id] },{:prompt => '--Choose from previous versions--'},{:onchange => "put_value(this)"} %>
 		    	<% end %>
 			</div>
-			<div class="form_row" style="text-align:left;">
+			<div class="form_row" style="text-align: left;">
 		        <%= content_version_form.label :title, "Title<font color='Red'>&nbsp;*</font>:" %>
 		        <%= content_version_form.text_field :title, :size => 50 %>
 			</div>
-			<div class="form_row" style="text-align:left;">
+			<div class="form_row" style="text-align: left;">
 		        <%= content_version_form.label :body, "Body<font color='Red'>&nbsp;*</font>:" %>
 		        <%= content_version_form.text_area :body, :rows => 20, :cols => 50 %>
+		    </div>
+			<div class="form_row" style="text-align: left;">
+		        <%= label_tag :expirationdate, "Expiration Date:" %>
+				<%= select_date(@broadcast.expirationdate, :start_year => Time.now.year - 10, :end_year => Time.now.year + 10)%>
 		    </div>
 			<div class="form_row" >
 		        <%= content_version_form.submit "Submit", :disable_with => "Submitting..."%>

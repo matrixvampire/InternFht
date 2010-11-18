@@ -55,20 +55,20 @@
 		<% site_review_form.fields_for :content do |content_form| %>
 			<% @site_review.content.content_versions.each do |content_version| %>
 				<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
-				<div class="form_row">
-			        <%= content_version_from.label :title, "Title:" %>
+				<div class="form_row" style="text-align:left;">
+			        <%= content_version_from.label :title, "Title<font color='Red'>&nbsp;*</font>:" %>
 			        <%= content_version_from.text_field :title, :size => 50 %>
 			    </div>
-				<div class="form_row">
-			        <%= content_version_from.label :body, "Body:" %>
+				<div class="form_row" style="text-align:left;">
+			        <%= content_version_from.label :body, "Body<font color='Red'>&nbsp;*</font>:" %>
 			        <%= content_version_from.text_area :body, :rows => 20, :cols => 80 %>
 			    </div>
 				<% end %>
 			<% end %>
 			<% @site_review.content.tags.each do |tag| %>
 				<% content_form.fields_for :tags, tag do |tag_form| %>
-					<div class="form_row">
-				        <%= tag_form.label :tag_name, "Tag:" %>
+					<div class="form_row" style="text-align:left;">
+				        <%= tag_form.label :tag_name, "Tag<font color='Red'>&nbsp;*</font>:" %>
 				        <%= tag_form.text_field :tag_name, :size => 20 %>
 						<%= select "selected","tag", @tags.collect {|t| [t.tag_name,t.tag_name] },{:prompt => '--SELECT--'},{:onchange => "put_value(this)"} %>
 				    </div>

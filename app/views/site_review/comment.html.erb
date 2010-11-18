@@ -37,27 +37,27 @@
 <% end %>
 
 <div id="content-middle">
-<% content_detail = ContentVersion.find(@review.content.latest_version_id) %>
-<b><u><%= content_detail.title%></u></b>
-<%=h content_detail.body%>
-<p>
-	<i>
-	tags: 
-	<% @review.content.tags.each do |tag|%>
-		<%=tag.tag_name%>&nbsp;
-	<%end%>
-	</i>
-</p>
-<p>
-	posted by: <%= @review.internship.student.people.fullname%>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
-</p>
-
-<div class="comments" align="center" >
+	<div class="post_content">
+		<% content_detail = ContentVersion.find(@review.content.latest_version_id) %>
+		<b><u><%= content_detail.title%></u></b>&nbsp;
+		<%= @review.internship.student.people.fullname%>,&nbsp;<i><%= h content_detail.content.creationdate.strftime("%B %d, %Y") %></i>
+			<pre><%=h content_detail.body%></pre>
+		<p>
+			<i>
+			tags: 
+			<% @review.content.tags.each do |tag|%>
+				<%=tag.tag_name%>&nbsp;
+			<%end%>
+			</i>
+		</p>
+	</div>
+	
 	<% i=0 %>
 	<% @comments.each do |comment|%>
 	<% content_detail_comment = ContentVersion.find(comment.content.latest_version_id) %>
 		<% if content_detail_comment.contentstatus == CONTENT_STATUS_APPROVED %>
 		<% i = i+1%>
+		<div class="comments" >
 			<p>
 				<%=i%>.
 				<% if !comment.commentor.people_id.nil? %>
@@ -73,44 +73,36 @@
 					<%= link_to "delete", :action => :delete_comment, :id => content_detail_comment.content_id%>
 				</p>
 			<% end %>
-			<hr/>
+			</div>
 		<% end %>
 	<% end %>
-</div>
+
 
 
 <% form_for :comment, @comment, :html => { :multipart => true, :onsubmit => "return validateInput()" } do |comment_form| %>
 	<%= comment_form.hidden_field :site_review_id, :value => @review.id %>
 	<% comment_form.fields_for :commentor do |commentor_from| %>
-		<div class="form_row">
-	        <%= commentor_from.label :name, "Name:" %>
-	        <%= commentor_from.text_field :name, :size => 20 %>
+		<div class="form_row" style="text-align:left;">
+	        <%= commentor_from.label :name, "Name<font color='Red'>&nbsp;*</font>:" %>
+	        <%= commentor_from.text_field :name, :size => 50 %>
 	    </div>
-		<div class="form_row">
-	        <%= commentor_from.label :email, "Email:" %>
-	        <%= commentor_from.text_field :email, :size => 20 %>
+		<div class="form_row" style="text-align:left;">
+	        <%= commentor_from.label :email, "Email<font color='Red'>&nbsp;*</font>:" %>
+	        <%= commentor_from.text_field :email, :size => 50 %>
 	    </div>
-		<div class="form_row">
+		<div class="form_row" style="text-align:left;">
 	        <%= commentor_from.label :homepage, "Home Page:" %>
-	        <%= commentor_from.text_field :homepage, :size => 20 %>
+	        <%= commentor_from.text_field :homepage, :size => 50 %>
 	    </div>
 	<% end %>
 	<% comment_form.fields_for :content do |content_form| %>
 		<% @comment.content.content_versions.each do |content_version| %>
 				<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
-					<div class="form_row">
-				        <%= content_version_from.label :body, "Comment:" %>
+					<div class="form_row" style="text-align:left;">
+				        <%= content_version_from.label :body, "Comment<font color='Red'>&nbsp;*</font>:" %>
 				        <%= content_version_from.text_area :body, :rows => 20, :cols => 50 %>
 				    </div>
 				<% end %>
-		<% end %>
-		<% @comment.content.tags.each do |tag| %>
-			<% content_form.fields_for :tags, tag do |tag_form| %>
-				<div class="form_row">
-			        <%= tag_form.label :tag_name, "Tag:" %>
-			        <%= tag_form.text_field :tag_name, :size => 20 %>
-			    </div>
-			<% end %>
 		<% end %>
 	<% end %>
 	<div class="form_row" >

@@ -53,15 +53,17 @@
 		<legend>Edit Discussion</legend>
 			<%= content_version_form.hidden_field :content_id, :value => @content_version.content_id %>
 			<%= content_version_form.hidden_field :content_version_id, :value => "", :disabled => true %>
-			<div class="form_row">
-		        <%= content_version_form.label :title, "Title:" %>
-		        <%= content_version_form.text_field :title, :size => 50 %>
+			<div class="form_row" style="text-align:center;">
 				<% if @all_versions!=[]%>
 					<%= select "selected","version", @all_versions.collect {|v| [v.created_at,v.id] },{:prompt => '--Choose from previous versions--'},{:onchange => "put_value(this)"} %>
 		    	<% end %>
 			</div>
-			<div class="form_row">
-		        <%= content_version_form.label :body, "Body:" %>
+			<div class="form_row" style="text-align:left;">
+		        <%= content_version_form.label :title, "Title<font color='Red'>&nbsp;*</font>:" %>
+		        <%= content_version_form.text_field :title, :size => 50 %>
+			</div>
+			<div class="form_row" style="text-align:left;">
+		        <%= content_version_form.label :body, "Body<font color='Red'>&nbsp;*</font>:" %>
 		        <%= content_version_form.text_area :body, :rows => 20, :cols => 50 %>
 		    </div>
 			<div class="form_row" >

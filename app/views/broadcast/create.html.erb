@@ -1,0 +1,51 @@
+<script type="text/javascript">
+	
+	function validateInput(){
+        if (document.getElementById('broadcast_content_attributes_content_versions_attributes_0_title').value == "") {
+            alert("Please enter title!");
+            document.getElementById('broadcast_content_attributes_content_versions_attributes_0_title').focus();
+            return false;
+        }
+        else if(document.getElementById('broadcast_content_attributes_content_versions_attributes_0_body').value == ""){
+			alert("Please enter body!");
+            document.getElementById('broadcast_content_attributes_content_versions_attributes_0_body').focus();
+            return false;
+		}else{
+			return true;
+		}            
+    }
+</script>
+<% if is_admin? %>
+<div id="content-top">
+    <%= nav_link "Create News", :broadcast, :create %>
+</div>
+<% end %>
+<% form_for :broadcast, @broadcast, :html => { :multipart => true, :onsubmit => "return validateInput()" } do |broadcast_form| %>
+<fieldset>
+    <legend>
+        Create News
+    </legend>
+	<% broadcast_form.fields_for :content do |content_form| %>
+		<% @broadcast.content.content_versions.each do |content_version| %>
+			<% content_form.fields_for :content_versions, content_version do |content_version_from| %>
+			<div class="form_row" style="text-align: left;">
+		        <%= content_version_from.label :title, "Title<font color='Red'>&nbsp;*</font>:" %>
+		        <%= content_version_from.text_field :title, :size => 50 %>
+		    </div>
+			<div class="form_row">
+		        <%= content_version_from.label :body, "Body<font color='Red'>&nbsp;*</font>:" %>
+		        <%= content_version_from.text_area :body, :rows => 20, :cols => 80 %>
+		    </div>
+				<div class="form_row" style="text-align: left;">
+			        <%= broadcast_form.label :expirationdate, "Expiration Date<font color='Red'>&nbsp;*</font>:" %>
+			        <%= broadcast_form.date_select :expirationdate, :size => 20, :start_year => Time.now.year - 10, :end_year => Time.now.year + 10 %>
+			    </div>
+			<% end %>
+		<% end %>
+	<% end %>
+	<div class="form_row">
+		<br/>
+        <%= broadcast_form.submit "Save", :disable_with => "Saving..."%>
+    </div>
+</fieldset>
+<% end %>

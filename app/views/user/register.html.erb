@@ -1,25 +1,209 @@
 <script type="text/javascript">
-	
-	function show_page(obj) {
-		if (obj.value == 'student') {
-			var url = '/user/studententry';
-		}else if(obj.value == 'faculty'){
-			var url = '/user/facultyentry';
-		}else if(obj.value == 'site'){
-			var url = '/user/siteentry';
-		}else{
-			document.getElementById("mainPage").innerHTML = "";
-		}
-		if(obj.value != '')
-			new Ajax.Request(url, {
-				method: 'get',
-				onSuccess: function(request){
-					document.getElementById("mainPage").innerHTML = request.responseText;
-				}
-			})
-	}
-	
+    
+    function show_page(obj){
+        if (obj.value == 'student') {
+            var url = '/user/studententry';
+        }
+        else 
+            if (obj.value == 'faculty') {
+                var url = '/user/facultyentry';
+            }
+            else 
+                if (obj.value == 'site') {
+                    var url = '/user/siteentry';
+                }
+                else {
+                    document.getElementById("mainPage").innerHTML = "";
+                }
+        if (obj.value != '') 
+            new Ajax.Request(url, {
+                method: 'get',
+                onSuccess: function(request){
+                    document.getElementById("mainPage").innerHTML = request.responseText;
+                }
+            })
+    }
+    
+    function validateInput(){
+        if (document.getElementById("post_category").value == 'student') {
+            var type = 'student';
+        }
+        else 
+            if (document.getElementById("post_category").value == 'faculty') {
+                var type = 'faculty';
+            }
+        
+        if (document.getElementById("post_category").value != 'site') {
+            if (document.getElementById(type + '_identificationcode').value == "") {
+                alert("Please enter Identification Code!");
+                document.getElementById(type + '_identificationcode').focus();
+                return false;
+            }
+            else 
+                if (document.getElementById(type + '_people_attributes_firstname').value == "") {
+                    alert("Please enter first name!");
+                    document.getElementById(type + '_people_attributes_firstname').focus();
+                    return false;
+                }
+                else 
+                    if (document.getElementById(type + '_people_attributes_lastname').value == "") {
+                        alert("Please enter last name!");
+                        document.getElementById(type + '_people_attributes_lastname').focus();
+                        return false;
+                    }
+                    else 
+                        if (document.getElementById(type + '_people_attributes_emailaddress').value == "") {
+                            alert("Please enter email address!");
+                            document.getElementById(type + '_people_attributes_emailaddress').focus();
+                            return false;
+                        }
+                        else 
+                            if (validate_email(document.getElementById(type + '_people_attributes_emailaddress').value) == false) {
+                                document.getElementById(type + '_people_attributes_emailaddress').select();
+                                return false;
+                            }
+                            else 
+                                if (document.getElementById(type + '_people_attributes_mobilenumber').value == "") {
+                                    alert("Please enter mobile number!");
+                                    document.getElementById(type + '_people_attributes_mobilenumber').focus();
+                                    return false;
+                                }
+                                else 
+                                    if (document.getElementById(type + '_people_attributes_user_attributes_username').value == "") {
+                                        alert("Please enter username!");
+                                        document.getElementById(type + '_people_attributes_user_attributes_username').focus();
+                                        return false;
+                                    }
+                                    else 
+                                        if (document.getElementById(type + '_people_attributes_user_attributes_password').value == "") {
+                                            alert("Please enter password!");
+                                            document.getElementById(type + '_people_attributes_user_attributes_password').focus();
+                                            return false;
+                                        }
+                                        else 
+                                            if (document.getElementById(type + '_addresses_attributes_0_addresstype').value == "") {
+                                                alert("Please enter address type!");
+                                                document.getElementById(type + '_addresses_attributes_0_addresstype').focus();
+                                                return false;
+                                            }
+                                            else 
+                                                if (document.getElementById(type + '_addresses_attributes_0_buildingnumber').value == "") {
+                                                    alert("Please enter building number!");
+                                                    document.getElementById(type + '_addresses_attributes_0_buildingnumber').focus();
+                                                    return false;
+                                                }
+                                                else 
+                                                    if (document.getElementById(type + '_addresses_attributes_0_streetname').value == "") {
+                                                        alert("Please enter street name!");
+                                                        document.getElementById(type + '_addresses_attributes_0_streetname').focus();
+                                                        return false;
+                                                    }
+                                                    else 
+                                                        if (document.getElementById(type + '_addresses_attributes_0_city').value == "") {
+                                                            alert("Please enter city!");
+                                                            document.getElementById(type + '_addresses_attributes_0_city').focus();
+                                                            return false;
+                                                        }
+                                                        else {
+                                                            return true;
+                                                        }
+            
+        }
+        else { //SITE
+            var type = 'site';
+            var type_ass = 'site_sites_associations_attributes_0';
+            
+            if (document.getElementById(type + '_identificationcode').value == "") {
+                alert("Please enter Identification Code!");
+                document.getElementById(type + '_identificationcode').focus();
+                return false;
+            }
+            else 
+                if (document.getElementById(type + '_sitename').value == "") {
+                    alert("Please enter site name!");
+                    document.getElementById(type + '_sitename').focus();
+                    return false;
+                }
+                else 
+                    if (document.getElementById(type + '_sitetype').value == "") {
+                        alert("Please enter site type!");
+                        document.getElementById(type + '_sitetype').focus();
+                        return false;
+                    }
+                    else 
+                        if (document.getElementById(type_ass + '_people_attributes_firstname').value == "") {
+                            alert("Please enter first name!");
+                            document.getElementById(type_ass + '_people_attributes_firstname').focus();
+                            return false;
+                        }
+                        else 
+                            if (document.getElementById(type_ass + '_people_attributes_lastname').value == "") {
+                                alert("Please enter last name!");
+                                document.getElementById(type_ass + '_people_attributes_lastname').focus();
+                                return false;
+                            }
+                            else 
+                                if (document.getElementById(type_ass + '_people_attributes_emailaddress').value == "") {
+                                    alert("Please enter email address!");
+                                    document.getElementById(type_ass + '_people_attributes_emailaddress').focus();
+                                    return false;
+                                }
+                                else 
+                                    if (validate_email(document.getElementById(type_ass + '_people_attributes_emailaddress').value) == false) {
+                                        document.getElementById(type_ass + '_people_attributes_emailaddress').select();
+                                        return false;
+                                    }
+                                    else 
+                                        if (document.getElementById(type_ass + '_people_attributes_mobilenumber').value == "") {
+                                            alert("Please enter mobile number!");
+                                            document.getElementById(type_ass + '_people_attributes_mobilenumber').focus();
+                                            return false;
+                                        }
+                                        else 
+                                            if (document.getElementById(type_ass + '_people_attributes_user_attributes_username').value == "") {
+                                                alert("Please enter username!");
+                                                document.getElementById(type_ass + '_people_attributes_user_attributes_username').focus();
+                                                return false;
+                                            }
+                                            else 
+                                                if (document.getElementById(type_ass + '_people_attributes_user_attributes_password').value == "") {
+                                                    alert("Please enter password!");
+                                                    document.getElementById(type_ass + '_people_attributes_user_attributes_password').focus();
+                                                    return false;
+                                                }
+                                                else 
+                                                    if (document.getElementById(type + '_addresses_attributes_0_addresstype').value == "") {
+                                                        alert("Please enter address type!");
+                                                        document.getElementById(type + '_addresses_attributes_0_addresstype').focus();
+                                                        return false;
+                                                    }
+                                                    else 
+                                                        if (document.getElementById(type + '_addresses_attributes_0_buildingnumber').value == "") {
+                                                            alert("Please enter building number!");
+                                                            document.getElementById(type + '_addresses_attributes_0_buildingnumber').focus();
+                                                            return false;
+                                                        }
+                                                        else 
+                                                            if (document.getElementById(type + '_addresses_attributes_0_streetname').value == "") {
+                                                                alert("Please enter street name!");
+                                                                document.getElementById(type + '_addresses_attributes_0_streetname').focus();
+                                                                return false;
+                                                            }
+                                                            else 
+                                                                if (document.getElementById(type + '_addresses_attributes_0_city').value == "") {
+                                                                    alert("Please enter city!");
+                                                                    document.getElementById(type + '_addresses_attributes_0_city').focus();
+                                                                    return false;
+                                                                }
+                                                                else {
+                                                                    return true;
+                                                                }
+        }
+    }
+    
+    
 </script>
 <h1>Register</h1>
-Type: <%= select("post", "category","<option value='student'>Student</option>,<option value='faculty'>Faculty</option>,<option value='site'>Site</option>", {:include_blank => true},{:onchange => "show_page(this)"})%>
-<div id="mainPage"></div>
+Type: <%= select("post", "category","<option value='student'>Student</option>,<option value='faculty'>Faculty</option>,<option value='site'>Site</option>",{:prompt => '--SELECT--'},{:onchange => "show_page(this)"}) %>
+<div id="mainPage">
+</div>

@@ -1,69 +1,69 @@
 
-<% form_for :student, @student, :html => { :multipart => true } do |student_form| %>
+<% form_for :student, @student, :html => { :multipart => true, :onsubmit => "return validateInput()"} do |student_form| %>
 <fieldset>
     <legend>
         Register Student
     </legend>
-    <div>
-        <%= student_form.label :identificationcode, "Identification Code:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= student_form.label :identificationcode, "Identification Code<font color='Red'>&nbsp;*</font>:" %>
         <%= student_form.text_field :identificationcode, :size => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= student_form.label :admissiondate, "Admission Date:" %>
         <%= student_form.date_select :admissiondate, :size => 20, :start_year => Time.now.year - 10, :end_year => Time.now.year %>
     </div>
     <hr/><% student_form.fields_for :people do |people_form| %>
-    <div>
-        <%= people_form.label :firstname, "First Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= people_form.label :firstname, "First Name<font color='Red'>&nbsp;*</font>:" %>
         <%= people_form.text_field :firstname, :size => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= people_form.label :middlename, "Middle Name:" %>
         <%= people_form.text_field :middlename, :size => 20 %>
     </div>
-    <div>
-        <%= people_form.label :lastname, "Last Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= people_form.label :lastname, "Last Name<font color='Red'>&nbsp;*</font>:" %>
         <%= people_form.text_field :lastname, :size => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= people_form.label :nickname, "Nick Name:" %>
         <%= people_form.text_field :nickname, :size => 20 %>
     </div>
-    <div>
-        <%= people_form.label :emailaddress, "Email Address:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= people_form.label :emailaddress, "Email Address<font color='Red'>&nbsp;*</font>:" %>
         <%= people_form.text_field :emailaddress, :size => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= people_form.label :phonenumber, "Phone Number:" %>
         <%= people_form.text_field :phonenumber, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= people_form.label :mobilenumber, "Mobile Number:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= people_form.label :mobilenumber, "Mobile Number<font color='Red'>&nbsp;*</font>:" %>
         <%= people_form.text_field :mobilenumber, :size => 20, :maxlength => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= people_form.label :faxnumber, "Fax Number:" %>
         <%= people_form.text_field :faxnumber, :size => 20, :maxlength => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= people_form.label :birthdate_ad, "Birth Date:" %>
         <%= people_form.date_select :birthdate_ad, :size => 20, :start_year => Time.now.year - 70, :end_year => Time.now.year  %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= people_form.label :gender, "Gender:" %>
         <%= people_form.select :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= people_form.label :homepage, "Home Page:" %>
         <%= people_form.text_field :homepage, :size => 20, :maxlength => 20 %>
     </div>
     <hr/><% people_form.fields_for :user do |user_form| %>
-    <div>
-        <%= user_form.label :username, "User Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= user_form.label :username, "User Name<font color='Red'>&nbsp;*</font>:" %>
         <%= user_form.text_field :username, :size => 20, :maxlength => 20, :onchange => "var v = $('student_people_attributes_user_attributes_username'); if (v.value.startsWith('administrator')) {alert ('Username can not be administrator'); v.value = '';}" %>
     </div>
-    <div>
-        <%= user_form.label :password, "Password:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= user_form.label :password, "Password<font color='Red'>&nbsp;*</font>:" %>
         <%= user_form.password_field :password, :size => 20, :maxlength => 20 %>
     </div>
 	<span style="color:red; font-style:italic;">Minimum Length of password is 4</span>
@@ -71,27 +71,27 @@
     <% end %>
     <hr/><% @student.addresses.each do |address| %>
     <% student_form.fields_for :addresses, address do |address_form| %>
-    <div>
-        <%= address_form.label :addresstype, "Address Type:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= address_form.label :addresstype, "Address Type<font color='Red'>&nbsp;*</font>:" %>
         <%= address_form.text_field :addresstype, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= address_form.label :buildingnumber, "Building Number:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= address_form.label :buildingnumber, "Building Number<font color='Red'>&nbsp;*</font>:" %>
         <%= address_form.text_field :buildingnumber, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= address_form.label :streetname, "Street Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= address_form.label :streetname, "Street Name<font color='Red'>&nbsp;*</font>:" %>
         <%= address_form.text_area :streetname, :rows => 4, :cols => 20 %>
     </div>
-    <div>
-        <%= address_form.label :city, "City:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= address_form.label :city, "City<font color='Red'>&nbsp;*</font>:" %>
         <%= address_form.text_field :city, :size => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= address_form.label :zippostal_code, "Zip Code:" %>
         <%= address_form.text_field :zippostal_code, :size => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= address_form.label :country, "Country:" %>
         <%= address_form.select :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
     </div>

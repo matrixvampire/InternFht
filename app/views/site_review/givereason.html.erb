@@ -1,17 +1,17 @@
 <div id="site_form" >
 	<% form_for :content_version, @content_detail, :html => { :multipart => true } do |content_version_from| %>
-				<div class="form_row">
+				<div class="form_row" style="text-align: left;">
 			        <%= content_version_from.label :title, "Title:" %>
 			        <%= content_version_from.text_field :title, :size => 50, :readonly => true %>
 			    </div>
-				<div class="form_row">
+				<div class="form_row" style="text-align: left;">
 			        <%= content_version_from.label :body, "Body:" %>
 			        <%= content_version_from.text_area :body, :rows => 20, :cols => 80, :readonly => true %>
 			    </div>
 				
 			<% @content_detail.content.tags.each do |tag| %>
 				<% content_version_from.fields_for :tags, tag do |tag_form| %>
-					<div class="form_row">
+					<div class="form_row" style="text-align: left;">
 				        <%= tag_form.label :tag_name, "Tag:" %>
 				        <%= tag_form.text_field :tag_name, :size => 20, :readonly => true %>
 				    </div>

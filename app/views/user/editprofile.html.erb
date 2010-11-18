@@ -6,47 +6,87 @@
 		document.getElementById("birthdate_ad_start_year1980end_year2000size20_1i").value = "<%=@people.birthdate_ad%>".split("-")[0];
 	}
 	
+	function validateInput(){
+        if(document.getElementById('firstname').value == ""){
+			alert("Please enter first name!");
+            document.getElementById('firstname').focus();
+            return false;
+		}else if (document.getElementById('lastname').value == "") {
+            alert("Please enter last name!");
+            document.getElementById('lastname').focus();
+            return false;
+        }else if(document.getElementById('emailaddress').value == ""){
+			alert("Please enter email address!");
+            document.getElementById('emailaddress').focus();
+            return false;
+		}else if (validate_email(document.getElementById('emailaddress').value)==false){
+			document.getElementById('emailaddress').select();
+			return false;
+		}else if(document.getElementById('mobilenumber').value == ""){
+			alert("Please enter mobile number!");
+            document.getElementById('mobilenumber').focus();
+            return false;
+		}else if(document.getElementById('address_type').value == ""){
+			alert("Please enter address type!");
+            document.getElementById('address_type').focus();
+            return false;
+		}else if(document.getElementById('buildingnumber').value == ""){
+			alert("Please enter building number!");
+            document.getElementById('buildingnumber').focus();
+            return false;
+		}else if(document.getElementById('streetname').value == ""){
+			alert("Please enter street name!");
+            document.getElementById('streetname').focus();
+            return false;
+		}else if(document.getElementById('city').value == ""){
+			alert("Please enter city!");
+            document.getElementById('city').focus();
+            return false;
+		}else{
+			return true;
+		}            
+    }
 </script>
 <h1>Edit Profile</h1>
-<% form_tag :action => :editprofile do %>
+<% form_tag ({:action => :editprofile}, {:onsubmit => "return validateInput()" }) do %>
 <fieldset>
 	<legend>
         Edit profile
     </legend>
 	<!-- PEOPLE -->
-	<div>
-        <%= label_tag :firstname, "First Name:" %>
+	<div class="form_row" style="text-align:left;">
+        <%= label_tag :firstname, "First Name<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :firstname, @people.firstname, :size => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= label_tag :middlename, "Middle Name:" %>
         <%= text_field_tag :middlename, @people.middlename, :size => 20 %>
     </div>
-    <div>
-        <%= label_tag :lastname, "Last Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :lastname, "Last Name<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :lastname, @people.lastname, :size => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= label_tag :nickname, "Nick Name:" %>
         <%= text_field_tag :nickname, @people.nickname, :size => 20 %>
     </div>
-    <div>
-        <%= label_tag :emailaddress, "Email Address:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :emailaddress, "Email Address<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :emailaddress, @people.emailaddress, :size => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= label_tag :phonenumber, "Phone Number:" %>
         <%= text_field_tag :phonenumber, @people.phonenumber, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= label_tag :mobilenumber, "Mobile Number:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :mobilenumber, "Mobile Number<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :mobilenumber, @people.mobilenumber, :size => 20, :maxlength => 20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= label_tag :gender, "Gender:" %>
         <%= select_tag :gender, "<option value='Male'>Male</option>,<option value='Female'>Female</option>,<option value='Third Kind'>Third Kind</option>" %>
 	</div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= label_tag :birthdate_ad, "Date of Birth :" %>
 		<%= select_date(@people.birthdate_ad, :start_year => Time.now.year - 70, :end_year => Time.now.year)%>
     </div>
@@ -54,11 +94,11 @@
 		<%= select_date Date.today, :prefix => :start_date %>
 	</div-->
 	
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= label_tag :faxnumber, "Fax:" %>
         <%= text_field_tag :faxnumber, @people.faxnumber, :size =>20 %>
     </div>
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= label_tag :homepage, "Home Page:" %>
         <%= text_field_tag :homepage, @people.homepage, :size =>30 %>
     </div>
@@ -71,31 +111,31 @@
 	<!-- Address -->
 	<hr/>
 	
-    <div>
-        <%= label_tag :address_type, "Address Type:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :address_type, "Address Type<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :address_type, @address.addresstype, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= label_tag :buildingnumber, "Building Number:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :buildingnumber, "Building Number<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :buildingnumber, @address.buildingnumber, :size => 20, :maxlength => 20 %>
     </div>
-    <div>
-        <%= label_tag :streetname, "Street Name:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :streetname, "Street Name<font color='Red'>&nbsp;*</font>:" %>
         <%= text_area_tag :streetname, @address.streetname, :rows => 4, :cols => 20 %>
     </div>
-    <div>
-        <%= label_tag :city, "City:" %>
+    <div class="form_row" style="text-align:left;">
+        <%= label_tag :city, "City<font color='Red'>&nbsp;*</font>:" %>
         <%= text_field_tag :city, @address.city, :size => 20 %>
     </div>
     <!--div>
         <%= label_tag :state_province, "State/Province:" %>
         <%= text_field_tag :state_province, @address.state_province, :size => 20 %>
     </div-->
-	<div>
+	<div class="form_row" style="text-align:left;">
         <%= label_tag :zippostal_code, "Zip Code:" %>
         <%= text_area_tag :zippostal_code, @address.zippostal_code, :rows => 4, :cols => 20 %>
     </div>
-    <div>
+    <div class="form_row" style="text-align:left;">
         <%= label_tag :country, "Country:" %>
         <%= select_tag :country, "<option value='Thailand'>Thailand</option>,<option value='Laos'>Laos</option>,<option value='Cambodia'>Cambodia</option>,<option value='Myanmar'>Myanmar</option>,<option value='Nepal'>Nepal</option>" %>
 	</div>

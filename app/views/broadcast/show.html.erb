@@ -1,1 +1,32 @@
-New Website on test!!!!
+<% if is_admin? %>
+<div id="content-top">
+    <%= nav_link "Create News", :broadcast, :create %>
+</div>
+<% end %>
+<div id="content-middle">
+    <% if !@broadcasts.nil? %>
+    <% @broadcasts.each do |broadcast| %>
+    <% content_detail = ContentVersion.find(broadcast.content.latest_version_id) %>
+    <% if content_detail.contentstatus == CONTENT_STATUS_APPROVED and broadcast.expirationdate >= Date.today %>
+    <div class="box2">
+        <h3 class="title"><%= h content_detail.title %></h3>
+        <p class="author">
+            <%= h broadcast.administrator.people.fullname %>,&nbsp;<%= h broadcast.content.creationdate.strftime("%B %d, %Y") %>
+        </p>
+        <p class="abstract">
+            <%= content_detail.body%>
+        </p>
+        <p class="link">
+            
+			<% if !is_admin?%>
+			<%= link_to "show", :action => :showdetail, :id => broadcast.id %>
+			<% else %>
+			<%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
+			| <%= link_to "delete", :action => :delete, :id => content_detail.content_id%>
+			<% end %>
+        </p>
+    </div>    
+    <% end %>
+    <% end %>
+    <% end %>
+</div>
