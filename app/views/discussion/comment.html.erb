@@ -40,8 +40,10 @@
             <u>
                 <%= content_detail.title %>
             </u>
-        </b>&nbsp;<%= @discussion.student.people.fullname %>,&nbsp;<i><%= h content_detail.content.creationdate.strftime("%B %d, %Y") %></i>
-        <%=h content_detail.body %>
+        </b>&nbsp;<%= @discussion.student.people.fullname %>,&nbsp;<i><%= h content_detail.content.creationdate.strftime("%B %d, %Y at %I:%M %p") %></i>
+		<% content_detail.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
         <p>
             <i>tags: <% @discussion.content.tags.each do |tag| %>
                 <%=tag.tag_name %>&nbsp;<%end %>
@@ -60,11 +62,13 @@
 		            <% else %>
 		            <b><%= h reply.commentor.name %>&nbsp;<%= h reply.commentor.email %></b>
 		            <% end %>
-		            <i><%= h reply.content.creationdate.strftime("%B %d, %Y") %></i>
+		            <i><%= h reply.content.creationdate.strftime("%B %d, %Y at %I:%M %p") %></i>
 		        </p>
-		        <%= h content_detail_reply.body %>
+				<% content_detail_reply.body.split("\n").each do |p|%>
+					<p><%= p%></p>
+				<%end%>
 		        <% if is_admin? %>
-			        <p class="link">
+			        <p style="text-align:right;">
 			            <%= link_to "delete", :action => :delete_comment, :id => content_detail_reply.content_id %>
 			        </p>
 		        <% end %>

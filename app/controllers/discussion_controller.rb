@@ -1,6 +1,6 @@
 class DiscussionController < ApplicationController
   
-  before_filter :protect, :only => [:create, :edit, :showmine, :edit, :delete, :delete_comment]
+  before_filter :protect, :only => [:create, :edit, :showmine, :delete, :delete_comment]
   
   #  show all discussion...
   def show
@@ -16,12 +16,14 @@ class DiscussionController < ApplicationController
     if logged_in?      
       if request.post?
         @discussion = Discussion.new(params[:discussion])
+        
         @discussion.content.contenttype = CONTENT_TYPE_DISCUSSION 
         @discussion.content.creationdate = Time.now
         @discussion.content.content_versions.first.contentstatus = CONTENT_STATUS_APPROVED
         @discussion.content.content_versions.first.versiondate = Time.now
         @discussion.content.content_versions.first.contentstatusdate = Time.now
-        @discussion.student = get_user_student        
+        @discussion.content.content_versions.first.digest = get_content_digest(@discussion.content.content_versions.first.body)
+        @discussion.student = get_user_student       
         
         ActiveRecord::Base.transaction do
           if @discussion.save
@@ -97,7 +99,7 @@ class DiscussionController < ApplicationController
         #      Tag should be make dynamic
         #        @reply.content.tags << Tag.new
       end
-    else #for viewer // do the same except commentor part
+    else #for viewer // do the same except dor part
       if request.post?
         if !verify_recaptcha(@quotation)
           flash[:error] = "Please verify the captcha."
@@ -163,6 +165,7 @@ class DiscussionController < ApplicationController
           @content_version.contentstatus = CONTENT_STATUS_APPROVED
           @content_version.versiondate = Time.now
           @content_version.contentstatusdate = Time.now
+          @content_version.digest = get_content_digest(@content_version.body)
           ActiveRecord::Base.transaction do
             if @content_version.save
               c = Content.find(params[:content_version][:content_id])
@@ -244,4 +247,13 @@ class DiscussionController < ApplicationController
     end
     redirect_to :action => :show
   end
+  
+  def showdetail
+    @title = "Discussion"
+    @subtitle = "detail"
+    @discussion = Discussion.find(params[:id])
+    @content = @discussion.content
+    @content_version =  ContentVersion.find(@content.latest_version_id)
+  end
+
 end

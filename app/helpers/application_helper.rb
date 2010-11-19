@@ -133,4 +133,23 @@ module ApplicationHelper
     end
     return tempStudent.internships
   end    
+  
+  def get_content_digest(body)
+    Array words = body.split(" ")
+    i = 0
+    digest = ""
+    words.each do |word|
+      if i<NUMBER_OF_WORDS_FOR_DIGEST
+        digest << word+" "
+        i = i+1
+      elsif i==NUMBER_OF_WORDS_FOR_DIGEST
+        digest << " ..."
+        i = i+1
+      else
+        break
+      end
+    end
+    return digest
+  end
+  
 end

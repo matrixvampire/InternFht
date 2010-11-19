@@ -1,0 +1,32 @@
+<div id="content-middle">
+	<div class="post_content">
+		<p>
+	        <b><u><%= h @content_version.title %></u></b>&nbsp;
+			from&nbsp;<%= @site_review.internship.student.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y") %></i>&nbsp;
+			to&nbsp;<%= h @content.site_review.internship.site.sitename %>&nbsp;<%= h @content.site_review.internship.site.sitetype %>&nbsp;
+			Approved date: <i><%= h @content_version.contentstatusdate.strftime("%B %d, %Y") %></i>
+		</p>
+        <% @content_version.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
+		<% if is_admin? %>
+			<p style="text-align:right;">
+	        	<% if @content_version.contentstatus == CONTENT_STATUS_SUBMITED%>
+		            <%= link_to "need amendment", :action => :givereason, :id => @content_version.content.id %> 
+					| <%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => @content_version.content_id %> 
+					| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => @content_version.content_id %> 
+				<% elsif @content_version.contentstatus == CONTENT_STATUS_AMENDED%>
+					<%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => @content_version.content_id %> 
+					| <%= link_to "reject", :action => :setstatus, :status => CONTENT_STATUS_REJECTED, :id => @content_version.content_id %> 
+				<% elsif @content_version.contentstatus == CONTENT_STATUS_APPROVED%>
+					<%= link_to "comment", :action => :comment, :id => @content_version.content.site_review.id %>
+					| <%= link_to "delete", :action => :setstatus, :status => CONTENT_STATUS_EXPIRED, :id => @content_version.content_id %>
+				<% end %>
+	        </p>
+		<% else %>
+			<p style="text-align:right;">
+	            <%= link_to "comment", :action => :comment, :id => @content.site_review.id %>
+	        </p>
+		<% end %>
+	</div>
+</div>

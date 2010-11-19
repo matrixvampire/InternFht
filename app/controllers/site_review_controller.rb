@@ -61,6 +61,10 @@ class SiteReviewController < ApplicationController
         @site_review.content.content_versions.first.contentstatus = CONTENT_STATUS_SUBMITED
         @site_review.content.content_versions.first.versiondate = Time.now
         @site_review.content.content_versions.first.contentstatusdate = Time.now
+        @site_review.content.content_versions.first.digest = get_content_digest(@site_review.content.content_versions.first.body)
+        tag = Tag.new
+        tag.tag_name = "review"
+        @site_review.content.tags << tag
         
         ActiveRecord::Base.transaction do
           if @site_review.save
@@ -84,8 +88,6 @@ class SiteReviewController < ApplicationController
       else # DO_GET
         @site_review = SiteReview.new
         @site_review.content = Content.new
-        #      Tag should be make dynamic
-        @site_review.content.tags << Tag.new
         
         @site_review.content.content_versions << ContentVersion.new
         
@@ -111,8 +113,8 @@ class SiteReviewController < ApplicationController
         end
         redirect_to :action => :showforadmin
       else # DO_GET
-        content = Content.find(params[:id])
-        @content_detail = ContentVersion.find(content.latest_version_id)
+        @content = Content.find(params[:id])
+        @content_detail = ContentVersion.find(@content.latest_version_id)
       end
     end
   end
@@ -174,6 +176,8 @@ class SiteReviewController < ApplicationController
           @content_version.contentstatus = CONTENT_STATUS_SUBMITED
           @content_version.versiondate = Time.now
           @content_version.contentstatusdate = Time.now
+          @content_version.digest = get_content_digest(@content_version.body)
+          
           ActiveRecord::Base.transaction do
             if @content_version.save
               c = Content.find(params[:content_version][:content_id])
@@ -318,6 +322,14 @@ class SiteReviewController < ApplicationController
         flash[:error] = "Some problem. Try later."
       end
       redirect_to :action => :showforadmin
+  end
+  
+  def showdetail
+    @title = "Site Review"
+    @subtitle = "detail"
+    @site_review = SiteReview.find(params[:id])
+    @content = @site_review.content
+    @content_version =  ContentVersion.find(@content.latest_version_id)
   end
     
 end

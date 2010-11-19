@@ -13,16 +13,17 @@
         <p class="author">
             <%= h broadcast.administrator.people.fullname %>,&nbsp;<%= h broadcast.content.creationdate.strftime("%B %d, %Y") %>
         </p>
-        <p class="abstract">
-            <%= content_detail.body%>
-        </p>
-        <p class="link">
-            
-			<% if !is_admin?%>
-			<%= link_to "show", :action => :showdetail, :id => broadcast.id %>
-			<% else %>
+		<p class="link"> 
+			<% if is_admin?%>
 			<%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
 			| <%= link_to "delete", :action => :delete, :id => content_detail.content_id%>
+			<% end %>
+	    </p>
+        <p class="abstract">
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :action => :showdetail, :id => broadcast.id %>
 			<% end %>
         </p>
     </div>    

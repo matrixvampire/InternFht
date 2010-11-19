@@ -32,31 +32,33 @@
     <%= nav_link "New Site Review", :site_review, :create %>
     | <%= nav_link "Show Mine", :site_review, :showmine %>
     <p>
-        You can make a review to only site you had worked for more than 90 days
+        You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days
     </p>
 </div>
 <% elsif is_student? %>
 <div id="content-top">
     <%= nav_link "Show Mine", :site_review, :showmine %>
     <p align="center">
-        <i>You can make a review to only site you had worked for more than 90 days</i>
+        <i>You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days</i>
     </p>
 </div>
 <% end %>
 <div id="content-middle">
     <div class="post_content">
         <% content_detail = ContentVersion.find(@review.content.latest_version_id) %>
-        <b>
-            <u>
-                <%= content_detail.title %>
-            </u>
-        </b>&nbsp;<%= @review.internship.student.people.fullname %>,&nbsp;<i><%= h content_detail.content.creationdate.strftime("%B %d, %Y") %></i>
-        <%=h content_detail.body %>
-        <p>
-            <i>tags: <% @review.content.tags.each do |tag| %>
-                <%=tag.tag_name %>&nbsp;<%end %>
-            </i>
-        </p>
+		<p>
+	        <b>
+	            <u>
+	                <%= content_detail.title %>
+	            </u>
+	        </b>
+			from&nbsp;<%= @review.internship.student.people.fullname %>,&nbsp;<i><%= h content_detail.content.creationdate.strftime("%B %d, %Y") %></i>&nbsp;
+			to&nbsp;<%= h @review.internship.site.sitename %>&nbsp;<%= h @review.internship.site.sitetype %>&nbsp;
+			Approved date: <i><%= h content_detail.contentstatusdate.strftime("%B %d, %Y") %></i>
+	        <% content_detail.body.split("\n").each do |p|%>
+				<p><%= p%></p>
+			<%end%>
+		</p>
     </div>
     <% i=0 %>
     <% @comments.each do |comment| %>
@@ -70,11 +72,13 @@
             <% else %>
             <b><%= h comment.commentor.name %>&nbsp;<%= h comment.commentor.email %></b>
             <% end %>
-            <i><%= h comment.content.creationdate.strftime("%B %d, %Y") %></i>
+            <i><%= h comment.content.creationdate.strftime("%B %d, %Y at %I:%M %p") %></i>
         </p>
-        <%= h content_detail_comment.body %>
+		<% content_detail_comment.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
         <% if is_admin? %>
-        <p class="link">
+        <p style="text-align:right;">
             <%= link_to "delete", :action => :delete_comment, :id => content_detail_comment.content_id %>
         </p>
         <% end %>

@@ -2,9 +2,17 @@
 	<div class="post_content">
         <b><u><%= h @content_version.title %></u></b>&nbsp;
 		<%= @broadcast.administrator.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y") %></i>
-        <pre><%= @content_version.body%></pre>
+        <% @content_version.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
 		<p>
 			<div style="text-align: right;"><i>contact:</i> <%= @broadcast.administrator.people.emailaddress%></div>
 		</p>
+		<p style="text-align: right;"> 
+			<% if is_admin?%>
+			<%= link_to "edit", :action => :edit, :id => @content_version.content_id %>
+			| <%= link_to "delete", :action => :delete, :id => @content_version.content_id%>
+			<% end %>
+	    </p>
 	</div>
 </div>

@@ -3,14 +3,14 @@
     <%= nav_link "New Site Review", :site_review, :create %>
     | <%= nav_link "Show Mine", :site_review, :showmine %>
     <p>
-        You can make a review to only site you had worked for more than 90 days
+        You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days
     </p>
 </div>
 <% elsif is_student? %>
 <div id="content-top">
     <%= nav_link "Show Mine", :site_review, :showmine %>
     <p align="center">
-        <i>You can make a review to only site you had worked for more than 90 days</i>
+        <i>You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days</i>
     </p>
 </div>
 <% end %>
@@ -20,15 +20,22 @@
     <div class="box2">
         <h3 class="title"><%= h content_detail.title %></h3>
         <p class="author">
-            <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
-        </p>
+            From: <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+        	<br/>
+            To: <%= h content_detail.content.site_review.internship.site.sitename %>&nbsp;<%= h content_detail.content.site_review.internship.site.sitetype %>
+			<br/>
+            Approved date: <%= h content_detail.contentstatusdate.strftime("%B %d, %Y") %>
+		</p>
         <p class="link">
             <%= link_to "comment", :action => :comment, :id => content_detail.content.site_review.id %>
         </p>
         <p class="abstract">
-            <%= content_detail.body %>
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :action => :showdetail, :id => content_detail.content.site_review.id %>
+			<% end %>
         </p>
-    </div>
     <% end %>
     <% end %>
 </div>

@@ -1,0 +1,15 @@
+<div id="content-middle">
+	<div class="post_content">
+        <b><u><%= h @content_version.title %></u></b>&nbsp;
+		<%= @discussion.student.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y") %></i>
+        <% @content_version.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
+		<p style="text-align:right;">
+            <%= link_to "comment", :action => :comment, :id => @discussion.id %> 
+			<% if is_admin?%>
+			| <%= link_to "delete", :action => :delete, :id => @content_version.content_id%>
+			<% end %>
+        </p>
+	</div>
+</div>

@@ -15,13 +15,17 @@
         <p class="author">
             <%= h discussion.student.people.fullname %>,&nbsp;<%= h discussion.content.creationdate.strftime("%B %d, %Y") %>
         </p>
-        <p class="abstract">
-            <%= content_detail.body %>
-        </p>
-        <p class="link">
+		<p class="link">
         	<%= link_to "comment", :action => :comment, :id => discussion.id %> 
             | <%= link_to "edit", :action => :edit, :id => content_detail.content_id %>
             | <%= link_to "delete", :action => :delete, :id => content_detail.content_id %>
+        </p>
+        <p class="abstract">
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :action => :showdetail, :id => discussion.id %>
+			<% end %>
         </p>
     </div>
     <% end %>

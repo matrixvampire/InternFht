@@ -23,15 +23,12 @@
     <div class="box2">
         <h3 class="title"><%= h content_detail.title %></h3>
         <p class="author">
-            <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
-        </p>
-        <p class="abstract">
-            <%= content_detail.body%>
-        </p>
-		<p>
-			Status : <%= content_detail.contentstatus%>
+            From: <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+        	<br/>
+            To: <%= h content_detail.content.site_review.internship.site.sitename %>&nbsp;<%= h content_detail.content.site_review.internship.site.sitetype %>
 		</p>
-        <p class="link">
+		
+		<p class="link">
         	<% if @type == CONTENT_STATUS_SUBMITED%>
 	            <%= link_to "need amendment", :action => :givereason, :id => content_detail.content.id %> 
 				| <%= link_to "approve", :action => :setstatus, :status => CONTENT_STATUS_APPROVED, :id => content_detail.content_id %> 
@@ -44,6 +41,16 @@
 				| <%= link_to "delete", :action => :setstatus, :status => CONTENT_STATUS_EXPIRED, :id => content_detail.content_id %>
 			<% end %>
         </p>
+        <p>
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :action => :showdetail, :id => content_detail.content.site_review.id %>
+			<% end %>
+        </p>
+		<p>
+			Status : <%= content_detail.contentstatus%>
+		</p>
     </div>    
     <% end %>
 	<% end %>

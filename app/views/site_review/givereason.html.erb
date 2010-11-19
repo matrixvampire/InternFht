@@ -1,23 +1,12 @@
 <div id="site_form" >
-	<% form_for :content_version, @content_detail, :html => { :multipart => true } do |content_version_from| %>
-				<div class="form_row" style="text-align: left;">
-			        <%= content_version_from.label :title, "Title:" %>
-			        <%= content_version_from.text_field :title, :size => 50, :readonly => true %>
-			    </div>
-				<div class="form_row" style="text-align: left;">
-			        <%= content_version_from.label :body, "Body:" %>
-			        <%= content_version_from.text_area :body, :rows => 20, :cols => 80, :readonly => true %>
-			    </div>
-				
-			<% @content_detail.content.tags.each do |tag| %>
-				<% content_version_from.fields_for :tags, tag do |tag_form| %>
-					<div class="form_row" style="text-align: left;">
-				        <%= tag_form.label :tag_name, "Tag:" %>
-				        <%= tag_form.text_field :tag_name, :size => 20, :readonly => true %>
-				    </div>
-				<% end %>
-			<% end %>
-	<% end %>
+	
+	<div class="post_content">
+        <b><u><%= h @content_detail.title %></u></b>&nbsp;
+		<%= @content.site_review.internship.student.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y at %I:%M %p") %></i>
+        <% @content_detail.body.split("\n").each do |p|%>
+			<p><%= p%></p>
+		<%end%>
+	</div>
 	<hr/>
 	<% form_tag :action => :givereason do %>
 		<%= hidden_field_tag 'content_id', @content_detail.content.id%>

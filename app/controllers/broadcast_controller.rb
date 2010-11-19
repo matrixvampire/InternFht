@@ -13,6 +13,9 @@ class BroadcastController < ApplicationController
     if logged_in?      
       if request.post?
         @broadcast = Broadcast.new(params[:broadcast])
+        
+        @broadcast.content.content_versions.first.digest = get_content_digest(@broadcast.content.content_versions.first.body)
+        
         @broadcast.releasedate = Time.now
         @broadcast.content.contenttype = CONTENT_TYPE_NEW 
         @broadcast.content.creationdate = Time.now
@@ -56,6 +59,7 @@ class BroadcastController < ApplicationController
       if request.post?
         if params[:content_version][:content_version_id].nil? #new version 
           @content_version = ContentVersion.new(params[:content_version])
+          @content_version.digest = get_content_digest(@content_version.body)
           @content_version.contentstatus = CONTENT_STATUS_APPROVED
           @content_version.versiondate = Time.now
           @content_version.contentstatusdate = Time.now

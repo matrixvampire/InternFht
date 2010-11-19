@@ -45,12 +45,12 @@
 <div id="content-top">
     <%= nav_link "New Site Review", :site_review, :create %>
     | <%= nav_link "Show Mine", :site_review, :showmine %>
-	<p align="center"><i>You can make a review to only site you had worked for more than 90 days</i></p>
+	<p align="center"><i>You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days</i></p>
 </div>
 <% elsif is_student?%>
 <div id="content-top">
     <%= nav_link "Show Mine", :site_review, :showmine %>
-	<p align="center"><i>You can make a review to only site you had worked for more than 90 days</i></p>
+	<p align="center"><i>You can make a review to only site you had worked for more than <%=REQUIRED_DURATION_FOR_REVIEW%> days</i></p>
 </div>
 <% end %>
 

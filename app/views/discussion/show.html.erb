@@ -21,7 +21,11 @@
 			<% end %>
         </p>	
         <p class="abstract">
-            <%= content_detail.body%>
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :action => :showdetail, :id => discussion.id %>
+			<% end %>
         </p>
     </div>    
     <% end %>
