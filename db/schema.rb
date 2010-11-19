@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101108064943) do
+ActiveRecord::Schema.define(:version => 20101107161917) do
 
   create_table "addresses", :force => true do |t|
     t.string   "buildingnumber"
@@ -98,14 +98,6 @@ ActiveRecord::Schema.define(:version => 20101108064943) do
     t.datetime "updated_at"
   end
 
-  create_table "contents", :force => true do |t|
-    t.string   "contenttype"
-    t.datetime "creationdate"
-    t.integer  "latest_version_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "contents_tags", :id => false, :force => true do |t|
     t.integer "content_id"
     t.integer "tag_id"
@@ -172,16 +164,6 @@ ActiveRecord::Schema.define(:version => 20101108064943) do
   add_index "peoples", ["firstname"], :name => "firstname_index"
   add_index "peoples", ["lastname"], :name => "lastname_index"
   add_index "peoples", ["user_id"], :name => "user_id_index", :unique => true
-
-  create_table "profile_versions", :force => true do |t|
-    t.integer  "profile_id"
-    t.text     "digest"
-    t.text     "body"
-    t.datetime "versiondate"
-    t.integer  "alteredby_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "profiles", :force => true do |t|
     t.string   "profiletype"

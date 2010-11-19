@@ -1,20 +1,19 @@
 <div id="content-top">
     <% if params[:showlist] == "Faculty" %>
+	<% currentpage = "Faculty"%>
     <b>Faculty List</b>
-    | <%= link_to "Show Student", :action => :show, :showlist => :Student %>
+    | <%= link_to "Show Student", :action => :show, :showlist => :Student%>
     <% else %>
     <b>Student List</b>
-    | <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+	<% currentpage = "Student"%>	
+    | <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty%>
     <% end %>
     <span>: There are <%=@no_faculties %>faculties and <%=@no_students %>students in the system</span>
-</div>
-<div id="content-top-2">
-    <div id = "search_form" style="float:right; text-align:right;">
-        <% form_tag :action => :show, :method => :get do %>
-        <%= text_field_tag "search" %>
+    <span style="float:right;"><% form_tag :method => 'get' do %>
+        <%= text_field_tag :search, params[:search] %>
         <%= submit_tag "Search", :disable_with => "Searching...", :name => nil %>
         <% end %>
-    </div>
+    </span>
 </div>
 <div id="content-middle">
     <% if !@peoples.nil? %>
@@ -34,13 +33,10 @@
                     Username
                 </th>
                 <th scope="col">
-                    Identification Code
+                    <%= sortable "Identification Code", "identificationcode", currentpage%>
                 </th>
-                <th scope="col">
+				<th scope="col">
                     Registered
-                </th>
-                <th scope="col">
-                    Type
                 </th>
                 <th scope="col">
                     Status
@@ -72,26 +68,23 @@
                     <%= h people.student.identificationcode %>
                 </td>
                 <td>
-                    <%= h people.student.created_at %>
+                    <%= h people.student.admissiondate %>
                 </td>
                 <% elsif people.user.usertype == TYPE_FACULTY %>
                 <td>
                     <%= h people.faculty.identificationcode %>
                 </td>
                 <td>
-                    <%= h people.faculty.created_at %>
+                    <%= h people.faculty.joindate %>
                 </td>
                 <% elsif people.user.usertype == TYPE_ADMINISTRATOR %>
                 <td>
                     <%= h people.administrator.identificationcode %>
                 </td>
                 <td>
-                    <%= h people.administrator.created_at %>
+                    <%= h people.administrator.registereddate %>
                 </td>
-                <% end %>
-                <td>
-                    <%= h people.user.usertype %>
-                </td>
+                <% end %>                
                 <td>
                     <% if people.user.isvalid %>
                     <%= link_to "Active", :action => :show, :valid => :false, :id => people %>

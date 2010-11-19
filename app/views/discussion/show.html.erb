@@ -13,15 +13,15 @@
         <h3 class="title"><%= h content_detail.title %></h3>
         <p class="author">
             <%= h discussion.student.people.fullname %>,&nbsp;<%= h discussion.content.creationdate.strftime("%B %d, %Y") %>
-        </p>
-        <p class="abstract">
-            <%= content_detail.body%>
-        </p>
-        <p class="link">
+        </p>	
+		<p class="link">
             <%= link_to "comment", :action => :comment, :id => discussion.id %> 
 			<% if is_admin?%>
 			| <%= link_to "delete", :action => :delete, :id => content_detail.content_id%>
 			<% end %>
+        </p>	
+        <p class="abstract">
+            <%= content_detail.body%>
         </p>
     </div>    
     <% end %>

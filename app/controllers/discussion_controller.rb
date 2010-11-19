@@ -12,7 +12,7 @@ class DiscussionController < ApplicationController
   #  create new discussion
   def create
     @title = "Discussion"
-    @subtitle = "add"
+    @subtitle = "Add"
     if logged_in?      
       if request.post?
         @discussion = Discussion.new(params[:discussion])
@@ -55,9 +55,9 @@ class DiscussionController < ApplicationController
   #  give comment
   def comment
     @title = "Discussion"
-    @subtitle = "comment"
+    @subtitle = "Comment"
     if logged_in?      
-      if request.post?
+      if request.post?        
         @reply = Reply.new(params[:reply])
         @reply.commentor = get_commentor
         @reply.content.contenttype = CONTENT_TYPE_REPLY
@@ -67,7 +67,7 @@ class DiscussionController < ApplicationController
         @reply.content.content_versions.first.contentstatusdate = Time.now
         @reply.discussion = Discussion.find(params[:reply][:discussion_id])
         
-        smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.people.firstname, @reply.discussion, @reply.content.content_versions.first.body)
+        #smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.people.firstname, @reply.discussion, @reply.content.content_versions.first.body)
         
         ActiveRecord::Base.transaction do
           if @reply.save
@@ -99,6 +99,9 @@ class DiscussionController < ApplicationController
       end
     else #for viewer // do the same except commentor part
       if request.post?
+        if !verify_recaptcha(@quotation)
+          flash[:error] = "Please verify the captcha."
+        end
         @reply = Reply.new(params[:reply])
         @reply.content.contenttype = CONTENT_TYPE_REPLY
         @reply.content.creationdate = Time.now
@@ -107,7 +110,7 @@ class DiscussionController < ApplicationController
         @reply.content.content_versions.first.contentstatusdate = Time.now
         @reply.discussion = Discussion.find(params[:reply][:discussion_id])
         
-        smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.name, @reply.discussion, @reply.content.content_versions.first.body)
+        #smtp_result = Verifier.deliver_comment_dicussion(@reply.commentor.name, @reply.discussion, @reply.content.content_versions.first.body)
         
         ActiveRecord::Base.transaction do
           if @reply.save
@@ -144,7 +147,7 @@ class DiscussionController < ApplicationController
     @title = "Discussion"
     @subtitle = "show mine"
     student_id = get_user_student.id
-#    @discussions = get_user_student.discussions It is not order by
+    #    @discussions = get_user_student.discussions It is not order by
     @discussions = Discussion.find(:all, :conditions => ["student_id = ?", student_id], :order => 'created_at desc')
   end
   
@@ -228,17 +231,17 @@ class DiscussionController < ApplicationController
   end
   
   def delete_comment
-      content = Content.find(params[:id])
-      content_detail = ContentVersion.find(content.latest_version_id)
-      
-      content_detail.contentstatus = CONTENT_STATUS_EXPIRED
-      content_detail.contentstatusdate = Time.now
-      
-      if content_detail.save
-        flash[:notice] = "Reply deleted succesfully!!!"
-      else
-        flash[:error] = "Some problem. Try later."
-      end
-      redirect_to :action => :show
+    content = Content.find(params[:id])
+    content_detail = ContentVersion.find(content.latest_version_id)
+    
+    content_detail.contentstatus = CONTENT_STATUS_EXPIRED
+    content_detail.contentstatusdate = Time.now
+    
+    if content_detail.save
+      flash[:notice] = "Reply deleted succesfully!!!"
+    else
+      flash[:error] = "Some problem. Try later."
+    end
+    redirect_to :action => :show
   end
 end

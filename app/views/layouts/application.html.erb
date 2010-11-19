@@ -18,6 +18,8 @@
                     <%= get_name_of_user %>
                     <% if logged_in? %>
                     &nbsp; <span style="color: rgb(170, 170, 170);">|</span>
+                    &nbsp; <%= nav_link "Change Password", :user, :changepassword %>
+					&nbsp; <span style="color: rgb(170, 170, 170);">|</span>
                     &nbsp; <%= nav_link "Sign Out",:user, :logout %>
                     <% else %>
                     <%= nav_link "Sign In",:user, :login %>
@@ -33,7 +35,7 @@
                         <li>
                             <%= nav_link "Users", :user, :show %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Discussions", :discussion, :show %>
                         </li>
                         <li>
@@ -45,21 +47,24 @@
                         <li>
                             <%= nav_link "News", :broadcast, :show %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Reviews", :site_review, :showforadmin %>
                         </li>
                         <% end %>
                         <% if is_student? %>
-						 <li>
+                        <li>
+                            <%= nav_link "Reviews", :student, :reviews %>
+                        </li>
+                        <li>
                             <%= nav_link "Discussions", :student, :discussions %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Evaluations", :student, :evaluations %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "News", :broadcast, :show %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Reviews", :student, :reviews %>
                         </li>
                         <% end %>
@@ -70,7 +75,7 @@
                         <li>
                             <%= nav_link "My Evaluations", :site, :myevaluations %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Reviews", :student, :reviews %>
                         </li>
                         <% end %>
@@ -84,19 +89,16 @@
                         <li>
                             <%= nav_link "News", :broadcast, :show %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Reviews", :site_review, :showforadmin %>
                         </li>
-						<li>
+                        <li>
                             <%= nav_link "Student Evaluations", :faculty, :studentevaluations %>
                         </li>
                         <li>
                             <%= nav_link "Site Evaluations", :faculty, :siteevaluations %>
                         </li>
                         <% end %>
-                        <li>
-                            <%= nav_link "Change Password", :user, :changepassword %>
-                        </li>
                         <% else %>
                         <li>
                             <%= nav_link "Reviews",:site_review, :show %>

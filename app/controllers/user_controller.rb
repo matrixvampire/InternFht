@@ -5,6 +5,8 @@ class UserController < ApplicationController
   
   before_filter :protect, :only => [:index, :register, :editprofile, :changepassword, :show]
   
+  helper_method :sort_column, :sort_direction
+  
   def index
     @title = "Welcome"    
   end
@@ -14,9 +16,9 @@ class UserController < ApplicationController
     @peoples = Array.new
     
     #find all users in system
-    @faculties = Faculty.find(:all, :order => :created_at)
+    @faculties = Faculty.find(:all, :order => sort_column + " " + sort_direction)
     @no_faculties = @faculties.length
-    @students = Student.find(:all, :order => :created_at)
+    @students = Student.find(:all, :order => sort_column + " " + sort_direction)
     @no_students = @students.length
     
     if params[:showlist] == TYPE_FACULTY   
@@ -39,9 +41,8 @@ class UserController < ApplicationController
       end
       @people.user.save
     end
-    if !params[:search].nil?
-      @search = params[:search].strip.downcase
-      @peoples = People.find(:all, :conditions => ["(LOWER(firstname) LIKE ? or LOWER(lastname) LIKE ?)", "%#{@search.downcase}%", "%#{@search.downcase}%"], :order => :firstname)
+    if params[:search]
+      @peoples = People.search(params[:search].strip.downcase)      
     end  
   end
   
@@ -84,12 +85,12 @@ class UserController < ApplicationController
           @student.people.user.usertype = TYPE_STUDENT
           @student.people.user.isvalid = true
           #      Just outputting the values in console to debug
-          logger.debug "Student : #{@student.attributes.inspect}"
-          logger.debug "People : #{@student.people.attributes.inspect}"
-          logger.debug "User : #{@student.people.user.attributes.inspect}"
-          @student.addresses.each do |address|
-            logger.debug "Address : #{address.attributes.inspect}"
-          end      
+#          logger.debug "Student : #{@student.attributes.inspect}"
+#          logger.debug "People : #{@student.people.attributes.inspect}"
+#          logger.debug "User : #{@student.people.user.attributes.inspect}"
+#          @student.addresses.each do |address|
+#            logger.debug "Address : #{address.attributes.inspect}"
+#          end      
           # Call save method
           # Check whether all the required tables been hit successfully
           if @student.save
@@ -401,4 +402,11 @@ class UserController < ApplicationController
     !params[attr].nil?
   end
   
+  def sort_column
+    %w[identificationcode admissiondate joindate registereddate].include?(params[:sort]) ? params[:sort] : "identificationcode"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
+  end
 end

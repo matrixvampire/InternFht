@@ -5,6 +5,11 @@ module ApplicationHelper
     link_to_unless_current text, :controller => controller, :action => action
   end
   
+  def sortable(title, column, currentpage)
+    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
+    link_to title, {:sort => column, :direction => direction, :showlist => currentpage}
+  end
+  
   def logged_in?
     User.logged_in?( session )
   end  
@@ -45,7 +50,7 @@ module ApplicationHelper
     return false
   end
   
-
+  
   def get_commentor
     if session[:user_id] != nil
       currentUserDetail = People.find(session[:user_id])
@@ -56,7 +61,7 @@ module ApplicationHelper
     return nil
   end
   
-
+  
   def is_site?
     if check_session? && get_type_of_user ==TYPE_SITE
       return true
@@ -94,25 +99,38 @@ module ApplicationHelper
       return admin
     end
   end
-  
-  def get_not_review_yet   
+
+  def get_student_internships
     if check_session? && get_type_of_user == TYPE_STUDENT
-#      internship = Internship.find(:all ,:conditions => ["student_id=? and (startdate - enddate)>= ? and isreview = false", session[:user_id], REQUIRED_DURATION_FOR_REVIEW])  
       currentUserDetail = People.find(session[:user_id])
       currentStudent = currentUserDetail.student
       internships = currentStudent.internships
-      tempStudent = Student.new
-      if(!internships.nil?)
-        internships.each do |internship|
-          logger.debug internship.enddate - internship.startdate
-          if(internship.enddate - internship.startdate) >= REQUIRED_DURATION_FOR_REVIEW and internship.isreview == false
-            tempStudent.internships << internship
-          end
-        end
-      end
-        return tempStudent.internships
-    end    
-    return nil
+      return internships
+    end
   end
   
+  def get_not_review_yet   
+    tempStudent = Student.new
+    if !(internships = get_student_internships).nil?
+      internships.each do |internship|
+        logger.debug internship.enddate - internship.startdate
+        if(internship.enddate - internship.startdate) >= REQUIRED_DURATION_FOR_REVIEW and internship.isreview == false
+          tempStudent.internships << internship
+        end
+      end
+    end
+    return tempStudent.internships
+  end
+  
+  def get_review_done         
+    tempStudent = Student.new
+    if !(internships = get_student_internships).nil?
+      internships.each do |internship|          
+        if internship.isreview
+          tempStudent.internships << internship
+        end
+      end
+    end
+    return tempStudent.internships
+  end    
 end

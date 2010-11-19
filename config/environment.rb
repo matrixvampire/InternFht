@@ -79,7 +79,7 @@ Rails::Initializer.run do |config|
   CONTENT_STATUS_REJECTED = 'Rejected'
   CONTENT_STATUS_EXPIRED = 'Expired'
   
-  REQUIRED_DURATION_FOR_REVIEW = 90
+  REQUIRED_DURATION_FOR_REVIEW = 1
   
   require 'builder'
   

@@ -51,8 +51,7 @@ class SiteReviewController < ApplicationController
   end
   
   def create 
-    @title = "Site Review"
-    @subtitle = "add"
+    @title = "Site Review"    
     if logged_in?    
       @internships = get_not_review_yet
       if request.post?
@@ -263,6 +262,9 @@ class SiteReviewController < ApplicationController
     
     else #for viewer : do the same without commentor part
       if request.post?
+        if !verify_recaptcha(@quotation)
+          flash[:error] = "Please verify the captcha."
+        end
         @comment = SiteReviewComment.new(params[:comment])
         @comment.content.contenttype = CONTENT_TYPE_SITE_REVIEW_COMMENT
         @comment.content.creationdate = Time.now

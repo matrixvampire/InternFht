@@ -22,6 +22,13 @@ class People < ActiveRecord::Base
   accepts_nested_attributes_for :sites_associations
   
   def fullname
-    self.firstname + " " + self.middlename + " " + self.lastname 
+    [firstname, middlename, lastname].join(' ')
+    #self.firstname + " " + self.middlename + " " + self.lastname 
+  end
+  
+  def self.search(search)
+    if search
+      find(:all, :conditions => ["(LOWER(firstname) LIKE ? or LOWER(lastname) LIKE ?)", "%#{search}%", "%#{search}%"], :order => :firstname)
+    end
   end
 end

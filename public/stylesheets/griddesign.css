@@ -464,7 +464,7 @@ p a:hover {
     margin: 0px 0 15px 20px;
 }
 
-p.abstract {
+p.abstract {	
     min-height: 75px;
 }
 * html .box p, * html .box3 p {
@@ -1964,7 +1964,6 @@ legend span {
 
 input {
     padding: 0.15em;
-    width: 10em;
     border: 1px solid #ddd;
     background: #fafafa;
     font: bold 0.95em arial, sans-serif;
@@ -1972,16 +1971,8 @@ input {
     -khtml-border-radius: 0.4em;
 }
 
-input[type =
-"text"], input[type = "password"] {
-    padding: 0.15em;
-    width: auto;
-    border: 1px solid #ddd;
-    background: #fafafa;
-    font: bold 0.95em arial, sans-serif;
-    -moz-border-radius: 0.4em;
-    -khtml-border-radius: 0.4em;
-    text-align: left;
+input.submit {
+	width: 15em;
 }
 
 textarea {

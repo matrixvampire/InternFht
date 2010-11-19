@@ -17,4 +17,8 @@ class StudentController < ApplicationController
     redirect_to :controller => :site_review, :action => :show
   end
   
+  def evaluations
+    redirect_to :controller => :site_evaluation, :action => :show
+  end
+  
 end
