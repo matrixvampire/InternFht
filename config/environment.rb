@@ -81,6 +81,8 @@ Rails::Initializer.run do |config|
   
   REQUIRED_DURATION_FOR_REVIEW = 1
   
+  NUMBER_OF_WORDS_FOR_DIGEST = 25
+  
   require 'builder'
   
   #Set date farmat for calendar
