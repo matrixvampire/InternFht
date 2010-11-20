@@ -1,10 +1,11 @@
 <div id="content-middle">
 	<div class="post_content">
 		<p>
-	        <b><u><%= h @content_version.title %></u></b>&nbsp;
-			from&nbsp;<%= @site_review.internship.student.people.fullname%>,&nbsp;<i><%= h @content.creationdate.strftime("%B %d, %Y") %></i>&nbsp;
-			to&nbsp;<%= h @content.site_review.internship.site.sitename %>&nbsp;<%= h @content.site_review.internship.site.sitetype %>&nbsp;
-			Approved date: <i><%= h @content_version.contentstatusdate.strftime("%B %d, %Y") %></i>
+	        <b style="font-size:18px;"><u><%= h @content_version.title %></u></b>
+			<br/>			
+			By <i><%= @site_review.internship.student.people.fullname%>,&nbsp;<%= h @content.creationdate.strftime("%B %d, %Y") %></i>
+			<br/>
+			Approved <i><%= h @content_version.contentstatusdate.strftime("%B %d, %Y") %></i>
 		</p>
         <% @content_version.body.split("\n").each do |p|%>
 			<p><%= p%></p>

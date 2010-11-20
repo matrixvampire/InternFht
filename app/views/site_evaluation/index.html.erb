@@ -34,7 +34,7 @@
 			<td><%= h internship.enddate %></td>
 			<td>
 				<% if internship.isreview %>
-				<%= link_to "See Review", :controller => :site_review, :action => :show, :id => internship %>
+				<%= link_to "See Review", :controller => :site_review, :action => :showdetail, :id => internship %>
 				<% else %>
 				<%= link_to "Add Review", :controller => :site_review, :action => :create %>
 				<% end %>

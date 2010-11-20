@@ -73,7 +73,7 @@
 	                            <%= nav_link "My Evaluations", :site, :myevaluations %>
 	                        </li>
 	                        <li>
-	                            <%= nav_link "Reviews", :student, :reviews %>
+	                            <%= nav_link "Reviews", :site, :myreviews %>
 	                        </li>
                         <% end %>
                         <% if is_faculty? %>
@@ -81,20 +81,14 @@
 	                            <%= nav_link "Discussions", :discussion, :show %>
 	                        </li>
 	                        <li>
-	                            <%= nav_link "Evaluation", :admin, :show_enquiry %>
+	                            <%= nav_link "Evaluation", :faculty, :evaluation %>
 	                        </li>
 	                        <li>
 	                            <%= nav_link "News", :broadcast, :show %>
 	                        </li>
 	                        <li>
-	                            <%= nav_link "Reviews", :site_review, :showforadmin %>
-	                        </li>
-	                        <li>
-	                            <%= nav_link "Student Evaluations", :faculty, :studentevaluations %>
-	                        </li>
-	                        <li>
-	                            <%= nav_link "Site Evaluations", :faculty, :siteevaluations %>
-	                        </li>
+	                            <%= nav_link "Reviews", :site_review, :show %>
+	                        </li>	                        
                         <% end %>
                         <% else %>
 	                        <li>

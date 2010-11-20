@@ -9,7 +9,7 @@ class BroadcastController < ApplicationController
   
   def create
     @title = "News"
-    @subtitle = "add"
+    @subtitle = "Create"
     if logged_in?      
       if request.post?
         @broadcast = Broadcast.new(params[:broadcast])
@@ -54,7 +54,7 @@ class BroadcastController < ApplicationController
   
   def edit
     @title = "News"
-    @subtitle = "edit"
+    @subtitle = "Edit"
     if logged_in?      
       if request.post?
         if params[:content_version][:content_version_id].nil? #new version 
@@ -124,7 +124,7 @@ class BroadcastController < ApplicationController
   
   def showdetail
     @title = "News"
-    @subtitle = "detail"
+    @subtitle = "Detail"
     if logged_in?
       @broadcast = Broadcast.find(params[:id])
       @content = @broadcast.content

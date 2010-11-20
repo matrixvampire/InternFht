@@ -1,0 +1,29 @@
+<div id="content-middle">
+    <% if !@content_details.nil? %>
+    <% @content_details.each do |content_detail| %>
+    <div class="box2">
+        <h3 class="title"><%= h content_detail.title %></h3>
+        <p class="author">
+            From: <%= h content_detail.content.site_review.internship.student.people.fullname %>,&nbsp;<%= h content_detail.content.creationdate.strftime("%B %d, %Y") %>
+        	<br/>
+            To: <%= h content_detail.content.site_review.internship.site.sitename %>&nbsp;<%= h content_detail.content.site_review.internship.site.sitetype %>
+			<br/>
+            Approved date: <%= h content_detail.contentstatusdate.strftime("%B %d, %Y") %>
+		</p>
+		<p class="link">
+        	<%= link_to "comment", :action => :comment, :id => content_detail.content.site_review.id %>
+        </p>
+        <p>
+            <%= content_detail.digest%>
+			<% Array words = content_detail.digest.split(" ")%>
+			<% if words[words.length-1] == "..."%>
+			<%= link_to "read more", :controller => :site_review, :action => :showdetail, :id => content_detail.content.site_review.id %>
+			<% end %>
+        </p>
+		<p>
+			Status : <%= content_detail.contentstatus%>
+		</p>
+    </div>    
+    <% end %>
+	<% end %>
+</div>

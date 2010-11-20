@@ -1,5 +1,7 @@
 class SiteEvaluationController < ApplicationController
   
+  before_filter :protect, :only => [:index, :create, :show]
+  
   def index
     @title = "Site Evaluation"
     @internships = get_student_internships
@@ -18,26 +20,18 @@ class SiteEvaluationController < ApplicationController
           @internship = Internship.find(params[:id])
           @siteevaluationenquiries = EvaluationEnquiry.find(:all, :conditions => "relatedto = 'Site'")
           @internship.site_evaluations.build
-#          @siteevaluationenquiries.each do |enquiry|
-#            siteevaluation = SiteEvaluation.new            
-#            siteevaluation.evaluation_enquiry = enquiry
-#            siteevaluation.evaluationdate = Time.now
-#            # Approved when submitted
-#            siteevaluation.approvalstatus = CONTENT_STATUS_APPROVED
-#            siteevaluation.approveddate = Time.now
-#            @internship.site_evaluations << siteevaluation
-#          end          
+          #          @siteevaluationenquiries.each do |enquiry|
+          #            siteevaluation = SiteEvaluation.new            
+          #            siteevaluation.evaluation_enquiry = enquiry
+          #            siteevaluation.evaluationdate = Time.now
+          #            # Approved when submitted
+          #            siteevaluation.approvalstatus = CONTENT_STATUS_APPROVED
+          #            siteevaluation.approveddate = Time.now
+          #            @internship.site_evaluations << siteevaluation
+          #          end          
         end
       end
     end
-  end
-  
-  def edit
-    @title = "Site Evaluation"
-  end
-  
-  def comment
-    @title = "Site Evaluation"
   end
   
   def show
@@ -46,9 +40,5 @@ class SiteEvaluationController < ApplicationController
       @internship = Internship.find(params[:id])
     end
   end
-  
-  def givereason
-    @title = "Site Evaluation"
-  end
-  
+    
 end

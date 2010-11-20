@@ -1,6 +1,6 @@
 class FacultyController < ApplicationController
   
-  before_filter :protect, :only => [:profile]
+  before_filter :protect, :only => [:profile, :evaluate]
   
   def profile
     @title = "Faculty Profile"
@@ -9,4 +9,9 @@ class FacultyController < ApplicationController
     @faculty = @people.faculty
   end
 
+  def evaluation
+    @title = "Evaluation"
+    @internships = Internship.find(:all, :order => 'startdate desc')
+  end
+  
 end

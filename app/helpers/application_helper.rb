@@ -99,7 +99,14 @@ module ApplicationHelper
       return admin
     end
   end
-
+  
+  def get_site
+    if session[:user_id] != nil
+      currentUser = User.find(session[:user_id])
+      site = currentUser.people.sites_associations.first.site
+      return site
+    end
+  end
   def get_student_internships
     if check_session? && get_type_of_user == TYPE_STUDENT
       return People.find(session[:user_id]).student.internships      

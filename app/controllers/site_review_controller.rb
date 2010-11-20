@@ -20,8 +20,7 @@ class SiteReviewController < ApplicationController
   end
   
   def showforadmin
-    @title = "Site Review"
-    @subtitle = "for administrator"
+    @title = "Site Review"    
     if logged_in?  
       if !(is_admin?)
         redirect_to :action => :show
@@ -98,7 +97,7 @@ class SiteReviewController < ApplicationController
   
   def givereason
     @title = "Site Review"
-    @subtitle = "need amending"
+    @subtitle = "Need Amending"
     if logged_in?    
       if request.post?
         content = Content.find(params[:content_id])
@@ -325,9 +324,9 @@ class SiteReviewController < ApplicationController
   end
   
   def showdetail
-    @title = "Site Review"
-    @subtitle = "detail"
+    @title = "Site Review"    
     @site_review = SiteReview.find(params[:id])
+    @subtitle = @site_review.internship.site.sitename
     @content = @site_review.content
     @content_version =  ContentVersion.find(@content.latest_version_id)
   end
