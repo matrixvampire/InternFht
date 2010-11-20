@@ -1,0 +1,54 @@
+<div id="content-middle">
+    <% if !@internships.nil? %>
+    <table id="hor-minimalist-a">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Review
+                </th>
+                <th>
+                    Evaluation
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% i= 0 %>
+            <% for internship in @internships %>
+			<% i= i+1 %>
+			<tr>
+			<td><%=i%></td>
+			<td><%= h internship.site.sitename%></td>
+			<td><%= h internship.startdate %></td>
+			<td><%= h internship.enddate %></td>
+			<td>
+				<% if internship.isreview %>
+				<%= link_to "See Review", :controller => :site_review, :action => :show, :id => internship %>
+				<% else %>
+				<%= link_to "Add Review", :controller => :site_review, :action => :create %>
+				<% end %>
+			</td>
+			<td>
+				<% if internship.isevaluate %>
+				<%= link_to "See Evaluate", :action => :show, :id => internship %>
+				<% else %>
+				<%= link_to "Add Evaluate", :action => :create, :id => internship %>
+				<% end %>
+				</td>
+			</tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</div>

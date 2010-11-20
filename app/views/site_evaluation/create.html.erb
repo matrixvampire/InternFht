@@ -1,6 +1,46 @@
 <div id="content-middle">
-	 <% if !@siteevaluations.nil? %>
-	 <% @siteevaluations.each do |site_evaluation_form| %>
-	 <% end %>
-	 <% end %>
+    <span style="font-size:16px;">Evaluation Sheet for <b><%= @internship.site.sitename %></b></span>
+    <br/>
+    <i>Please evaluate correctly.</i>
+    <br/>
+    <span style="color:#D91C5C;"> 5 = Excellent, 4 = Best, 3 = Good, 2 = Not Bad, 1 = Okay, 0 = Undefined</span>
+    <% form_for :internship, @internship, :url => {:id => @internship} do |internship_form| %>
+    <table style="text-align:center;">
+        <tr>
+            <td>
+                Question
+            </td>
+            <td>
+                Points
+            </td>
+            <td>
+                Comment
+            </td>
+        </tr>
+        <% @siteevaluationenquiries.each do |enquiry| %>
+        <% internship_form.fields_for :site_evaluations do |evaluation_form| %>
+        <tr>
+            <td>
+                <%=h enquiry.question %>
+                <%= evaluation_form.hidden_field :evaluation_enquiry_id, :value => enquiry.id %>
+            </td>
+            <td>
+                <%= evaluation_form.radio_button :point, '5', :checked => true %>5 &nbsp;<%= evaluation_form.radio_button :point, '4' %>4 &nbsp;<%= evaluation_form.radio_button :point, '3' %>3 &nbsp;<%= evaluation_form.radio_button :point, '2' %>2 &nbsp;<%= evaluation_form.radio_button :point, '1' %>1 &nbsp;<%= evaluation_form.radio_button :point, '0' %>0
+            </td>
+            <td>
+                <%= evaluation_form.text_area :comment, :rows => 3, :cols => 10 %>
+            </td>
+            <%= evaluation_form.hidden_field :evaluationdate, :value => Time.now %>
+			<%= evaluation_form.hidden_field :approvalstatus, :value => CONTENT_STATUS_APPROVED %>
+			<%= evaluation_form.hidden_field :approveddate, :value => Time.now %>
+        </tr>
+        <% end %>
+        <% end %>
+        <tr>
+            <td colspan=3 style="text-align:center;">
+                <%= internship_form.submit "Save" %>
+            </td>
+        </tr>
+    </table>
+    <% end %>
 </div>

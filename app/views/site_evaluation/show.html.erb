@@ -1,2 +1,49 @@
-<h1>SiteEvaluation#show</h1>
-<p>Find me in app/views/site_evaluation/show.html.erb</p>
+<div id="content-middle">
+    <% if !@internship.site_evaluations.nil? %>
+    <span style="font-size:16px;">Evaluation of <b><%= @internship.site.sitename %></b></span>
+    <br/>
+    <i>Evaluated By : <%= @internship.student.people.fullname %></i>
+    <br/>
+    <i>Evaluation Date : <%= @internship.site_evaluations[0].evaluationdate %></i>
+    <br/>
+    <span style="color:#D91C5C;">5 = Excellent, 4 = Best, 3 = Good, 2 = Not Bad, 1 = Okay, 0 = Undefined</span>
+    <table id="hor-minimalist-a">
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    Topic
+                </th>
+                <th>
+                    Point
+                </th>
+                <th>
+                    Comment
+                </th>               
+            </tr>
+        </thead>
+        <tbody>
+            <% i= 0 %>
+            <% for evaluation in @internship.site_evaluations %>
+            <% i= i+1 %>
+            <tr>
+                <td>
+                    <%=i %>
+                </td>
+                <td>
+                    <%= h evaluation.evaluation_enquiry.question %>
+                </td>
+                <td>
+                    <%= h evaluation.point %>
+                </td>
+                <td>
+                    <%= h evaluation.comment %>
+                </td>                
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+</div>

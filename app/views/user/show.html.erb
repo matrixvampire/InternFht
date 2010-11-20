@@ -1,14 +1,17 @@
 <div id="content-top">
-    <% if params[:showlist] == "Faculty" %>
-	<% currentpage = "Faculty"%>
-    <b>Faculty List</b>
-    | <%= link_to "Show Student", :action => :show, :showlist => :Student%>
-    <% else %>
-    <b>Student List</b>
-	<% currentpage = "Student"%>	
-    | <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty%>
+	<% currentpage = params[:showlist] %>
+	<b><%=currentpage %> List</b>
+    <% if currentpage == "Faculty" %>
+    | <%= link_to "Show Student", :action => :show, :showlist => :Student %>
+    | <%= link_to "Show Site", :action => :show, :showlist => :Site %>    
+    <% elsif currentpage == "Site" %>
+    | <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+    | <%= link_to "Show Student", :action => :show, :showlist => :Student %>
+	<% else currentpage == "Student" %>
+    | <%= link_to "Show Faculty", :action => :show, :showlist => :Faculty %>
+    | <%= link_to "Show Site", :action => :show, :showlist => :Site %>
     <% end %>
-    <span>: There are <%=@no_faculties %>faculties and <%=@no_students %>students in the system</span>
+    <span>: <%=@no_faculties %> faculties | <%=@no_students %> students | <%=@no_sites %> sites</span>
     <span style="float:right;"><% form_tag :method => 'get' do %>
         <%= text_field_tag :search, params[:search] %>
         <%= submit_tag "Search", :disable_with => "Searching...", :name => nil %>
@@ -33,10 +36,14 @@
                     Username
                 </th>
                 <th scope="col">
-                    <%= sortable "Identification Code", "identificationcode", currentpage%>
+                    <%= sortable "Identification Code", "identificationcode", currentpage %>
                 </th>
-				<th scope="col">
+                <th scope="col">
+                	<% if currentpage == "Site" %>
+					Position
+					<% else %>
                     Registered
+					<% end %>
                 </th>
                 <th scope="col">
                     Status
@@ -77,6 +84,13 @@
                 <td>
                     <%= h people.faculty.joindate %>
                 </td>
+				<% elsif people.user.usertype == TYPE_SITE %>
+                <td>
+                    <%= h people.sites.first.identificationcode %>
+                </td>
+                <td>
+                    <%= h people.sites_associations.first.position %>
+                </td>
                 <% elsif people.user.usertype == TYPE_ADMINISTRATOR %>
                 <td>
                     <%= h people.administrator.identificationcode %>
@@ -84,12 +98,12 @@
                 <td>
                     <%= h people.administrator.registereddate %>
                 </td>
-                <% end %>                
+                <% end %>
                 <td>
                     <% if people.user.isvalid %>
-                    <%= link_to "Active", :action => :show, :valid => :false, :id => people %>
+                    <%= link_to "Active", :action => :show, :valid => :false, :id => people,:showlist => currentpage %>
                     <% else %>
-                    <%= link_to "Inactive", :action => :show, :valid => :true, :id => people %>
+                    <%= link_to "Inactive", :action => :show, :valid => :true, :id => people,:showlist => currentpage %>
                     <% end %>
                 </td>
                 <td>

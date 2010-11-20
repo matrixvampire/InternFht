@@ -6,6 +6,7 @@ class Internship < ActiveRecord::Base
     has_many :site_evaluations
     has_one :site_review
     
-    accepts_nested_attributes_for :site_evaluations
-    accepts_nested_attributes_for :student_evaluations
+    accepts_nested_attributes_for :site_evaluations, :allow_destroy => true, :reject_if => :all_blank
+    accepts_nested_attributes_for :student_evaluations, :allow_destroy => true, :reject_if => :all_blank
+    
 end

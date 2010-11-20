@@ -102,10 +102,7 @@ module ApplicationHelper
 
   def get_student_internships
     if check_session? && get_type_of_user == TYPE_STUDENT
-      currentUserDetail = People.find(session[:user_id])
-      currentStudent = currentUserDetail.student
-      internships = currentStudent.internships
-      return internships
+      return People.find(session[:user_id]).student.internships      
     end
   end
   

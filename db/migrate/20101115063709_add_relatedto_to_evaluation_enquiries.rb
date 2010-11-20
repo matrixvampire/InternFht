@@ -1,5 +1,5 @@
 class AddRelatedtoToEvaluationEnquiries < ActiveRecord::Migration
-  def self.up
+  def self.up    
     add_column :evaluation_enquiries, :relatedto, :string
   end
 

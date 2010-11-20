@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   
-#  ssl_required :login, :changepassword
-#  ssl_allowed :register, :editprofile
+  #  ssl_required :login, :changepassword
+  #  ssl_allowed :register, :editprofile
   
   before_filter :protect, :only => [:index, :register, :editprofile, :changepassword, :show]
   
@@ -20,13 +20,22 @@ class UserController < ApplicationController
     @no_faculties = @faculties.length
     @students = Student.find(:all, :order => sort_column + " " + sort_direction)
     @no_students = @students.length
+    @sites = Site.find(:all, :order => sort_column + " " + sort_direction)
+    @no_sites = @sites.length
     
     if params[:showlist] == TYPE_FACULTY   
       @faculties.each do |f|
         @peoples << f.people
       end
-      @subtitle = TYPE_FACULTY + " List"
-    else
+      @subtitle = TYPE_FACULTY + " List"    
+    elsif params[:showlist] == TYPE_SITE
+      @sites.each do |s|
+        s.peoples.each do |p|
+          @peoples << p
+        end        
+      end
+      @subtitle = TYPE_SITE + " List"
+    else params[:showlist] == TYPE_STUDENT
       @students.each do |s|
         @peoples << s.people
       end
@@ -57,8 +66,7 @@ class UserController < ApplicationController
         if user.isvalid
           user.login!(session)    
           user.logged_counter = (user.logged_counter!=nil ? user.logged_counter : 0)+1
-          user.save
-          flash[:notice] = "User #{user.username} logged in!"
+          user.save          
           if is_admin?
             redirect_to_forwarding_url
           else
@@ -83,16 +91,6 @@ class UserController < ApplicationController
         if params[:student]
           @student = Student.new(params[:student])
           @student.people.user.usertype = TYPE_STUDENT
-          @student.people.user.isvalid = true
-          #      Just outputting the values in console to debug
-#          logger.debug "Student : #{@student.attributes.inspect}"
-#          logger.debug "People : #{@student.people.attributes.inspect}"
-#          logger.debug "User : #{@student.people.user.attributes.inspect}"
-#          @student.addresses.each do |address|
-#            logger.debug "Address : #{address.attributes.inspect}"
-#          end      
-          # Call save method
-          # Check whether all the required tables been hit successfully
           if @student.save
             flash[:notice] = "Student Profile created successfully!!!"
           else
@@ -106,8 +104,7 @@ class UserController < ApplicationController
           @student.addresses << Address.new
         end 
         redirect_to :controller => :user, :action => :register
-      else #GET 
-        
+      else #GET         
         @student = Student.new
         @student.people = People.new
         @student.people.user = User.new
@@ -126,13 +123,7 @@ class UserController < ApplicationController
           @faculty = Faculty.new(params[:faculty])
           @faculty.people.user.usertype = TYPE_FACULTY
           @faculty.people.user.isvalid = true
-          #      Just outputting the values in console to debug
-          logger.debug "Faculty : #{@faculty.attributes.inspect}"
-          logger.debug "People : #{@faculty.people.attributes.inspect}"
-          logger.debug "User : #{@faculty.people.user.attributes.inspect}"
-          @faculty.addresses.each do |address|
-            logger.debug "Address : #{address.attributes.inspect}"
-          end      
+          
           # Call save method
           # Check whether all the required tables been hit successfully
           if @faculty.save
@@ -167,48 +158,34 @@ class UserController < ApplicationController
     if logged_in?      
       if request.post?     
         if params[:site]
-            @site = Site.new(params[:site])
-            #      Just outputting the values in console to debug
-            logger.debug "Site : #{@site.attributes.inspect}"
-            
-            @site.peoples.each do |people|
-              #CAN NOT DO LIKE THIS...SO USE HIDEN FILED FROM VIEW
-              people.user.usertype = TYPE_SITE 
-              people.user.isvalid = true
-              
-              logger.debug people
-              logger.debug @site.sites_associations
-            end
-
-            @site.addresses.each do |address|
-              logger.debug "Address : #{address.attributes.inspect}"
-            end      
-            # Call save method
-            # Check whether all the required tables been hit successfully
-            if @site.save
-              flash[:notice] = "Site Profile created successfully!!!"
-            else
-              flash[:error] = "Some problem. Try later."
-            end
+          @site = Site.new(params[:site])
+             
+          # Call save method
+          # Check whether all the required tables been hit successfully
+          if @site.save
+            flash[:notice] = "Site Profile created successfully!!!"
           else
-            #      People entries should be make dynamic 
-            @site = Site.new
-            @people = People.new
-            @people.user = User.new
-            @site.sites_associations.build(:people => @people)
-              
-            #      Address entries shouldmail. be make dynamic
-            @site.addresses << Address.new
+            flash[:error] = "Some problem. Try later."
+          end
+        else
+          #      People entries should be make dynamic 
+          @site = Site.new
+          @people = People.new
+          @people.user = User.new
+          @site.sites_associations.build(:people => @people)
+          
+          #      Address entries shouldmail. be make dynamic
+          @site.addresses << Address.new
         end 
         redirect_to :controller => :user, :action => :register
       else #GET 
-      
+        
         #      People entries should be make dynamic 
         @site = Site.new
         @people = People.new
         @people.user = User.new
         @site.sites_associations.build(:people => @people)
-          
+        
         #      Address entries should be make dynamic
         @site.addresses << Address.new
         render :layout => false
@@ -247,7 +224,7 @@ class UserController < ApplicationController
         address.buildingnumber = params[:buildingnumber].strip
         address.streetname = params[:streetname].strip
         address.city = params[:city].strip
-#        address.state_province = params[:state_province].strip
+        #        address.state_province = params[:state_province].strip
         address.zippostal_code = params[:zippostal_code].strip
         address.country = params[:country].strip
         

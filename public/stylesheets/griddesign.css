@@ -350,11 +350,13 @@ p a:hover {
     color: #039;
     padding: 10px 8px;
     border-bottom: 2px solid #6678b1;
+	text-align:inherit;
 }
 
 #hor-minimalist-a td {
     color: #669;
     padding: 9px 8px 0px 8px;
+	text-align:inherit;
 }
 
 #hor-minimalist-a tbody tr:hover td {
@@ -1665,7 +1667,6 @@ td {
     border-bottom: 1px solid #ccc;
     border-left: 0px solid #e5eff8;
     padding: .3em 1em;
-    text-align: right;
 }
 
 td.brandy {
